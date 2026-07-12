@@ -65,6 +65,11 @@ eco-tourism farm with the least possible manpower.**
 verticals and the circular-loops `/loops` page. Build is GREEN. Start below.
 
 **Priority order from here (each = a commit; stop anywhere, demo still works):**
+> ✅ **ALL ITEMS 1–7 COMPLETED** (2026-07-12 autonomous run). Fable 5 verified live
+> (`mode:"claude"` confirmed with server-side Opus 4.8 refusal fallback). Demo
+> script re-verified after every commit — crisis shed 23 loads with ZERO protected
+> violations; offline queue + flush intact. Next session: §10 P1 (sync/fidelity
+> layer, /twin living map, what-if console) or P3 (yield forecast, NL console).
 1. Switch agent to **Fable 5** (`lib/agent.ts` `MODEL`) + verify
    (`POST /api/agent/run` → `mode:"claude"`). (~5 min)
 2. **Energy sources** — add **biogas** + genset (+ optional wind) to `resources` +
@@ -147,9 +152,20 @@ farm-to-table traceability (HACCP) · Workforce/Tasks · **Autopilot** (autonomo
 mode; predictive, idempotent rule engine) · Welcome screen + visual vertical
 gallery + per-vertical SVG art · **Livestock expansion** (7 verticals: dairy
 cattle/goats, sheep, ducks, rabbits, horses, aquaculture — animal vitals
-`never_shed`) · **Circular resource-loops** (`/loops`, zero-waste map). **Now: 18
-verticals, 32 zones, 84 assets, 85 sensors, 22 protected loads.** Clean tree on
-`master` (PR default: `main`).
+`never_shed`) · **Circular resource-loops** (`/loops`, zero-waste map) ·
+**Fable 5 agent** (`claude-fable-5`, high effort, adaptive thinking, server-side
+refusal fallback to Opus 4.8 — verified `mode:"claude"`) · **Multi-source energy**
+(biogas baseload tracks digester CH4, last-resort genset with 10%/25% hysteresis,
+optional wind; "% renewable · off-grid" badge; firm generation feeds predict) ·
+**Water system** (`lib/water.ts` + `/water`: rain/well/greywater sources, biosand →
+farm-made activated carbon → solar UV-C treatment train, 6-rung shortage ladder;
+treatment assets `never_shed`) · **Sustainability/ESG** (`/sustainability`: live
+self-sufficiency, circularity, water reuse, carbon avoided, ESG score, cert
+pipeline) · **Hospitality + Verdant World** (`/attractions`: hotel/bungalow/
+glamping tiers with live occupancy, bookings stub, 19-attraction roster) ·
+**Guest-app stub** (`/guest`: book, farm map, animal cams, adopt-an-animal) ·
+grouped dashboard nav + welcome concept strip. **Now: 18 verticals, 34 zones,
+89 assets, 89 sensors, 25 protected loads.** Clean tree on `master`.
 
 ## 5. File map
 
