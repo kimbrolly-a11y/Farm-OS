@@ -49,12 +49,20 @@ export interface Zone {
   sensorIds: string[];
 }
 
+export interface Headline {
+  label: string;
+  value: number | string;
+  unit: string;
+}
+
 export interface Vertical {
   id: string;
   name: string;
   status: "ok" | "warning" | "critical";
   zoneIds: string[];
   kpis: Record<string, string | number>;
+  /** primary metric shown on the Command Center card */
+  headline?: Headline;
 }
 
 export interface WaterTank {
@@ -137,5 +145,12 @@ export interface Twin {
   alerts: Alert[];
   tasks: Task[];
   loadShedding: LoadShedding;
+  /** live simulator / weather state */
+  sim: {
+    tickCount: number;
+    /** 0 (clear) .. 1 (overcast) — drives solar input; raised in the crisis demo */
+    cloudCover: number;
+    lastTickAt: string | null;
+  };
   lastSeededAt: string;
 }
