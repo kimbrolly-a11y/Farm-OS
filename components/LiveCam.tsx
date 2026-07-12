@@ -7,15 +7,34 @@
 
 import { useEffect, useState } from "react";
 
-const CAM_IMAGES = new Set([
-  "aquaculture", "aquaponics", "beekeeping", "dairy_cattle", "dairy_goats",
-  "ducks", "food_processing", "fruit_orchard", "horses", "hydroponics",
-  "lodging", "palm_oil", "petting_zoo", "poultry", "rabbits", "recycling",
-  "restaurant", "sheep",
-]);
+// Dedicated CCTV-angle shots in /img/cameras (fall back to the vertical heroes).
+const CAMERA_SHOT: Record<string, string> = {
+  aquaculture: "/img/cameras/fishpond.jpg",
+  aquaponics: "/img/cameras/aquaponics.jpg",
+  beekeeping: "/img/cameras/beehives.jpg",
+  dairy_cattle: "/img/cameras/cattle.jpg",
+  dairy_goats: "/img/cameras/goats.jpg",
+  ducks: "/img/cameras/ducks.jpg",
+  food_processing: "/img/cameras/processing.jpg",
+  fruit_orchard: "/img/cameras/orchard.jpg",
+  horses: "/img/cameras/horses.jpg",
+  hydroponics: "/img/cameras/hydroponics.jpg",
+  lodging: "/img/cameras/lodging.jpg",
+  palm_oil: "/img/cameras/palm_oil.jpg",
+  petting_zoo: "/img/cameras/petting_zoo.jpg",
+  poultry: "/img/cameras/poultry.jpg",
+  rabbits: "/img/cameras/rabbits.jpg",
+  recycling: "/img/cameras/recycling.jpg",
+  restaurant: "/img/cameras/restaurant.jpg",
+  sheep: "/img/cameras/sheep.jpg",
+};
 
 export function hasCam(verticalId: string): boolean {
-  return CAM_IMAGES.has(verticalId);
+  return verticalId in CAMERA_SHOT;
+}
+
+export function camSrc(verticalId: string): string {
+  return CAMERA_SHOT[verticalId] ?? `/img/verticals/${verticalId}.jpg`;
 }
 
 export function LiveCam({
@@ -44,7 +63,7 @@ export function LiveCam({
       {/* feed */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={`/img/verticals/${verticalId}.jpg`}
+        src={camSrc(verticalId)}
         alt={`${label} camera`}
         className="livecam-pan h-full w-full object-cover"
       />

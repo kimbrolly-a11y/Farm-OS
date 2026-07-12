@@ -20,11 +20,20 @@ export function Welcome() {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
-      {/* hero landscape */}
+      {/* photoreal farm hero — golden-hour aerial with holographic HUD */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[46vh] bg-cover bg-bottom bg-no-repeat opacity-60"
-        style={{ backgroundImage: "url('/welcome-hero.svg')" }}
+        className="pointer-events-none absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/img/deck/hero.jpg')" }}
+      />
+      {/* forest wash so the text stays readable and the world stays green */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(105deg, rgba(10,26,17,0.94) 0%, rgba(10,26,17,0.82) 45%, rgba(10,26,17,0.45) 100%), linear-gradient(to top, rgba(10,26,17,0.95) 0%, transparent 45%)",
+        }}
       />
       {/* ambient glow */}
       <div className="pointer-events-none absolute -top-40 left-1/2 h-96 w-[42rem] -translate-x-1/2 rounded-full bg-[--accent] opacity-[0.12] blur-[100px]" />
