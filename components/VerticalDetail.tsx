@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useTwin } from "./useTwin";
 import { VerticalArt } from "./VerticalArt";
+import { LiveCam } from "./LiveCam";
 import type { SensorReading } from "@/lib/types";
 
 const STATUS_COLOR = {
@@ -68,6 +69,14 @@ export function VerticalDetail({ verticalId }: { verticalId: string }) {
           </span>
         )}
       </header>
+
+      <section className="mb-6">
+        <LiveCam
+          verticalId={vertical.id}
+          label={vertical.name}
+          className="h-56 w-full sm:h-72"
+        />
+      </section>
 
       {vertical.insights && vertical.insights.length > 0 && (
         <section className="mb-6">

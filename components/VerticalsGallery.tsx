@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useTwin } from "./useTwin";
 import { VerticalArt } from "./VerticalArt";
+import { LiveCam, hasCam } from "./LiveCam";
 import { visualFor } from "@/lib/verticalVisuals";
 
 const STATUS_COLOR = {
@@ -49,7 +50,11 @@ export function VerticalsGallery() {
               href={`/vertical/${v.id}`}
               className="group overflow-hidden rounded-2xl border border-[--border] bg-[--panel] transition-colors hover:border-[--muted]"
             >
-              <VerticalArt id={v.id} rounded="rounded-none" className="h-36 w-full" />
+              {hasCam(v.id) ? (
+                <LiveCam verticalId={v.id} label={v.name} className="h-36 w-full rounded-none border-0" />
+              ) : (
+                <VerticalArt id={v.id} rounded="rounded-none" className="h-36 w-full" />
+              )}
               <div className="p-4">
                 <div className="flex items-center justify-between">
                   <span className="font-medium" style={{ color: vis.color }}>

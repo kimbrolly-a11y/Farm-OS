@@ -33,6 +33,19 @@ body {
   background-attachment: fixed;
 }
 
+/* live-cam feed: slow surveillance pan so a still frame reads as live */
+@keyframes livecam-pan {
+  0% {
+    transform: scale(1.06) translate(0%, 0%);
+  }
+  100% {
+    transform: scale(1.14) translate(-1.6%, -1.2%);
+  }
+}
+.livecam-pan {
+  animation: livecam-pan 22s ease-in-out infinite alternate;
+}
+
 /* numbers in tables/tiles line up like instruments */
 .tabular-nums,
 td,

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { HospitalityReport } from "@/lib/hospitality";
 import type { AttractionsReport } from "@/lib/attractions";
+import { LiveCam } from "./LiveCam";
 
 interface Data {
   hospitality: HospitalityReport;
@@ -11,10 +12,10 @@ interface Data {
 }
 
 const CAMS = [
-  { id: "cam-cattle", name: "Bella & the herd", where: "Dairy barn", vital: "milking 2× daily", emoji: "🐄" },
-  { id: "cam-goats", name: "Goat kids", where: "Goat barn", vital: "feeding 07:00 · 17:00", emoji: "🐐" },
-  { id: "cam-chicks", name: "Hatchery", where: "Incubator room", vital: "37.5 °C — AI-protected", emoji: "🐣" },
-  { id: "cam-ponies", name: "Ponies", where: "Stables", vital: "rides Sat–Sun", emoji: "🐴" },
+  { id: "dairy_cattle", name: "Bella & the herd", where: "Dairy barn", vital: "milking 2× daily" },
+  { id: "dairy_goats", name: "Goat kids", where: "Goat barn", vital: "feeding 07:00 · 17:00" },
+  { id: "poultry", name: "Hatchery", where: "Incubator room", vital: "37.5 °C — AI-protected" },
+  { id: "horses", name: "Ponies", where: "Stables", vital: "rides Sat–Sun" },
 ];
 
 const ADOPTABLES = [
@@ -135,16 +136,13 @@ export function GuestApp() {
               <SectionTitle>Live animal cams</SectionTitle>
               <div className="grid grid-cols-2 gap-2">
                 {CAMS.map((c) => (
-                  <div key={c.id} className="rounded-xl border border-[--border] bg-[--panel] p-3">
-                    <div className="relative mb-2 grid h-16 place-items-center rounded-lg bg-[--panel-2] text-3xl">
-                      {c.emoji}
-                      <span className="absolute left-1.5 top-1.5 flex items-center gap-1 rounded bg-black/50 px-1.5 py-0.5 text-[9px] font-semibold text-red-400">
-                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" /> LIVE
-                      </span>
-                    </div>
-                    <div className="text-xs font-medium">{c.name}</div>
-                    <div className="text-[10px] text-[--muted]">
-                      {c.where} · {c.vital}
+                  <div key={c.id} className="rounded-xl border border-[--border] bg-[--panel] p-2">
+                    <LiveCam verticalId={c.id} label={c.where} className="mb-2 h-24 w-full" />
+                    <div className="px-1 pb-1">
+                      <div className="text-xs font-medium">{c.name}</div>
+                      <div className="text-[10px] text-[--muted]">
+                        {c.where} · {c.vital}
+                      </div>
                     </div>
                   </div>
                 ))}
