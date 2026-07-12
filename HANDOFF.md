@@ -65,11 +65,16 @@ eco-tourism farm with the least possible manpower.**
 verticals and the circular-loops `/loops` page. Build is GREEN. Start below.
 
 **Priority order from here (each = a commit; stop anywhere, demo still works):**
-> ✅ **ALL ITEMS 1–7 COMPLETED** (2026-07-12 autonomous run). Fable 5 verified live
-> (`mode:"claude"` confirmed with server-side Opus 4.8 refusal fallback). Demo
-> script re-verified after every commit — crisis shed 23 loads with ZERO protected
-> violations; offline queue + flush intact. Next session: §10 P1 (sync/fidelity
-> layer, /twin living map, what-if console) or P3 (yield forecast, NL console).
+> ✅ **ALL ITEMS 1–7 COMPLETED + P1/P3/P5 EXTRAS** (2026-07-12 autonomous run).
+> Fable 5 verified live (`mode:"claude"` confirmed with server-side Opus 4.8
+> refusal fallback). Demo script re-verified after every commit — crisis shed 23
+> loads with ZERO protected violations; offline queue + flush intact. Also done
+> from §10: **P1 #1 sync/fidelity layer** (lib/sync.ts, dashboard chip), **P1
+> #2+#3 /twin living map + what-if console** (energy/water flows, sliders over
+> forwardSimulate with loadDeltaKw), **P3 #19 NL console** (/console — Fable 5
+> tool-use, deterministic keyless fallback), **P5 #25 morning brief** (/brief),
+> **P2 #9 CSV export** (P&L + audit trail from /manage). Next: P1 #4 HA adapter
+> interface, P3 #12 yield forecasting, P5 #24 trust dial, P6 deploy.
 1. Switch agent to **Fable 5** (`lib/agent.ts` `MODEL`) + verify
    (`POST /api/agent/run` → `mode:"claude"`). (~5 min)
 2. **Energy sources** — add **biogas** + genset (+ optional wind) to `resources` +
