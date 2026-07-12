@@ -14,6 +14,7 @@ const NAV_GROUPS: Array<{ label: string; links: Array<[string, string]> }> = [
   {
     label: "farm",
     links: [
+      ["/twin", "Living twin"],
       ["/verticals", "Verticals"],
       ["/water", "Water"],
       ["/loops", "Loops"],

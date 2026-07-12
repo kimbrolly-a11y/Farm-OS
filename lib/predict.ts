@@ -42,10 +42,14 @@ function solarAt(hour: number, arrayKw: number, cloudCover: number): number {
 
 export function forwardSimulate(
   twin: Twin,
-  { hours = 12, cloudCover }: { hours?: number; cloudCover?: number } = {}
+  {
+    hours = 12,
+    cloudCover,
+    loadDeltaKw = 0,
+  }: { hours?: number; cloudCover?: number; loadDeltaKw?: number } = {}
 ): Prediction {
   const cc = cloudCover ?? twin.sim.cloudCover;
-  const loadKw = twin.resources.energy.loadKw;
+  const loadKw = Math.max(0.5, twin.resources.energy.loadKw + loadDeltaKw);
   const capacity = twin.resources.energy.batteryCapacityKwh;
   const arrayKw = twin.resources.energy.solarArrayKw;
   const startSoC = twin.resources.energy.batterySoC;
