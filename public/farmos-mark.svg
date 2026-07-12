@@ -1,0 +1,10 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FarmOS mark">
+  <rect width="64" height="64" rx="14" fill="#0e1512"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="12.5" fill="none" stroke="#22322e"/>
+  <!-- leaf -->
+  <path d="M18 46 C 18 27, 35 17, 49 17 C 49 34, 38 47, 20 47 Z" fill="#37d67a"/>
+  <path d="M23 45 C 31 35, 40 26, 46 20" stroke="#0e1512" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <!-- OS node -->
+  <circle cx="45" cy="45" r="5.4" fill="#0e1512" stroke="#37d67a" stroke-width="2.6"/>
+  <circle cx="45" cy="45" r="1.7" fill="#37d67a"/>
+</svg>

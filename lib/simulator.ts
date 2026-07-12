@@ -61,6 +61,10 @@ const METRIC_MODELS: Record<string, MetricModel> = {
   milk_yield: { base: 210, jitter: 6, min: 0, max: 400, decimals: 0 },
   rumination: { base: 480, jitter: 8, min: 300, max: 620, decimals: 0 },
   activity: { base: 65, jitter: 4, min: 0, max: 100, decimals: 0 },
+  // water treatment plant
+  turbidity: { base: 0.6, jitter: 0.08, min: 0.05, max: 8, decimals: 2 },
+  flow: { base: 36, jitter: 2, min: 0, max: 80, decimals: 0 },
+  uv_dose: { base: 44, jitter: 1.5, min: 0, max: 60, decimals: 0 },
 };
 
 function localHour(twin: Twin): number {

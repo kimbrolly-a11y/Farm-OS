@@ -330,6 +330,25 @@ verticals:
           - { metric: compost_temp, unit: C,  product: "PT100 compost probe", protocol: I2C-ESP32, ha_entity: sensor.compost_temp }
           - { metric: o2,           unit: "%", product: "O2 sensor (digester)", protocol: Modbus, ha_entity: sensor.digester_o2 }
           - { metric: tank_level,   unit: "%", product: "Ultrasonic leachate level", protocol: LoRaWAN, ha_entity: sensor.leachate_level }
+      # Natural water-treatment plant (spec §6): multi-barrier, no chlorine.
+      # rain/well -> sediment -> biosand -> farm-made activated carbon -> solar UV-C
+      - id: water-plant
+        assets:
+          - { id: well_pump,       type: pump,   criticality: life_support,
+              hardware: "Grundfos SQFlex solar borehole pump", protocol: WiFi, ha_entity: switch.well_pump }
+          - { id: biosand_filter,  type: filter, criticality: life_support,
+              hardware: "Biosand / slow-sand filter (passive biological pathogen removal)", protocol: WiFi, ha_entity: binary_sensor.biosand_ok }
+          - { id: carbon_filter,   type: filter, criticality: life_support,
+              hardware: "Activated-carbon column — farm-made from palm-kernel-shell biochar", protocol: WiFi, ha_entity: binary_sensor.carbon_ok }
+          - { id: uv_sterilizer,   type: uv,     criticality: life_support,
+              hardware: "Solar-powered UV-C disinfection (Viqua-class)", protocol: WiFi, ha_entity: binary_sensor.uv_ok }
+          - { id: greywater_pump,  type: pump,   criticality: important,
+              hardware: "Greywater transfer pump -> constructed wetland -> irrigation", protocol: WiFi, ha_entity: switch.greywater_pump }
+        sensors:
+          - { metric: turbidity,  unit: NTU,      product: "Turbidity sensor (post-filter)", protocol: Modbus, ha_entity: sensor.potable_turbidity }
+          - { metric: flow,       unit: "L/min",  product: "Flow meter (treatment train)", protocol: Modbus, ha_entity: sensor.potable_flow }
+          - { metric: uv_dose,    unit: "mJ/cm2", product: "UV intensity monitor", protocol: Modbus, ha_entity: sensor.uv_dose }
+          - { metric: tank_level, unit: "%",      product: "Treated-water storage level", protocol: LoRaWAN, ha_entity: sensor.potable_tank_level }
 
   - id: beekeeping
     name: "Beekeeping"
@@ -536,7 +555,8 @@ load_shedding:
                 brooder_heater, growbed_pump,
                 cattle_feeder, cattle_fans, cattle_water, goat_feeder, goat_water,
                 sheep_water, duck_feeder, duck_water, rabbit_feeder, rabbit_water,
-                horse_feeder, horse_water, pond1_aerator, pond2_aerator]
+                horse_feeder, horse_water, pond1_aerator, pond2_aerator,
+                biosand_filter, carbon_filter, uv_sterilizer]   # potable water = life support
 
 # ---------------------------------------------------------------------------
 # ALERT ROUTING  (Malaysia = WhatsApp first)

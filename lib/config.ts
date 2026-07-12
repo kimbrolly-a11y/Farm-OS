@@ -58,6 +58,9 @@ const POWER_DRAW: Record<string, number> = {
   // livestock expansion
   milking_robot: 1200,
   virtual_fence: 5,
+  // water treatment plant (passive filters draw nothing; UV-C is tiny)
+  filter: 0,
+  uv: 40,
 };
 
 function drawFor(type: string): number {
