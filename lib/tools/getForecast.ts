@@ -3,6 +3,16 @@
 // Cache is pinned on globalThis so it survives Next hot-reload and is available
 // to the offline scenario.
 
+import type { Twin } from "../types";
+
+/** Forecast the agent should see for the twin's current state/scenario. */
+export async function getTwinForecast(twin: Twin): Promise<ForecastResult> {
+  if (twin.sim.scenario === "crisis") return crisisForecast();
+  return getForecast(twin.farm.location.lat, twin.farm.location.lon, {
+    allowNetwork: twin.online,
+  });
+}
+
 declare global {
   // eslint-disable-next-line no-var
   var __FARMOS_FORECAST__: ForecastResult | null | undefined;
@@ -28,6 +38,25 @@ export interface ForecastResult {
   offline?: boolean;
   cached?: boolean;
   note?: string;
+}
+
+/** Synthetic heavy-cloud forecast for the crisis demo — deterministic, no network. */
+export function crisisForecast(): ForecastResult {
+  return {
+    current: {
+      temperature_2m: 26,
+      relative_humidity_2m: 95,
+      precipitation: 0,
+      cloud_cover: 95,
+    },
+    hourly: {
+      time: [],
+      precipitation_probability: [15, 15, 20, 20, 25, 25],
+      shortwave_radiation: [40, 60, 70, 60, 40, 20],
+    },
+    daily: { time: [], precipitation_sum: [0], temperature_2m_max: [28] },
+    note: "crisis scenario: heavy cloud cover, minimal solar generation",
+  };
 }
 
 export async function getForecast(

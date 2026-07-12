@@ -395,7 +395,7 @@ load_shedding:
                 palm1_fertigation, palm2_fertigation, palm1_valve, palm2_valve, palm3_valve,
                 growbed_solenoid, hydro2_circpump, orchard_fertigation_b, cabin2_fridge,
                 walk_in_freezer, zoo_feeder, zoo_gate, digester_blower, leachate_pump]
-  never_shed:  [coop1_fans, incubator_1, aqua1_aerator, aqua1_pump, cold_room_1, well_pump,
+  never_shed:  [coop1_fans, incubator_1, aqua1_aerator, aqua1_circpump, cold_room_1, well_pump,
                 brooder_heater, growbed_pump]
 
 # ---------------------------------------------------------------------------

@@ -9,7 +9,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { betaTool } from "@anthropic-ai/sdk/helpers/beta/json-schema";
 import { getTwin } from "./store";
 import { setTrigger } from "./tools/log";
-import { getForecast } from "./tools/getForecast";
+import { getTwinForecast } from "./tools/getForecast";
 import {
   assignTask,
   createAlert,
@@ -56,14 +56,7 @@ function buildTools() {
       name: "getForecast",
       description: "Weather forecast (Open-Meteo). cloud_cover + shortwave_radiation drive solar/battery decisions; precipitation drives irrigation. Uses cached data when offline.",
       inputSchema: { type: "object", properties: {}, additionalProperties: false },
-      run: async () => {
-        const t = getTwin();
-        return JSON.stringify(
-          await getForecast(t.farm.location.lat, t.farm.location.lon, {
-            allowNetwork: t.online,
-          })
-        );
-      },
+      run: async () => JSON.stringify(await getTwinForecast(getTwin())),
     }),
     betaTool({
       name: "shedLoad",

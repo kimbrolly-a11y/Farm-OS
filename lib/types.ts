@@ -150,6 +150,8 @@ export interface Twin {
     tickCount: number;
     /** 0 (clear) .. 1 (overcast) — drives solar input; raised in the crisis demo */
     cloudCover: number;
+    /** active demo scenario */
+    scenario: "normal" | "crisis";
     lastTickAt: string | null;
   };
   lastSeededAt: string;

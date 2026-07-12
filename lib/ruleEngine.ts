@@ -4,7 +4,7 @@
 // reasoning to the Activity Log, so the crisis + offline demos always work.
 
 import { getTwin } from "./store";
-import { getForecast } from "./tools/getForecast";
+import { getTwinForecast } from "./tools/getForecast";
 import {
   createAlert,
   isProtected,
@@ -19,11 +19,7 @@ export async function runRuleEngine(): Promise<{
 }> {
   const twin = getTwin();
   const before = twin.actions.length;
-  const forecast = await getForecast(
-    twin.farm.location.lat,
-    twin.farm.location.lon,
-    { allowNetwork: twin.online }
-  );
+  const forecast = await getTwinForecast(twin);
 
   const cloudy =
     (forecast.current?.cloud_cover ?? twin.sim.cloudCover * 100) > 60;

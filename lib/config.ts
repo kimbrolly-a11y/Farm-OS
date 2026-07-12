@@ -241,7 +241,7 @@ export function seedTwin(file = configPath()): Twin {
     alerts: [],
     tasks: [],
     loadShedding,
-    sim: { tickCount: 0, cloudCover: 0.2, lastTickAt: null },
+    sim: { tickCount: 0, cloudCover: 0.2, scenario: "normal", lastTickAt: null },
     lastSeededAt: now,
   };
 }
