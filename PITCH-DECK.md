@@ -17,7 +17,7 @@
 - Farm software is **fragmented** (no single history)
 - Data entered hours late → missed decisions
 - Off-grid farms **fail** when power/internet drops
-- **Say:** "A real farm has ten businesses in one — livestock, crops, lodging, processing. Today you either hire a team or juggle ten disconnected apps. And if the grid goes down, everything stops."
+- **Say:** "A real farm has eighteen businesses in one — livestock, crops, aquaculture, lodging, processing. Today you either hire a team or juggle eighteen disconnected apps. And if the grid goes down, everything stops."
 
 ### Slide 3 — The Gap (why now / why us)
 - A small comparison matrix: **Enterprise ag / All-in-one / IoT stacks / FarmOS**

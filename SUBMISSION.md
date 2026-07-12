@@ -127,9 +127,7 @@ detection; carbon-credit / ESG reporting; multi-farm replication.
    alive through a blackout."*
 
 ## Links & logistics — [one TODO left before submitting]
-- **Repository:** https://github.com/kimbrolly-a11y/farmos (branch `master`;
-  currently PRIVATE — flip to public in GitHub → Settings → General → Danger Zone
-  before submitting)
+- **Repository:** https://github.com/kimbrolly-a11y/Farm-OS (public ✅, branch `master`)
 - **Live demo URL:** https://farmos-ochre.vercel.app (auto-deploys on every push;
   browse everything — run the interactive crisis/outage demo locally, see README)
 - **Pitch deck (9 slides, photo-backed):**
