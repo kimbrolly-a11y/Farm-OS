@@ -252,7 +252,7 @@ export function seedTwin(file = configPath()): Twin {
     ],
     loadShedding,
     syncQueue: [],
-    sim: { tickCount: 0, cloudCover: 0.2, scenario: "normal", lastTickAt: null },
+    sim: { tickCount: 0, cloudCover: 0.2, scenario: "normal", autopilot: false, lastTickAt: null },
     lastSeededAt: now,
   };
 }

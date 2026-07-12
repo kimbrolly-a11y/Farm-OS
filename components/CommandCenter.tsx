@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { useTwin } from "./useTwin";
 import { EnergyPanel } from "./EnergyPanel";
 import { WaterPanel } from "./WaterPanel";
@@ -9,7 +10,23 @@ import { VerticalCard } from "./VerticalCard";
 import { AlertsStrip } from "./AlertsStrip";
 
 export function CommandCenter() {
-  const { twin, history, error, loading } = useTwin(2000);
+  const { twin, history, error, loading, refetch } = useTwin(2000);
+  const [apBusy, setApBusy] = useState(false);
+
+  async function toggleAutopilot() {
+    if (!twin) return;
+    setApBusy(true);
+    try {
+      await fetch("/api/autopilot", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ on: !twin.sim.autopilot }),
+      });
+      refetch();
+    } finally {
+      setApBusy(false);
+    }
+  }
 
   if (loading && !twin) {
     return (
@@ -31,6 +48,20 @@ export function CommandCenter() {
 
   return (
     <main className="mx-auto max-w-6xl p-6">
+      {twin.sim.autopilot && (
+        <div className="mb-4 flex items-center gap-3 rounded-xl border border-[--accent] bg-[color-mix(in_srgb,var(--accent)_12%,transparent)] px-4 py-3">
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[--accent] opacity-75" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[--accent]" />
+          </span>
+          <span className="font-semibold text-[--accent]">
+            AUTOPILOT ENGAGED — the farm is running itself
+          </span>
+          <span className="text-sm text-[--muted]">
+            agent senses, predicts &amp; acts every 30s · watch the activity log
+          </span>
+        </div>
+      )}
       {!twin.online && (
         <div className="mb-4 flex items-center gap-3 rounded-xl border border-[--warn] bg-[color-mix(in_srgb,var(--warn)_12%,transparent)] px-4 py-3">
           <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-[--warn]" />
@@ -61,6 +92,18 @@ export function CommandCenter() {
           </p>
         </div>
         <div className="flex items-center gap-2 text-sm">
+          <button
+            onClick={toggleAutopilot}
+            disabled={apBusy}
+            className={`flex items-center gap-1.5 rounded-full border px-3 py-1 font-medium transition-colors disabled:opacity-50 ${
+              twin.sim.autopilot
+                ? "border-[--accent] bg-[color-mix(in_srgb,var(--accent)_18%,transparent)] text-[--accent]"
+                : "border-[--muted] text-[--muted] hover:border-[--accent] hover:text-[--accent]"
+            }`}
+            title="Toggle autonomous mode"
+          >
+            🛰 Autopilot {twin.sim.autopilot ? "ON" : "OFF"}
+          </button>
           <span
             className={`flex items-center gap-1.5 rounded-full border px-3 py-1 ${
               twin.online

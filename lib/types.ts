@@ -164,6 +164,8 @@ export interface Twin {
     cloudCover: number;
     /** active demo scenario */
     scenario: "normal" | "crisis";
+    /** autonomous mode — the agent runs itself on an interval */
+    autopilot: boolean;
     lastTickAt: string | null;
   };
   lastSeededAt: string;

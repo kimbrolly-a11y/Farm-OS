@@ -5,9 +5,11 @@
 
 import { getTwin } from "./store";
 import { getTwinForecast } from "./tools/getForecast";
+import { forwardSimulate } from "./predict";
 import {
   createAlert,
   isProtected,
+  restoreLoad,
   scheduleIrrigation,
   shedLoad,
 } from "./tools/actions";
@@ -26,19 +28,23 @@ export async function runRuleEngine(): Promise<{
   const soc = twin.resources.energy.batterySoC;
   const notes: string[] = [];
 
-  // 1. Energy crisis — shed by the ladder, never touching never_shed.
-  if (soc <= 30) {
-    createAlert(
-      "critical",
-      `Battery at ${Math.round(soc)}% — entering load-shedding.`,
-      `Battery SoC ${Math.round(soc)}% is below the 30% crisis threshold${
-        cloudy ? " and the forecast is cloudy, so solar recovery is limited" : ""
-      }.`
-    );
+  const hasBatteryAlert = twin.alerts.some(
+    (a) => !a.acknowledged && /batter/i.test(a.message)
+  );
 
+  // 1. Energy — reactive shedding when already low.
+  if (soc <= 30) {
+    if (!hasBatteryAlert) {
+      createAlert(
+        "critical",
+        `Battery at ${Math.round(soc)}% — entering load-shedding.`,
+        `Battery SoC ${Math.round(soc)}% is below the 30% crisis threshold${
+          cloudy ? " and the forecast is cloudy, so solar recovery is limited" : ""
+        }.`
+      );
+    }
     const shedList = [...twin.loadShedding.shedFirst];
     if (soc <= 20) shedList.push(...twin.loadShedding.shedNext);
-
     for (const id of shedList) {
       const asset = twin.assets.find((a) => a.id === id);
       if (!asset || asset.state === "off") continue;
@@ -50,9 +56,39 @@ export async function runRuleEngine(): Promise<{
         )}%. Life-support loads stay powered.`
       );
     }
-    notes.push(`shed discretionary/important loads (battery ${Math.round(soc)}%)`);
+    notes.push(`shed loads (battery ${Math.round(soc)}%)`);
   } else {
-    notes.push(`battery healthy at ${Math.round(soc)}% — no shedding needed`);
+    // 2. Predictive — act AHEAD of a projected shortfall (autonomous OS behaviour).
+    const pred = forwardSimulate(twin, { hours: 6 });
+    if (pred.minsToCritical !== null && pred.minsToCritical < 120) {
+      const hrs = Math.round((pred.minsToCritical / 60) * 10) / 10;
+      if (!hasBatteryAlert) {
+        createAlert(
+          "warning",
+          `Battery projected to hit 20% in ~${hrs}h — pre-emptively shedding discretionary loads.`,
+          `Forward simulation shows a shortfall in ${pred.minsToCritical} min at ${twin.resources.energy.loadKw} kW load; acting ahead of it per predictive policy.`
+        );
+      }
+      for (const id of twin.loadShedding.shedFirst) {
+        const asset = twin.assets.find((a) => a.id === id);
+        if (!asset || asset.state === "off" || isProtected(twin, id)) continue;
+        shedLoad(id, `Pre-emptive: forward simulation projects a battery shortfall in ~${hrs}h; discretionary load shed early to conserve.`);
+      }
+      notes.push("pre-emptive predictive shedding");
+    } else if (soc >= 60 && twin.sim.scenario === "normal") {
+      // recovered — restore what we shed
+      let restored = 0;
+      for (const id of twin.loadShedding.shedFirst) {
+        const asset = twin.assets.find((a) => a.id === id);
+        if (asset && asset.state === "off") {
+          restoreLoad(id, `Battery recovered to ${Math.round(soc)}% with healthy solar; restoring previously-shed discretionary load.`);
+          restored++;
+        }
+      }
+      notes.push(restored ? `restored ${restored} loads (battery ${Math.round(soc)}%)` : `battery healthy at ${Math.round(soc)}%`);
+    } else {
+      notes.push(`battery healthy at ${Math.round(soc)}% — no shedding needed`);
+    }
   }
 
   // 2. Aquaponics dissolved oxygen — animals first.
