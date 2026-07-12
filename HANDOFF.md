@@ -1,5 +1,12 @@
 # FarmOS — Handoff Brief & Master Build Plan (Claude Fable 5)
 
+> **See also `FARMOS-MASTER-SPEC.md`** — the full 100-acre eco-tourism resort
+> spec (all livestock, dairy, aquaculture, circular zero-waste loops, hybrid
+> off-grid energy/water, natural water treatment, the "Verdant World" attraction
+> layer + guest app, manpower & autonomy map, and per-vertical automation
+> stacks). This handoff is the *engineering* brief; that spec is the *farm
+> definition* you build toward. Build order is in that spec's §13.
+
 > **Paste this as your first message in the new terminal:**
 >
 > Read `HANDOFF.md`, then `CLAUDE.md`, then `farm.config.yaml`. This is a working
