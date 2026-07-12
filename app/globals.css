@@ -10,6 +10,10 @@
   --accent: #37d67a;
   --warn: #f5a623;
   --danger: #ff5c5c;
+  /* eco extensions — earth + water secondaries for decorative (non-status) use */
+  --earth: #c9a24a;
+  --water: #3aa7ff;
+  --leaf-dim: #1e3a2a;
 }
 
 html,
@@ -21,4 +25,27 @@ body {
 
 body {
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* living-forest ambience: faint canopy glows so the OS feels grown, not printed */
+  background-image:
+    radial-gradient(1100px 500px at 85% -10%, rgba(55, 214, 122, 0.05), transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, rgba(30, 58, 42, 0.35), transparent 55%),
+    radial-gradient(700px 400px at 110% 80%, rgba(58, 167, 255, 0.03), transparent 60%);
+  background-attachment: fixed;
+}
+
+/* numbers in tables/tiles line up like instruments */
+.tabular-nums,
+td,
+th {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

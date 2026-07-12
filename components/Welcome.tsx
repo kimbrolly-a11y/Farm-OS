@@ -35,8 +35,12 @@ export function Welcome() {
           Autonomous · off-grid · Malaysia
         </div>
 
-        <h1 className="text-5xl font-semibold tracking-tight sm:text-6xl">
-          Farm<span className="text-[--accent]">OS</span>
+        <h1 className="flex items-center gap-3 text-5xl font-semibold tracking-tight sm:text-6xl">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/farmos-mark.svg" alt="" className="h-12 w-12 sm:h-14 sm:w-14" />
+          <span>
+            Farm<span className="text-[--accent]">OS</span>
+          </span>
         </h1>
         <p className="mt-3 max-w-2xl text-lg text-[--muted]">
           The operating system for a{" "}
@@ -80,17 +84,34 @@ export function Welcome() {
           ))}
         </div>
 
-        {/* vertical teaser strip */}
+        {/* vertical teaser strip — every icon carries its name */}
         <div className="mt-10">
           <div className="mb-3 text-xs uppercase tracking-wide text-[--muted]">
             {verticalIds.length} operating verticals — livestock to lodging
           </div>
-          <div className="grid grid-cols-6 gap-2 sm:grid-cols-11">
-            {verticalIds.map((id) => (
-              <Link key={id} href={`/vertical/${id}`}>
-                <VerticalArt id={id} className="aspect-square transition-transform hover:scale-105" />
-              </Link>
-            ))}
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-6 lg:grid-cols-9">
+            {verticalIds.map((id) => {
+              const vis = VERTICAL_VISUALS[id];
+              return (
+                <Link
+                  key={id}
+                  href={`/vertical/${id}`}
+                  title={vis?.tagline}
+                  className="group rounded-xl border border-[--border] bg-[--panel] p-1.5 pb-2 transition-colors hover:border-[--muted]"
+                >
+                  <VerticalArt
+                    id={id}
+                    className="aspect-square w-full transition-transform group-hover:scale-105"
+                  />
+                  <div
+                    className="mt-1.5 truncate text-center text-[11px] font-medium leading-tight"
+                    style={{ color: vis?.color }}
+                  >
+                    {vis?.name ?? id}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
 

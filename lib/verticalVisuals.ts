@@ -4,35 +4,38 @@
 // read on the dark theme.
 
 export interface VerticalVisual {
+  /** short display name — legible under a small tile */
+  name: string;
   color: string;
   gradient: [string, string];
   tagline: string;
 }
 
 export const VERTICAL_VISUALS: Record<string, VerticalVisual> = {
-  poultry: { color: "#f0a830", gradient: ["#4a3410", "#0e0f0a"], tagline: "Coops, brooders & incubation" },
-  aquaponics: { color: "#2bb3c0", gradient: ["#0f3a41", "#0a0f10"], tagline: "Fish tanks & grow beds in one loop" },
-  hydroponics: { color: "#46c86a", gradient: ["#123a1f", "#0a0f0b"], tagline: "Soil-free greenhouses" },
-  fruit_orchard: { color: "#ff7a45", gradient: ["#4a2412", "#0f0b0a"], tagline: "Orchard blocks & drip irrigation" },
-  lodging: { color: "#9b7bff", gradient: ["#2a1f4a", "#0b0a10"], tagline: "Eco-cabins & guest stays" },
-  restaurant: { color: "#ff5c8a", gradient: ["#45162a", "#0f0a0c"], tagline: "Farm-to-table kitchen" },
-  petting_zoo: { color: "#a8c83a", gradient: ["#2f3a12", "#0d0f0a"], tagline: "Barns, paddocks & animals" },
-  palm_oil: { color: "#3f9d5a", gradient: ["#123a24", "#0a0f0b"], tagline: "Plantation blocks & FFB yield" },
-  recycling: { color: "#7bd44a", gradient: ["#213a12", "#0b0f0a"], tagline: "Biogas, compost & circularity" },
-  beekeeping: { color: "#ffcb2e", gradient: ["#4a3a0e", "#0f0d0a"], tagline: "Apiaries & hive monitoring" },
-  food_processing: { color: "#3a9bd8", gradient: ["#123245", "#0a0d0f"], tagline: "Canning, freeze-drying & processing" },
-  dairy_cattle: { color: "#d9b38c", gradient: ["#3a2c1c", "#0f0c0a"], tagline: "Milking herd & dairy" },
-  dairy_goats: { color: "#c9a24a", gradient: ["#3a2f14", "#0f0d0a"], tagline: "Goat milk & cheese" },
-  sheep: { color: "#cfd3d6", gradient: ["#2a2f33", "#0c0e0f"], tagline: "Silvopasture flock" },
-  ducks: { color: "#5bb98c", gradient: ["#123a2c", "#0a0f0c"], tagline: "Ducks, eggs & ponds" },
-  rabbits: { color: "#d98fb0", gradient: ["#3a1f2c", "#0f0a0c"], tagline: "Rabbitry" },
-  horses: { color: "#b0764f", gradient: ["#3a2416", "#0f0b0a"], tagline: "Stables & riding" },
-  aquaculture: { color: "#3aa0c8", gradient: ["#123845", "#0a0d0f"], tagline: "Fish & prawn ponds" },
+  poultry: { name: "Poultry", color: "#f0a830", gradient: ["#4a3410", "#0e0f0a"], tagline: "Coops, brooders & incubation" },
+  aquaponics: { name: "Aquaponics", color: "#2bb3c0", gradient: ["#0f3a41", "#0a0f10"], tagline: "Fish tanks & grow beds in one loop" },
+  hydroponics: { name: "Hydroponics", color: "#46c86a", gradient: ["#123a1f", "#0a0f0b"], tagline: "Soil-free greenhouses" },
+  fruit_orchard: { name: "Orchard", color: "#ff7a45", gradient: ["#4a2412", "#0f0b0a"], tagline: "Orchard blocks & drip irrigation" },
+  lodging: { name: "Lodging", color: "#9b7bff", gradient: ["#2a1f4a", "#0b0a10"], tagline: "Eco-cabins & guest stays" },
+  restaurant: { name: "Restaurant", color: "#ff5c8a", gradient: ["#45162a", "#0f0a0c"], tagline: "Farm-to-table kitchen" },
+  petting_zoo: { name: "Petting zoo", color: "#a8c83a", gradient: ["#2f3a12", "#0d0f0a"], tagline: "Barns, paddocks & animals" },
+  palm_oil: { name: "Palm oil", color: "#3f9d5a", gradient: ["#123a24", "#0a0f0b"], tagline: "Plantation blocks & FFB yield" },
+  recycling: { name: "Recycling", color: "#7bd44a", gradient: ["#213a12", "#0b0f0a"], tagline: "Biogas, compost & circularity" },
+  beekeeping: { name: "Bees", color: "#ffcb2e", gradient: ["#4a3a0e", "#0f0d0a"], tagline: "Apiaries & hive monitoring" },
+  food_processing: { name: "Processing", color: "#3a9bd8", gradient: ["#123245", "#0a0d0f"], tagline: "Canning, freeze-drying & processing" },
+  dairy_cattle: { name: "Dairy cattle", color: "#d9b38c", gradient: ["#3a2c1c", "#0f0c0a"], tagline: "Milking herd & dairy" },
+  dairy_goats: { name: "Goats", color: "#c9a24a", gradient: ["#3a2f14", "#0f0d0a"], tagline: "Goat milk & cheese" },
+  sheep: { name: "Sheep", color: "#cfd3d6", gradient: ["#2a2f33", "#0c0e0f"], tagline: "Silvopasture flock" },
+  ducks: { name: "Ducks", color: "#5bb98c", gradient: ["#123a2c", "#0a0f0c"], tagline: "Ducks, eggs & ponds" },
+  rabbits: { name: "Rabbits", color: "#d98fb0", gradient: ["#3a1f2c", "#0f0a0c"], tagline: "Rabbitry" },
+  horses: { name: "Horses", color: "#b0764f", gradient: ["#3a2416", "#0f0b0a"], tagline: "Stables & riding" },
+  aquaculture: { name: "Aquaculture", color: "#3aa0c8", gradient: ["#123845", "#0a0d0f"], tagline: "Fish & prawn ponds" },
 };
 
 export function visualFor(id: string): VerticalVisual {
   return (
     VERTICAL_VISUALS[id] ?? {
+      name: id,
       color: "#8ba79d",
       gradient: ["#1a2420", "#0a0f0d"],
       tagline: "",

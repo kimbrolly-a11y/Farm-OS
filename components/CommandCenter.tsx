@@ -111,7 +111,9 @@ export function CommandCenter() {
 
       <header className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold">
+          <h1 className="flex items-center gap-2 text-2xl font-semibold">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/farmos-mark.svg" alt="" className="h-7 w-7" />
             <Link href="/" className="hover:text-[--accent]">
               Farm<span className="text-[--accent]">OS</span>
             </Link>{" "}

@@ -27,7 +27,8 @@ export function VerticalsGallery() {
           </Link>
           <h1 className="mt-2 text-2xl font-semibold">The farm · {twin.farm.name}</h1>
           <p className="text-[--muted]">
-            Ten verticals plus on-farm processing — tap any to go inside.
+            {twin.verticals.length} operating verticals — livestock, crops, energy, water &
+            hospitality. Tap any to go inside.
           </p>
         </div>
         <Link
