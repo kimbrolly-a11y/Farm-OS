@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FarmOS — Hardware Architecture</title>
+<style>
+  :root{
+    --bg:#0c1411; --panel:#12201b; --panel2:#16271f; --ink:#eaf3ee; --mut:#9fb7ac;
+    --line:#26433a; --gold:#ffd166; --green:#39d98a; --leaf:#7be0ad;
+    --blue:#5cc8ff; --amber:#ffb457; --violet:#b79bff; --rose:#ff8fa3; --teal:#4fd1c5;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#050807;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  .stage{width:1280px;height:720px;margin:0 auto;position:relative;overflow:hidden;padding:22px 24px 16px;
+    background:
+      radial-gradient(1000px 460px at 82% -12%, rgba(57,217,138,.10), transparent 60%),
+      radial-gradient(820px 460px at -5% 115%, rgba(92,200,255,.08), transparent 55%),
+      var(--bg);}
+  .head{display:flex;justify-content:space-between;align-items:flex-start}
+  h1{font-size:24px;font-weight:800}
+  h1 .os{color:var(--green)}
+  .sub{color:var(--mut);font-size:12px;margin-top:3px}
+  .badge{font-size:10.5px;font-weight:700;color:#06110c;background:var(--gold);padding:5px 11px;border-radius:999px}
+  /* flow */
+  .flow{display:grid;grid-template-columns:1fr 44px 1.05fr 44px 1fr 44px 0.92fr;align-items:stretch;gap:0;margin-top:14px;height:474px}
+  .col{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:11px 12px;display:flex;flex-direction:column}
+  .col .cap{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;display:flex;align-items:center;gap:7px;margin-bottom:3px}
+  .col .note{font-size:10px;color:var(--mut);margin-bottom:8px;line-height:1.3}
+  .dot{width:9px;height:9px;border-radius:50%}
+  .row{background:var(--panel2);border:1px solid rgba(255,255,255,.05);border-radius:8px;padding:6px 8px;margin-bottom:6px}
+  .row b{font-size:10.7px;display:flex;align-items:center;gap:6px;color:#eaf7f0}
+  .row span{font-size:9.6px;color:var(--mut);line-height:1.25;display:block;margin-top:2px}
+  .tag{flex:0 0 auto;font-size:8.4px;font-weight:800;letter-spacing:.2px;padding:1px 5px;border-radius:5px;color:#0a1410}
+  .t-wifi{background:#5cc8ff}.t-lora{background:#ffb457}.t-zig{background:#7be0ad}.t-i2c{background:#b79bff}.t-mod{background:#ff8fa3}
+  /* arrow cells */
+  .arrow{display:flex;align-items:center;justify-content:center;position:relative}
+  .arrow .a{color:var(--green);font-size:26px;font-weight:800;filter:drop-shadow(0 0 6px rgba(57,217,138,.5))}
+  .arrow .lbl{position:absolute;top:14px;font-size:8.6px;color:var(--mut);white-space:nowrap;text-align:center;width:80px;left:50%;transform:translateX(-50%)}
+  /* accents */
+  .c1 .cap{color:var(--blue)} .c1 .dot{background:var(--blue)}
+  .c2 .cap{color:var(--green)} .c2 .dot{background:var(--green)}
+  .c3 .cap{color:var(--gold)} .c3 .dot{background:var(--gold)}
+  .c4 .cap{color:var(--teal)} .c4 .dot{background:var(--teal)}
+  .hub{border-color:rgba(57,217,138,.4);background:linear-gradient(180deg,rgba(57,217,138,.10),var(--panel))}
+  .brain{border-color:rgba(255,209,102,.4);background:linear-gradient(180deg,rgba(255,209,102,.09),var(--panel))}
+  .pi{font-size:9.4px;color:var(--leaf);font-weight:700;margin-top:auto;padding-top:7px;border-top:1px dashed var(--line)}
+  .tool{font-size:9.6px;color:#ffe6a6;background:rgba(255,209,102,.12);border:1px solid rgba(255,209,102,.3);border-radius:6px;padding:3px 6px;margin:0 3px 4px 0;display:inline-block}
+  /* footer callouts */
+  .foot{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+  .call{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:11px;color:#dcefe6;display:flex;align-items:center;gap:9px}
+  .call b{color:var(--green)}
+  .call .ic{font-size:16px}
+  .call.gold{border-color:rgba(255,209,102,.35)} .call.gold b{color:var(--gold)}
+  .tagline{position:absolute;bottom:12px;left:24px;font-size:10px;color:var(--mut)}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="head">
+    <div>
+      <h1>Farm<span class="os">OS</span> — hardware architecture</h1>
+      <div class="sub">Off-the-shelf devices → one on-site hub → the Claude agent. Local-first, so it runs with no internet.</div>
+    </div>
+    <div class="badge">Same code path: simulated ⇄ real</div>
+  </div>
+
+  <div class="flow">
+    <!-- COL 1: DEVICES -->
+    <div class="col c1">
+      <div class="cap"><span class="dot"></span>1 · Field devices</div>
+      <div class="note">Real products, bought off-the-shelf</div>
+      <div class="row"><b>Water-quality probes <em class="tag t-i2c">I2C·ESP32</em></b><span>Atlas Scientific EZO pH · EC · DO</span></div>
+      <div class="row"><b>Soil & weather <em class="tag t-lora">LoRaWAN</em></b><span>SenseCAP · Dragino · Ecowitt WS90</span></div>
+      <div class="row"><b>Relays & actuators <em class="tag t-wifi">WiFi</em></b><span>Shelly · Sonoff (fans, pumps, doors)</span></div>
+      <div class="row"><b>Climate sensors <em class="tag t-zig">Zigbee</em></b><span>Aqara · Ecowitt (coop, cold room)</span></div>
+      <div class="row"><b>Energy <em class="tag t-mod">Modbus</em></b><span>Victron Cerbo GX · Solar Assistant</span></div>
+      <div class="row"><b>Robots <em class="tag" style="background:#7be0ad">🤖</em></b><span>FarmBot · Husqvarna Automower</span></div>
+    </div>
+
+    <div class="arrow"><div class="lbl">publish</div><div class="a">→</div></div>
+
+    <!-- COL 2: HUB -->
+    <div class="col c2 hub">
+      <div class="cap"><span class="dot"></span>2 · On-site hub</div>
+      <div class="note">Thousands of built-in integrations. One API for FarmOS.</div>
+      <div class="row"><b>🏠 Home Assistant</b><span>every device = an “entity” (ha_entity in config)</span></div>
+      <div class="row"><b>Node-RED</b><span>local automations + offline fallback rules</span></div>
+      <div class="row"><b>MQTT (Mosquitto)</b><span>message bus for all sensors</span></div>
+      <div class="row"><b>InfluxDB + Grafana</b><span>time-series history & dashboards</span></div>
+      <div class="row"><b>Dragino LoRaWAN gateway</b><span>field sensors across 100 acres</span></div>
+      <div class="pi">▸ Runs on a Raspberry Pi 5 / mini-PC, on solar. No cloud required.</div>
+    </div>
+
+    <div class="arrow"><div class="lbl">REST / WebSocket</div><div class="a">→</div></div>
+
+    <!-- COL 3: BRAIN -->
+    <div class="col c3 brain">
+      <div class="cap"><span class="dot"></span>3 · FarmOS agent</div>
+      <div class="note">Claude reads the twin, decides, calls tools</div>
+      <div class="row"><b>🧠 Claude supervisor</b><span>+ per-vertical & compliance sub-agents</span></div>
+      <div style="margin:2px 0 4px">
+        <span class="tool">getFarmState()</span><span class="tool">getForecast()</span>
+        <span class="tool">shedLoad()</span><span class="tool">setActuator()</span>
+        <span class="tool">scheduleIrrigation()</span><span class="tool">createAlert()</span>
+        <span class="tool">assignTask()</span>
+      </div>
+      <div class="row"><b>Digital twin</b><span>single source of truth · every asset & flow</span></div>
+      <div class="pi" style="color:#ffe6a6">▸ Logs every decision + reason → the activity log</div>
+    </div>
+
+    <div class="arrow"><div class="lbl">act / notify</div><div class="a">→</div></div>
+
+    <!-- COL 4: OUTPUTS -->
+    <div class="col c4">
+      <div class="cap"><span class="dot"></span>4 · Actions & people</div>
+      <div class="note">Back to devices + to the owner</div>
+      <div class="row"><b>↩ Actuators</b><span>flip a Shelly relay, open a coop door, dose nutrients</span></div>
+      <div class="row"><b>📲 WhatsApp alerts</b><span>Twilio → the owner’s phone (Malaysia)</span></div>
+      <div class="row"><b>📊 Command Center</b><span>live dashboard + agent activity log</span></div>
+      <div class="row"><b>Business apps</b><span>Beds24 bookings · Loyverse POS · Wave</span></div>
+      <div class="row"><b>Staff tasks</b><span>work orders the agent can’t automate</span></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="call gold"><span class="ic">🔌</span><div><b>Cut the cord.</b> The hub is on-site on solar — sensors, automations and the agent’s fallback keep running through a grid + internet outage.</div></div>
+    <div class="call"><span class="ic">⚙️</span><div><b>Demo = farm.</b> Flip <code>simulated:false</code> and the exact same agent logic moves real hardware. Nothing is rebuilt.</div></div>
+  </div>
+  <div class="tagline">FarmOS is the intelligence layer on top of proven open hardware — not a rebuild of it.</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FarmOS — Platform Map</title>
+<style>
+  :root{
+    --bg:#0c1411; --panel:#12201b; --panel2:#16271f; --ink:#eaf3ee; --mut:#9fb7ac;
+    --line:#26433a; --gold:#ffd166; --green:#39d98a; --leaf:#7be0ad;
+    --blue:#5cc8ff; --amber:#ffb457; --violet:#b79bff; --rose:#ff8fa3; --teal:#4fd1c5;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#050807;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  .stage{width:1280px;height:720px;margin:0 auto;background:
+     radial-gradient(1100px 500px at 80% -10%, rgba(57,217,138,.10), transparent 60%),
+     radial-gradient(900px 500px at 0% 110%, rgba(92,200,255,.08), transparent 55%),
+     var(--bg);
+     position:relative;overflow:hidden;padding:22px 26px 18px}
+  /* header */
+  .head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+  h1{font-size:25px;font-weight:800;letter-spacing:.2px}
+  h1 .os{color:var(--green)}
+  .sub{color:var(--mut);font-size:12.5px;margin-top:3px}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;max-width:520px}
+  .chip{font-size:10.5px;font-weight:600;color:#cfeee0;background:rgba(57,217,138,.10);border:1px solid var(--line);padding:4px 9px;border-radius:999px;white-space:nowrap}
+  .chip.k{background:rgba(255,209,102,.10);border-color:rgba(255,209,102,.35);color:#ffe6a6}
+  /* agent spine */
+  .agent{margin:12px 0 10px;background:linear-gradient(90deg,rgba(57,217,138,.16),rgba(92,200,255,.12));border:1px solid rgba(57,217,138,.45);border-radius:12px;padding:9px 14px;display:flex;align-items:center;gap:12px}
+  .agent .b{font-weight:800;font-size:14px;color:#eafff5;white-space:nowrap}
+  .agent .d{color:#bfe6d6;font-size:11.5px;line-height:1.35}
+  .agent .star{margin-left:auto;font-size:10.5px;color:#06110c;background:var(--gold);font-weight:800;padding:4px 9px;border-radius:999px;white-space:nowrap}
+  /* grid */
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:9px 11px 10px;position:relative}
+  .card h3{font-size:11.5px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+  .dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+  .card ul{list-style:none;margin-top:5px;display:flex;flex-wrap:wrap;gap:3px 5px}
+  .card li{font-size:10.3px;color:#d6e8df;background:var(--panel2);border:1px solid rgba(255,255,255,.04);padding:2px 6px;border-radius:6px;line-height:1.3}
+  .card li.mvp{background:rgba(255,209,102,.14);border-color:rgba(255,209,102,.4);color:#ffe6a6;font-weight:600}
+  .span2{grid-column:span 2}
+  /* color accents */
+  .c-life h3{color:var(--green)} .c-life .dot{background:var(--green)}
+  .c-vert h3{color:var(--leaf)} .c-vert .dot{background:var(--leaf)}
+  .c-proc h3{color:var(--amber)} .c-proc .dot{background:var(--amber)}
+  .c-guest h3{color:var(--blue)} .c-guest .dot{background:var(--blue)}
+  .c-loop h3{color:var(--teal)} .c-loop .dot{background:var(--teal)}
+  .c-land h3{color:var(--rose)} .c-land .dot{background:var(--rose)}
+  .c-dig h3{color:var(--violet)} .c-dig .dot{background:var(--violet)}
+  .c-comp h3{color:#ff9e9e} .c-comp .dot{background:#ff9e9e}
+  .c-demo{background:linear-gradient(180deg,rgba(255,209,102,.10),rgba(18,32,27,.6));border-color:rgba(255,209,102,.35)}
+  .c-demo h3{color:var(--gold)} .c-demo .dot{background:var(--gold)}
+  /* footer */
+  .foot{position:absolute;left:26px;right:26px;bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+  .tag{font-size:12px;color:#eafff5;font-weight:700}
+  .tag span{color:var(--green)}
+  .legend{display:flex;gap:12px;align-items:center;font-size:10.5px;color:var(--mut)}
+  .legend b{color:#ffe6a6}
+  .brand{font-size:10.5px;color:var(--mut)}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="head">
+    <div>
+      <h1>Farm<span class="os">OS</span> — the operating system for a one-person farm company</h1>
+      <div class="sub">100-acre self-sustaining eco-tourism farm · Malaysia · one founder runs ten businesses as one company</div>
+    </div>
+    <div class="chips">
+      <span class="chip k">Track: OPS / Super Individuals</span>
+      <span class="chip">Claude + AWS</span>
+      <span class="chip">Off-grid: solar · rain · well</span>
+      <span class="chip">Replicable → Farm #2</span>
+    </div>
+  </div>
+
+  <div class="agent">
+    <div class="b">🧠 Claude Supervisor Agent</div>
+    <div class="d">The operations team. Reads the digital twin, decides across every vertical, acts through tools, logs each decision — and keeps running offline. <b>Per-vertical sub-agents + a compliance-deadline agent.</b></div>
+    <div class="star">★ = in the 9-hour MVP demo</div>
+  </div>
+
+  <div class="grid">
+    <!-- Life support -->
+    <div class="card c-life span2">
+      <h3><span class="dot"></span>1 · Life-support infrastructure</h3>
+      <ul>
+        <li class="mvp">★ Solar PV + battery (BESS)</li>
+        <li class="mvp">★ Energy load-shedding</li>
+        <li class="mvp">★ Rainwater + well + tanks</li>
+        <li class="mvp">★ Irrigation (soil + weather)</li>
+        <li>Generator / biogas backup</li>
+        <li>Connectivity (Starlink · LoRa mesh)</li>
+        <li>Edge compute (on-site)</li>
+        <li>Potable water treatment</li>
+        <li>Solar water heating</li>
+      </ul>
+    </div>
+    <!-- Verticals -->
+    <div class="card c-vert span2">
+      <h3><span class="dot"></span>2 · Revenue verticals (modules)</h3>
+      <ul>
+        <li class="mvp">★ Poultry</li>
+        <li class="mvp">★ Aquaponics</li>
+        <li>Airbnb lodging</li>
+        <li>Restaurant</li>
+        <li>Hydroponics</li>
+        <li>Fruit orchard</li>
+        <li>Petting zoo</li>
+        <li>Palm oil</li>
+        <li>Recycling</li>
+        <li>Beekeeping</li>
+        <li>+ mushroom · dairy · nursery…</li>
+      </ul>
+    </div>
+    <!-- Processing -->
+    <div class="card c-proc">
+      <h3><span class="dot"></span>3 · Processing & value-add</h3>
+      <ul>
+        <li>Packing house + cold room</li>
+        <li>Commercial kitchen</li>
+        <li>Honey extraction</li>
+        <li>Palm mill (FFB)</li>
+        <li>Halal poultry slaughter</li>
+        <li>Blast chiller · feed silos</li>
+      </ul>
+    </div>
+    <!-- Guest & commerce -->
+    <div class="card c-guest">
+      <h3><span class="dot"></span>4 · Guest & commerce</h3>
+      <ul>
+        <li>Booking / channel manager</li>
+        <li>POS (restaurant + shop)</li>
+        <li>Farm-to-table inventory</li>
+        <li>Reception · ticketing · parking</li>
+        <li>Agent commerce (surplus sales)</li>
+        <li>CRM / marketing</li>
+      </ul>
+    </div>
+    <!-- Circular loops -->
+    <div class="card c-loop">
+      <h3><span class="dot"></span>5 · Circular loops</h3>
+      <ul>
+        <li>Aquaponics fish⇄plants</li>
+        <li>Food scraps → BSF → feed</li>
+        <li>Waste → biogas → energy</li>
+        <li>Biomass → biochar → soil</li>
+        <li>Rain + greywater → irrigation</li>
+        <li>Bees → pollination → yield</li>
+      </ul>
+    </div>
+    <!-- Land & site -->
+    <div class="card c-land">
+      <h3><span class="dot"></span>6 · Land & site engineering</h3>
+      <ul>
+        <li>Erosion / sediment control</li>
+        <li>Terracing · swales · ponds</li>
+        <li>Drainage & flood mgmt</li>
+        <li>Roads · culverts</li>
+        <li>Soil-health program</li>
+        <li>Fire breaks · wildlife fencing</li>
+      </ul>
+    </div>
+    <!-- Digital services -->
+    <div class="card c-dig">
+      <h3><span class="dot"></span>7 · Digital services</h3>
+      <ul>
+        <li class="mvp">★ Digital twin</li>
+        <li class="mvp">★ Agent activity log</li>
+        <li class="mvp">★ WhatsApp alerts</li>
+        <li class="mvp">★ Offline / resilience mode</li>
+        <li>Identity & roles</li>
+        <li>Backup · audit · API layer</li>
+      </ul>
+    </div>
+    <!-- Compliance -->
+    <div class="card c-comp">
+      <h3><span class="dot"></span>8 · Malaysia compliance</h3>
+      <ul>
+        <li>MSPO + MPOB (palm)</li>
+        <li>myGAP (crops/livestock)</li>
+        <li>DVS (livestock)</li>
+        <li>MOTAC (agrotourism)</li>
+        <li>Council: food · building</li>
+        <li>Halal · JPS · DOE · Bomba</li>
+      </ul>
+    </div>
+    <!-- Demo flow -->
+    <div class="card c-demo span2">
+      <h3><span class="dot"></span>★ The 9-hour demo — what judges see</h3>
+      <ul>
+        <li class="mvp">1 · Live farm dashboard</li>
+        <li class="mvp">2 · “What my company did overnight” log</li>
+        <li class="mvp">3 · Crisis: agent sheds loads, protects life-support</li>
+        <li class="mvp">4 · “Cut the cord” → keeps running offline</li>
+        <li class="mvp">5 · Boot Farm #2 from one config file</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="tag">One person. Ten businesses. <span>One operating system.</span> Runs through a blackout. Replicable to Farm&nbsp;#2.</div>
+    <div class="legend"><span><b>★</b> = shown live in the 9-hour hackathon MVP</span></div>
+  </div>
+</div>
+</body>
+</html>

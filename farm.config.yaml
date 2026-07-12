@@ -1,0 +1,236 @@
+# =============================================================================
+# farm.config.yaml  —  FarmOS digital-twin seed + real-hardware map
+# -----------------------------------------------------------------------------
+# This one file does two jobs:
+#   1. SEED DATA for the FarmOS app (verticals, zones, assets, sensors, resources).
+#   2. REAL HARDWARE MAP — every asset/sensor names an actual buyable product and
+#      how it connects, so the same twin drives a live farm, not just a demo.
+#
+# HOW IT BECOMES REAL ("click of a finger"):
+#   devices  ->  Home Assistant (hub)  ->  FarmOS agent via HA REST/WebSocket API
+#   - Sensors publish over WiFi / LoRaWAN / I2C(ESP32) / Zigbee into Home Assistant.
+#   - Actuators (relays, valves, doors, dosing pumps) are Home Assistant entities.
+#   - A FarmOS tool like setActuator('coop1_door','open') just calls the HA service
+#     for `ha_entity`. shedLoad() flips a real Shelly relay. Nothing is fictional.
+#   For the hackathon: `simulated: true` makes the app generate readings; flip to
+#   false + fill `ha_entity` to talk to the real device. Same code path.
+# =============================================================================
+
+farm:
+  name: "Verdant Acres"            # rename to your brand
+  area_acres: 100
+  location:
+    country: Malaysia
+    lat: 3.1400                    # set to your real site; drives Open-Meteo getForecast()
+    lon: 101.6900
+    timezone: Asia/Kuala_Lumpur
+
+integration:
+  hub: "Home Assistant"            # primary: runs on a Raspberry Pi 5 / mini-PC on-site
+  hub_api: "http://homeassistant.local:8123/api"   # FarmOS reads/writes here
+  alt_hub: "ThingsBoard CE"        # for large LoRaWAN sensor fleets
+  logic_engine: "Node-RED"         # local automations, backs the offline fallback
+  timeseries: "InfluxDB + Grafana"
+  message_bus: "MQTT (Mosquitto)"
+  lorawan_gateway: "Dragino LPS8v2"        # LoRaWAN gateway for field sensors
+  protocols: [WiFi, LoRaWAN, MQTT, I2C-ESP32, Zigbee, Modbus]
+  simulated: true                  # hackathon = true (generate readings); farm = false
+
+# ---------------------------------------------------------------------------
+# SHARED LIFE-SUPPORT RESOURCES  (energy + water)  — protected before anything else
+# ---------------------------------------------------------------------------
+resources:
+  energy:
+    solar_array_kw: 30
+    battery:
+      product: "Victron / EG4 LiFePO4 bank (Cerbo GX + SmartShunt)"
+      monitor: "Victron Cerbo GX"            # MQTT + native Home Assistant integration
+      protocol: MQTT
+      ha_entity: sensor.battery_soc
+      capacity_kwh: 60
+      soc_pct: 78                            # seed value
+    inverter:
+      product: "Victron MultiPlus-II"
+      ha_entity: sensor.inverter_load_w
+    backup:
+      product: "Diesel genset + planned biogas generator"
+      ha_entity: switch.generator
+      criticality: important
+  water:
+    tanks:
+      - id: tank-rain-1
+        product: "Poly tank + Dragino LDDS75 ultrasonic level sensor (LoRaWAN)"
+        protocol: LoRaWAN
+        ha_entity: sensor.tank_rain_1_level
+        capacity_l: 20000
+        level_pct: 64
+      - id: tank-well-1
+        product: "Poly tank + Milesight EM500-UDL level sensor"
+        ha_entity: sensor.tank_well_1_level
+        capacity_l: 15000
+        level_pct: 80
+    well:
+      product: "Borehole/tubewell + Grundfos SQFlex solar pump"
+      ha_entity: switch.well_pump
+      criticality: important
+      status: idle
+    potable_treatment:
+      product: "Sediment + carbon + UV (e.g. Viqua UV)"
+      ha_entity: binary_sensor.uv_ok
+
+# ---------------------------------------------------------------------------
+# VERTICALS  (modules).  criticality: life_support | important | discretionary
+#   life_support  = never shed (animals/fish/incubation/cold chain)
+#   important     = shed only in deep crisis
+#   discretionary = shed first (comfort/convenience loads)
+# ---------------------------------------------------------------------------
+verticals:
+
+  - id: poultry
+    name: "Poultry"
+    zones:
+      - id: coop-1
+        assets:
+          - { id: coop1_door,     type: coop_door,   criticality: important,
+              hardware: "ChickenGuard Premium / Run-Chicken auto door", protocol: WiFi, ha_entity: cover.coop1_door }
+          - { id: coop1_fans,     type: fan,         criticality: life_support,
+              hardware: "Shelly Pro relay + exhaust fans", protocol: WiFi, ha_entity: fan.coop1 }
+          - { id: coop1_feeder,   type: feeder,      criticality: important,
+              hardware: "Automatic treadle/auger feeder + Shelly relay", protocol: WiFi, ha_entity: switch.coop1_feeder }
+          - { id: incubator_1,    type: incubator,   criticality: life_support,
+              hardware: "Cabinet incubator w/ temp controller", protocol: WiFi, ha_entity: switch.incubator_1 }
+        sensors:
+          - { metric: temperature, unit: C,   product: "Ecowitt WN31 / Aqara Zigbee", protocol: Zigbee, ha_entity: sensor.coop1_temp }
+          - { metric: humidity,    unit: "%", product: "Ecowitt WN31", protocol: Zigbee, ha_entity: sensor.coop1_humidity }
+          - { metric: eggs_today,  unit: count, product: "Manual / vision counter", ha_entity: sensor.coop1_eggs }
+
+  - id: aquaponics
+    name: "Aquaponics"
+    zones:
+      - id: fishtank-1
+        assets:
+          - { id: aqua1_aerator,  type: aerator,      criticality: life_support,
+              hardware: "Air pump + Shelly Plus 1 relay", protocol: WiFi, ha_entity: switch.aqua1_aerator }
+          - { id: aqua1_circpump, type: pump,         criticality: life_support,
+              hardware: "Circulation pump + Shelly relay", protocol: WiFi, ha_entity: switch.aqua1_pump }
+          - { id: aqua1_feeder,   type: fish_feeder,  criticality: important,
+              hardware: "Automatic pond fish feeder", protocol: WiFi, ha_entity: switch.aqua1_feeder }
+        sensors:
+          - { metric: dissolved_oxygen, unit: "mg/L", product: "Atlas Scientific EZO-DO probe (I2C via ESP32/ESPHome)", protocol: I2C-ESP32, ha_entity: sensor.aqua1_do }
+          - { metric: ph,          unit: pH,   product: "Atlas Scientific EZO-pH probe", protocol: I2C-ESP32, ha_entity: sensor.aqua1_ph }
+          - { metric: water_temp,  unit: C,    product: "DS18B20 probe", protocol: I2C-ESP32, ha_entity: sensor.aqua1_watertemp }
+          - { metric: ammonia,     unit: ppm,  product: "Test-kit / ISE probe", ha_entity: sensor.aqua1_ammonia }
+
+  - id: hydroponics
+    name: "Hydroponics"
+    zones:
+      - id: greenhouse-1
+        assets:
+          - { id: hydro1_doser,   type: dosing_pump, criticality: important,
+              hardware: "Atlas Scientific EZO-PMP / Kamoer dosing pumps (pH + nutrient)", protocol: I2C-ESP32, ha_entity: switch.hydro1_doser }
+          - { id: hydro1_lights,  type: grow_light,  criticality: discretionary,
+              hardware: "LED grow lights + Shelly relay", protocol: WiFi, ha_entity: light.hydro1 }
+          - { id: hydro1_farmbot, type: robot,       criticality: discretionary,
+              hardware: "FarmBot Genesis (open-source CNC farming robot)", protocol: HTTP-API, ha_entity: switch.farmbot }
+        sensors:
+          - { metric: ph,   unit: pH,     product: "Atlas Scientific EZO-pH / DFRobot Gravity pH", protocol: I2C-ESP32, ha_entity: sensor.hydro1_ph }
+          - { metric: ec,   unit: "mS/cm", product: "Atlas Scientific EZO-EC / Bluelab", protocol: I2C-ESP32, ha_entity: sensor.hydro1_ec }
+          - { metric: water_temp, unit: C, product: "DS18B20", protocol: I2C-ESP32, ha_entity: sensor.hydro1_watertemp }
+
+  - id: fruit_orchard
+    name: "Fruit Orchard"
+    zones:
+      - id: orchard-block-a
+        assets:
+          - { id: orchard_valve_a, type: irrigation_valve, criticality: important,
+              hardware: "OpenSprinkler + Netafim drip zones", protocol: WiFi, ha_entity: switch.orchard_valve_a }
+          - { id: orchard_mower,   type: robot,             criticality: discretionary,
+              hardware: "Husqvarna Automower (native Home Assistant integration)", protocol: WiFi, ha_entity: lawn_mower.orchard }
+        sensors:
+          - { metric: soil_moisture, unit: "%",  product: "SenseCAP S2105 / Dragino SE01-LB (LoRaWAN soil moisture+EC)", protocol: LoRaWAN, ha_entity: sensor.orchard_a_soil }
+          - { metric: soil_ec,       unit: "mS/cm", product: "SenseCAP S2105", protocol: LoRaWAN, ha_entity: sensor.orchard_a_ec }
+
+  - id: lodging
+    name: "Airbnb Lodging"
+    zones:
+      - id: cabin-1
+        assets:
+          - { id: cabin1_ac,      type: hvac,       criticality: discretionary,
+              hardware: "Split AC + Sensibo / Shelly", protocol: WiFi, ha_entity: climate.cabin1 }
+          - { id: cabin1_water_heater, type: water_heater, criticality: discretionary,
+              hardware: "Solar water heater + Shelly relay backup", protocol: WiFi, ha_entity: switch.cabin1_heater }
+        sensors:
+          - { metric: occupancy, unit: bool, product: "Booking sync (Beds24)", ha_entity: binary_sensor.cabin1_occupied }
+
+  - id: restaurant
+    name: "Restaurant"
+    zones:
+      - id: kitchen
+        assets:
+          - { id: cold_room_1,    type: cold_storage, criticality: life_support,
+              hardware: "Walk-in chiller + Shelly EM (temp+power)", protocol: WiFi, ha_entity: sensor.cold_room_1_temp }
+          - { id: blast_chiller,  type: cold_storage, criticality: important,
+              hardware: "Blast chiller + Shelly relay", protocol: WiFi, ha_entity: switch.blast_chiller }
+        sensors:
+          - { metric: cold_room_temp, unit: C, product: "Ecowitt WN30 probe / Zigbee", protocol: Zigbee, ha_entity: sensor.cold_room_1_temp }
+
+  - id: petting_zoo
+    name: "Petting Zoo"
+    zones:
+      - id: barn-1
+        assets:
+          - { id: barn1_water,    type: water_valve, criticality: important,
+              hardware: "Auto waterer + Shelly relay", protocol: WiFi, ha_entity: switch.barn1_water }
+        sensors:
+          - { metric: temperature, unit: C, product: "Ecowitt WN31", protocol: Zigbee, ha_entity: sensor.barn1_temp }
+
+  - id: palm_oil
+    name: "Palm Oil"
+    zones:
+      - id: plantation-block-1
+        assets:
+          - { id: palm_weather, type: weather_station, criticality: discretionary,
+              hardware: "Ecowitt Wittboy WS90 / Davis Vantage Pro2 (rain, wind, solar, UV)", protocol: WiFi, ha_entity: weather.farm_station }
+        sensors:
+          - { metric: rainfall, unit: mm, product: "Ecowitt WS90", protocol: WiFi, ha_entity: sensor.farm_rainfall }
+
+  - id: recycling
+    name: "Recycling & Resource Recovery"
+    zones:
+      - id: digester
+        assets:
+          - { id: biogas_digester, type: digester, criticality: important,
+              hardware: "Biogas digester + Modbus gas/level sensors", protocol: Modbus, ha_entity: sensor.digester_ch4 }
+          - { id: bsf_bins,        type: bioconversion, criticality: discretionary,
+              hardware: "Black-soldier-fly bins (manual + temp probe)", protocol: Zigbee, ha_entity: sensor.bsf_temp }
+        sensors:
+          - { metric: methane, unit: "%", product: "Modbus CH4 sensor", protocol: Modbus, ha_entity: sensor.digester_ch4 }
+
+  - id: beekeeping
+    name: "Beekeeping"
+    zones:
+      - id: apiary-1
+        assets: []
+        sensors:
+          - { metric: hive_weight, unit: kg, product: "BroodMinder hive scale + temp/humidity", protocol: BLE-LoRaWAN, ha_entity: sensor.hive1_weight }
+          - { metric: hive_temp,   unit: C,  product: "BroodMinder-TH", protocol: BLE, ha_entity: sensor.hive1_temp }
+
+# ---------------------------------------------------------------------------
+# LOAD-SHEDDING LADDER  — the agent obeys this in an energy crisis.
+#   Shed discretionary -> important (only if severe).  NEVER shed life_support.
+# ---------------------------------------------------------------------------
+load_shedding:
+  shed_first:  [hydro1_lights, hydro1_farmbot, orchard_mower, cabin1_ac, cabin1_water_heater, farmbot]
+  shed_next:   [orchard_valve_a, blast_chiller, coop1_feeder]
+  never_shed:  [coop1_fans, incubator_1, aqua1_aerator, aqua1_pump, cold_room_1, well_pump]
+
+# ---------------------------------------------------------------------------
+# ALERT ROUTING  (Malaysia = WhatsApp first)
+# ---------------------------------------------------------------------------
+alerts:
+  channels:
+    - { type: whatsapp, product: "Twilio WhatsApp", target: "+60-owner-number" }
+    - { type: dashboard }
+  severity_to_channel:
+    critical: [whatsapp, dashboard]
+    warning:  [dashboard]

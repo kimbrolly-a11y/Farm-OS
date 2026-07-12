@@ -1,0 +1,141 @@
+// lib/types.ts — the digital-twin data model (CLAUDE.md §4)
+
+export type Criticality = "life_support" | "important" | "discretionary";
+export type OnOff = "on" | "off";
+export type Severity = "critical" | "warning" | "info";
+export type AlertChannel = "whatsapp" | "dashboard";
+
+export interface Asset {
+  id: string;
+  verticalId: string;
+  zoneId: string;
+  type: string;
+  criticality: Criticality;
+  hardware?: string;
+  protocol?: string;
+  haEntity?: string;
+  /** simulated electrical draw in watts — used by the load-shedding logic */
+  powerDraw: number;
+  state: OnOff;
+}
+
+export interface SensorSpec {
+  id: string;
+  verticalId: string;
+  zoneId: string;
+  metric: string;
+  unit: string;
+  product?: string;
+  protocol?: string;
+  haEntity?: string;
+}
+
+export interface SensorReading {
+  id: string;
+  sensorId: string;
+  verticalId: string;
+  zoneId: string;
+  metric: string;
+  value: number;
+  unit: string;
+  timestamp: string;
+}
+
+export interface Zone {
+  id: string;
+  verticalId: string;
+  name: string;
+  assetIds: string[];
+  sensorIds: string[];
+}
+
+export interface Vertical {
+  id: string;
+  name: string;
+  status: "ok" | "warning" | "critical";
+  zoneIds: string[];
+  kpis: Record<string, string | number>;
+}
+
+export interface WaterTank {
+  id: string;
+  product?: string;
+  protocol?: string;
+  haEntity?: string;
+  capacityL: number;
+  levelPct: number;
+}
+
+export interface Resources {
+  energy: {
+    solarArrayKw: number;
+    solarInputKw: number; // live, from simulator
+    batteryCapacityKwh: number;
+    batterySoC: number; // percent
+    loadKw: number; // live total draw from powered assets
+  };
+  water: {
+    tanks: WaterTank[];
+    wellStatus: "idle" | "running";
+  };
+}
+
+export interface AgentAction {
+  id: string;
+  timestamp: string;
+  trigger: string;
+  decision: string;
+  reasoning: string;
+  toolCalled: string;
+  params: Record<string, unknown>;
+  result: string;
+}
+
+export interface Alert {
+  id: string;
+  timestamp: string;
+  severity: Severity;
+  message: string;
+  channel: AlertChannel;
+  acknowledged: boolean;
+  /** true while offline and the send is deferred */
+  queued?: boolean;
+}
+
+export interface Task {
+  id: string;
+  timestamp: string;
+  assignee: string;
+  description: string;
+  verticalId?: string;
+  status: "open" | "done";
+}
+
+export interface LoadShedding {
+  shedFirst: string[];
+  shedNext: string[];
+  neverShed: string[];
+}
+
+export interface Farm {
+  name: string;
+  areaAcres: number;
+  location: { country: string; lat: number; lon: number; timezone: string };
+}
+
+export interface Twin {
+  farm: Farm;
+  online: boolean;
+  simulated: boolean;
+  resources: Resources;
+  verticals: Vertical[];
+  zones: Zone[];
+  assets: Asset[];
+  sensors: SensorSpec[];
+  readings: SensorReading[];
+  actions: AgentAction[];
+  alerts: Alert[];
+  tasks: Task[];
+  loadShedding: LoadShedding;
+  lastSeededAt: string;
+}
