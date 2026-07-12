@@ -5,6 +5,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import YAML from "yaml";
+import { defaultEnergySources } from "./energy";
 import type {
   Asset,
   Criticality,
@@ -78,6 +79,9 @@ interface RawConfig {
     energy: {
       solar_array_kw: number;
       battery: { capacity_kwh: number; soc_pct: number };
+      biogas?: { capacity_kw?: number };
+      genset?: { capacity_kw?: number };
+      wind?: { capacity_kw?: number };
     };
     water: {
       tanks: Array<{
@@ -218,6 +222,11 @@ export function seedTwin(file = configPath()): Twin {
       batteryCapacityKwh: cfg.resources.energy.battery.capacity_kwh,
       batterySoC: cfg.resources.energy.battery.soc_pct,
       loadKw,
+      sources: defaultEnergySources({
+        biogasCapKw: cfg.resources.energy.biogas?.capacity_kw,
+        gensetCapKw: cfg.resources.energy.genset?.capacity_kw,
+        windCapKw: cfg.resources.energy.wind?.capacity_kw,
+      }),
     },
     water: {
       tanks,

@@ -19,7 +19,9 @@ export function EnergyPanel({
 }) {
   const soc = energy.batterySoC;
   const color = socColor(soc);
-  const net = Math.round((energy.solarInputKw - energy.loadKw) * 100) / 100;
+  const s = energy.sources;
+  const generationKw = energy.solarInputKw + (s ? s.biogasKw + s.windKw + s.gensetKw : 0);
+  const net = Math.round((generationKw - energy.loadKw) * 100) / 100;
 
   return (
     <div className="rounded-xl border border-[--border] bg-[--panel] p-5">
@@ -27,15 +29,32 @@ export function EnergyPanel({
         <h2 className="text-sm font-semibold uppercase tracking-wide text-[--muted]">
           Energy
         </h2>
-        <span
-          className="rounded-full px-2 py-0.5 text-xs font-medium"
-          style={{
-            color,
-            background: "color-mix(in srgb, " + color + " 15%, transparent)",
-          }}
-        >
-          {net >= 0 ? "charging" : "draining"} {Math.abs(net)} kW
-        </span>
+        <div className="flex items-center gap-2">
+          {s && (
+            <span
+              className="rounded-full px-2 py-0.5 text-xs font-medium"
+              style={{
+                color: s.renewablePct >= 100 ? "var(--accent)" : "var(--warn)",
+                background:
+                  "color-mix(in srgb, " +
+                  (s.renewablePct >= 100 ? "var(--accent)" : "var(--warn)") +
+                  " 15%, transparent)",
+              }}
+              title="Share of current generation from solar + biogas + wind"
+            >
+              {s.renewablePct}% renewable{s.offGridCapable ? " · off-grid" : ""}
+            </span>
+          )}
+          <span
+            className="rounded-full px-2 py-0.5 text-xs font-medium"
+            style={{
+              color,
+              background: "color-mix(in srgb, " + color + " 15%, transparent)",
+            }}
+          >
+            {net >= 0 ? "charging" : "draining"} {Math.abs(net)} kW
+          </span>
+        </div>
       </div>
 
       <div className="flex items-center gap-5">
@@ -59,7 +78,16 @@ export function EnergyPanel({
         </div>
 
         <div className="flex-1 space-y-2">
-          <Metric label="Solar input" value={`${energy.solarInputKw} kW`} />
+          <Metric label="Solar" value={`${energy.solarInputKw} kW`} />
+          {s && <Metric label="Biogas" value={`${s.biogasKw} kW`} />}
+          {s && s.windCapKw > 0 && <Metric label="Wind" value={`${s.windKw} kW`} />}
+          {s && (
+            <Metric
+              label="Genset"
+              value={s.gensetOn ? `RUNNING ${s.gensetKw} kW` : "standby"}
+              accent={s.gensetOn ? "var(--warn)" : undefined}
+            />
+          )}
           <Metric label="Live load" value={`${energy.loadKw} kW`} />
           <Metric
             label="Capacity"
@@ -98,11 +126,13 @@ export function EnergyPanel({
   );
 }
 
-function Metric({ label, value }: { label: string; value: string }) {
+function Metric({ label, value, accent }: { label: string; value: string; accent?: string }) {
   return (
     <div className="flex items-baseline justify-between">
       <span className="text-xs text-[--muted]">{label}</span>
-      <span className="text-sm font-medium">{value}</span>
+      <span className="text-sm font-medium" style={accent ? { color: accent } : undefined}>
+        {value}
+      </span>
     </div>
   );
 }

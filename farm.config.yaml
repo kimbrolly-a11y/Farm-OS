@@ -52,10 +52,19 @@ resources:
     inverter:
       product: "Victron MultiPlus-II"
       ha_entity: sensor.inverter_load_w
-    backup:
-      product: "Diesel genset + planned biogas generator"
-      ha_entity: switch.generator
+    biogas:
+      product: "Anaerobic digester + biogas genset (POME + manure + food waste)"
+      ha_entity: sensor.biogas_output_kw
+      capacity_kw: 12                        # renewable baseload; output tracks digester CH4
+    genset:
+      product: "Diesel genset — last-resort backup only"
+      ha_entity: switch.genset
       criticality: important
+      capacity_kw: 20                        # auto-starts at SoC <= 10%, off again at 25%
+    wind:
+      product: "Small wind turbine (optional — Malaysian lowland wind is weak)"
+      ha_entity: sensor.wind_output_kw
+      capacity_kw: 3
   water:
     tanks:
       - id: tank-rain-1

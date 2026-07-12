@@ -5,6 +5,7 @@
 
 import { getTwin, recomputeLoad } from "./store";
 import { deriveInsights } from "./insights";
+import { updateEnergySources } from "./energy";
 import type { SensorReading, Twin, Vertical } from "./types";
 
 const TICK_MS = 3000;
@@ -275,11 +276,12 @@ export function tickOnce(twin: Twin = getTwin()): void {
     twin.readings.splice(0, twin.readings.length - MAX_HISTORY * twin.sensors.length);
   }
 
-  // 2. energy: solar in, battery integrates (solar - load)
+  // 2. energy: solar + biogas + wind (+ emergency genset), battery integrates (gen - load)
   const solar = solarInput(twin);
   twin.resources.energy.solarInputKw = solar;
+  const { totalKw: generationKw } = updateEnergySources(twin, solar);
   const loadKw = recomputeLoad(twin);
-  const netKw = solar - loadKw;
+  const netKw = generationKw - loadKw;
   const dSoC = (netKw * (TICK_MS / 3600000) / twin.resources.energy.batteryCapacityKwh) * 100;
   twin.resources.energy.batterySoC = Math.min(
     100,

@@ -84,6 +84,21 @@ export interface WaterTank {
   levelPct: number;
 }
 
+/** Generation mix beyond solar — biogas baseload, last-resort genset, optional wind. */
+export interface EnergySources {
+  biogasCapKw: number;
+  biogasKw: number; // live output, tracks digester CH4
+  gensetCapKw: number;
+  gensetKw: number; // live output, 0 unless emergency
+  gensetOn: boolean; // auto-start at SoC <= 10%, off again at 25%
+  windCapKw: number;
+  windKw: number; // live output (lowland Malaysia: modest)
+  /** share of current generation from renewables (solar + biogas + wind), % */
+  renewablePct: number;
+  /** islanded — solar + battery + biogas cover the farm with genset as last resort */
+  offGridCapable: boolean;
+}
+
 export interface Resources {
   energy: {
     solarArrayKw: number;
@@ -91,6 +106,7 @@ export interface Resources {
     batteryCapacityKwh: number;
     batterySoC: number; // percent
     loadKw: number; // live total draw from powered assets
+    sources: EnergySources;
   };
   water: {
     tanks: WaterTank[];

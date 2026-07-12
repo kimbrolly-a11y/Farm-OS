@@ -3,6 +3,7 @@
 // crisis before it happens, so the agent can act ahead of it rather than react.
 // Mirrors the off-grid AI pattern (forecast PV + SoC -> predictive load-shed).
 
+import { firmGenerationKw } from "./energy";
 import type { Twin } from "./types";
 
 export interface TrajectoryPoint {
@@ -48,6 +49,8 @@ export function forwardSimulate(
   const capacity = twin.resources.energy.batteryCapacityKwh;
   const arrayKw = twin.resources.energy.solarArrayKw;
   const startSoC = twin.resources.energy.batterySoC;
+  // weather-independent baseload generation (biogas + discounted wind)
+  const firmKw = firmGenerationKw(twin);
 
   const stepMin = 15;
   const steps = Math.round((hours * 60) / stepMin);
@@ -63,7 +66,7 @@ export function forwardSimulate(
     const minutesAhead = i * stepMin;
     const hour = (nowHour + minutesAhead / 60) % 24;
     const solarKw = solarAt(hour, arrayKw, cc);
-    const netKw = solarKw - loadKw;
+    const netKw = solarKw + firmKw - loadKw;
     soc = Math.min(100, Math.max(0, soc + (netKw * (stepMin / 60)) / capacity * 100));
     socFloor = Math.min(socFloor, soc);
     if (minsToCritical === null && soc <= 20) minsToCritical = minutesAhead;
