@@ -20,6 +20,12 @@ export function Welcome() {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
+      {/* hero landscape */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[46vh] bg-cover bg-bottom bg-no-repeat opacity-60"
+        style={{ backgroundImage: "url('/welcome-hero.svg')" }}
+      />
       {/* ambient glow */}
       <div className="pointer-events-none absolute -top-40 left-1/2 h-96 w-[42rem] -translate-x-1/2 rounded-full bg-[--accent] opacity-[0.12] blur-[100px]" />
 
