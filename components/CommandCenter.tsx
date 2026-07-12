@@ -33,6 +33,7 @@ const NAV_GROUPS: Array<{ label: string; links: Array<[string, string]> }> = [
   {
     label: "ops",
     links: [
+      ["/console", "Ask the farm"],
       ["/brief", "Morning brief"],
       ["/tasks", "Tasks"],
       ["/activity", "Activity"],

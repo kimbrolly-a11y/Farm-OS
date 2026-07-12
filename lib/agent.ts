@@ -26,11 +26,11 @@ import {
 } from "./tools/actions";
 import { runRuleEngine } from "./ruleEngine";
 
-const MODEL = "claude-fable-5";
+export const MODEL = "claude-fable-5";
 // Fable 5: thinking is always on (adaptive) — never send {type:"disabled"};
 // no temperature/top_p/top_k; safety classifiers can return stop_reason
 // "refusal", so we opt into the server-side fallback chain to Opus 4.8.
-const FALLBACK_MODEL = "claude-opus-4-8";
+export const FALLBACK_MODEL = "claude-opus-4-8";
 
 const SYSTEM_PROMPT = `You are the operations team for a one-person, off-grid eco-farm in Malaysia (Verdant Acres). \
 Your priorities, in order: (1) protect life-support loads and animals, (2) preserve water and battery through monsoon/cloud spells, \
@@ -48,7 +48,7 @@ interface AgentResult {
   actions: ReturnType<typeof getTwin>["actions"];
 }
 
-function buildTools() {
+export function buildTools() {
   const reasoning = {
     type: "string",
     description: "One sentence citing the sensor value or forecast fact that justifies this action.",
