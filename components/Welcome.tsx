@@ -57,10 +57,27 @@ export function Welcome() {
           </div>
         )}
 
+        {/* the concept in one strip */}
+        <div className="mt-8 grid gap-2 sm:grid-cols-4">
+          {[
+            { icon: "📡", title: "Sense", text: "one live twin — every animal, crop, tank & watt" },
+            { icon: "🔮", title: "Predict", text: "simulates hours ahead; acts before a crisis" },
+            { icon: "🤖", title: "Act", text: "Claude decides & operates; every action logged with reasoning" },
+            { icon: "♻️", title: "Sustain", text: "off-grid energy & water · zero-waste loops · resort on top" },
+          ].map((c) => (
+            <div key={c.title} className="rounded-xl border border-[--border] bg-[--panel] px-4 py-3">
+              <div className="text-sm font-semibold">
+                {c.icon} {c.title}
+              </div>
+              <div className="mt-0.5 text-xs leading-snug text-[--muted]">{c.text}</div>
+            </div>
+          ))}
+        </div>
+
         {/* vertical teaser strip */}
         <div className="mt-10">
           <div className="mb-3 text-xs uppercase tracking-wide text-[--muted]">
-            Ten operating verticals + processing
+            {verticalIds.length} operating verticals — livestock to lodging
           </div>
           <div className="grid grid-cols-6 gap-2 sm:grid-cols-11">
             {verticalIds.map((id) => (
@@ -84,6 +101,12 @@ export function Welcome() {
             className="rounded-xl border border-[--border] px-5 py-3 font-medium transition-colors hover:border-[--muted]"
           >
             Open command center
+          </Link>
+          <Link
+            href="/guest"
+            className="rounded-xl border border-[--border] px-5 py-3 font-medium text-[--muted] transition-colors hover:border-[--muted] hover:text-[--text]"
+          >
+            📱 Guest app
           </Link>
         </div>
       </div>

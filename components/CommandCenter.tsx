@@ -9,6 +9,36 @@ import { PredictivePanel } from "./PredictivePanel";
 import { VerticalCard } from "./VerticalCard";
 import { AlertsStrip } from "./AlertsStrip";
 
+const NAV_GROUPS: Array<{ label: string; links: Array<[string, string]> }> = [
+  {
+    label: "farm",
+    links: [
+      ["/verticals", "Verticals"],
+      ["/water", "Water"],
+      ["/loops", "Loops"],
+      ["/automations", "Automations"],
+    ],
+  },
+  {
+    label: "business",
+    links: [
+      ["/manage", "Manage · P&L"],
+      ["/inventory", "Inventory"],
+      ["/attractions", "Resort"],
+      ["/sustainability", "ESG"],
+    ],
+  },
+  {
+    label: "ops",
+    links: [
+      ["/tasks", "Tasks"],
+      ["/activity", "Activity"],
+      ["/guest", "Guest app"],
+      ["/controls", "Controls"],
+    ],
+  },
+];
+
 export function CommandCenter() {
   const { twin, history, error, loading, refetch } = useTwin(2000);
   const [apBusy, setApBusy] = useState(false);
@@ -121,74 +151,28 @@ export function CommandCenter() {
             />
             {twin.online ? "online" : "offline"}
           </span>
-          <Link
-            href="/verticals"
-            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
-          >
-            Verticals
-          </Link>
-          <Link
-            href="/manage"
-            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
-          >
-            Manage · P&amp;L
-          </Link>
-          <Link
-            href="/tasks"
-            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
-          >
-            Tasks
-          </Link>
-          <Link
-            href="/activity"
-            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
-          >
-            Activity log
-          </Link>
-          <Link
-            href="/inventory"
-            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
-          >
-            Inventory
-          </Link>
-          <Link
-            href="/loops"
-            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
-          >
-            Loops
-          </Link>
-          <Link
-            href="/water"
-            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
-          >
-            Water
-          </Link>
-          <Link
-            href="/sustainability"
-            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
-          >
-            ESG
-          </Link>
-          <Link
-            href="/attractions"
-            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
-          >
-            Resort
-          </Link>
-          <Link
-            href="/automations"
-            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
-          >
-            Automations
-          </Link>
-          <Link
-            href="/controls"
-            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
-          >
-            Controls
-          </Link>
         </div>
       </header>
+
+      {/* grouped nav */}
+      <nav className="mb-4 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+        {NAV_GROUPS.map((g) => (
+          <div key={g.label} className="flex items-center gap-1.5">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-[--muted]">
+              {g.label}
+            </span>
+            {g.links.map(([href, label]) => (
+              <Link
+                key={href}
+                href={href}
+                className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+        ))}
+      </nav>
 
       <section className="mb-4">
         <AlertsStrip alerts={twin.alerts} />
