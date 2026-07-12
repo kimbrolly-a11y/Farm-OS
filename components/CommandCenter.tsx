@@ -82,6 +82,12 @@ export function CommandCenter() {
             Manage · P&amp;L
           </Link>
           <Link
+            href="/tasks"
+            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
+          >
+            Tasks
+          </Link>
+          <Link
             href="/activity"
             className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
           >

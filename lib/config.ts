@@ -245,7 +245,11 @@ export function seedTwin(file = configPath()): Twin {
     readings: [],
     actions: [],
     alerts: [],
-    tasks: [],
+    tasks: [
+      { id: "task-1", timestamp: now, assignee: "Founder", description: "Restock chicken feed — below 100 kg", verticalId: "poultry", status: "open" },
+      { id: "task-2", timestamp: now, assignee: "Farmhand", description: "Verify cool-down on canning batch CN-0311 (HACCP hold)", verticalId: "food_processing", status: "open" },
+      { id: "task-3", timestamp: now, assignee: "Founder", description: "Harvest ripe FFB flagged by vision AI — Block 3", verticalId: "palm_oil", status: "open" },
+    ],
     loadShedding,
     syncQueue: [],
     sim: { tickCount: 0, cloudCover: 0.2, scenario: "normal", lastTickAt: null },
