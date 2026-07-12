@@ -27,7 +27,7 @@ export function Controls() {
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState<RunResult | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [busy, setBusy] = useState<null | "crisis" | "reset">(null);
+  const [busy, setBusy] = useState<null | "crisis" | "reset" | "outage">(null);
   const [crisis, setCrisis] = useState<CrisisResult | null>(null);
 
   async function runAgent() {
@@ -74,6 +74,22 @@ export function Controls() {
       setCrisis(null);
       setResult(null);
       refetch();
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function toggleOutage() {
+    if (!twin) return;
+    setBusy("outage");
+    setError(null);
+    try {
+      const endpoint = twin.online ? "/api/scenario/offline" : "/api/scenario/online";
+      const r = await fetch(endpoint, { method: "POST" });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      refetch();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "toggle failed");
     } finally {
       setBusy(null);
     }
@@ -137,6 +153,21 @@ export function Controls() {
             {busy === "crisis" ? "Running crisis…" : "⚡ Crisis — cloudy day, battery low"}
           </button>
           <button
+            onClick={toggleOutage}
+            disabled={busy !== null}
+            className={`rounded-lg border px-4 py-2 font-medium transition-colors disabled:opacity-50 ${
+              twin && !twin.online
+                ? "border-[--accent] text-[--accent] hover:bg-[color-mix(in_srgb,var(--accent)_12%,transparent)]"
+                : "border-[--warn] text-[--warn] hover:bg-[color-mix(in_srgb,var(--warn)_12%,transparent)]"
+            }`}
+          >
+            {busy === "outage"
+              ? "Toggling…"
+              : twin && !twin.online
+              ? "🔌 Reconnect (flush queue)"
+              : "🌩 Outage — grid + internet down"}
+          </button>
+          <button
             onClick={reset}
             disabled={busy !== null}
             className="rounded-lg border border-[--border] px-4 py-2 text-[--muted] transition-colors hover:border-[--muted] disabled:opacity-50"
@@ -144,6 +175,32 @@ export function Controls() {
             {busy === "reset" ? "Resetting…" : "Reset to normal"}
           </button>
         </div>
+
+        {twin && !twin.online && (
+          <div className="mt-4 rounded-lg border border-[--warn] bg-[color-mix(in_srgb,var(--warn)_8%,transparent)] p-4">
+            <div className="mb-2 flex items-center gap-2">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-[--warn]" />
+              <span className="font-semibold text-[--warn]">
+                OFFLINE — running autonomously
+              </span>
+            </div>
+            <p className="text-sm text-[--muted]">
+              Life-support protected · agent on cached rules + last forecast ·{" "}
+              {twin.syncQueue.length} external sync
+              {twin.syncQueue.length !== 1 ? "s" : ""} queued:
+            </p>
+            <div className="mt-2 flex flex-wrap gap-1">
+              {twin.syncQueue.map((s) => (
+                <span
+                  key={s.id}
+                  className="rounded bg-[color-mix(in_srgb,var(--warn)_15%,transparent)] px-1.5 py-0.5 text-[10px] text-[--warn]"
+                >
+                  ⏳ {s.label}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
 
         {crisis && (
           <div className="mt-4 rounded-lg border border-[--danger] bg-[color-mix(in_srgb,var(--danger)_8%,transparent)] p-4">

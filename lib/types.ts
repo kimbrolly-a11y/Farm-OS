@@ -145,6 +145,8 @@ export interface Twin {
   alerts: Alert[];
   tasks: Task[];
   loadShedding: LoadShedding;
+  /** external cloud syncs deferred while offline; flushed on reconnect */
+  syncQueue: Array<{ id: string; type: string; label: string; queuedAt: string }>;
   /** live simulator / weather state */
   sim: {
     tickCount: number;

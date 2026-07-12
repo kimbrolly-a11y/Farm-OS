@@ -31,11 +31,66 @@ export async function armCrisis() {
   return { ...result, protectedOn, shed, batterySoC: twin.resources.energy.batterySoC };
 }
 
+/** OUTAGE — grid + internet down: run degraded, queue external syncs, keep life-support. */
+export async function goOffline() {
+  const twin = getTwin();
+  twin.online = false;
+  const now = new Date().toISOString();
+  // cloud integrations can't be reached — defer them
+  twin.syncQueue = [
+    { id: "sync-beds24", type: "bookings", label: "Beds24 booking sync", queuedAt: now },
+    { id: "sync-pos", type: "pos", label: "Loyverse POS upload", queuedAt: now },
+    { id: "sync-weather", type: "weather", label: "Open-Meteo forecast refresh", queuedAt: now },
+    { id: "sync-accounting", type: "accounting", label: "Wave accounting export", queuedAt: now },
+  ];
+
+  setTrigger("grid + internet outage");
+  logAction(twin, {
+    decision: "Entered offline mode",
+    reasoning:
+      "Grid and internet are down. FarmOS runs autonomously on cached rules + last forecast; external syncs and cloud alerts are queued until reconnect.",
+    toolCalled: "scenario",
+    params: { online: false },
+    result: `degraded mode · ${twin.syncQueue.length} syncs queued · life-support protected`,
+  });
+
+  const result = await runAgent("grid + internet outage");
+  return {
+    online: false,
+    queued: twin.syncQueue.length,
+    queue: twin.syncQueue,
+    ...result,
+  };
+}
+
+/** RECONNECT — flush the queued syncs + cloud alerts. */
+export function goOnline() {
+  const twin = getTwin();
+  twin.online = true;
+  const flushedSyncs = twin.syncQueue.length;
+  const queue = twin.syncQueue;
+  twin.syncQueue = [];
+  const queuedAlerts = twin.alerts.filter((a) => a.queued);
+  queuedAlerts.forEach((a) => (a.queued = false));
+
+  setTrigger("reconnected");
+  logAction(twin, {
+    decision: "Reconnected — flushed queue",
+    reasoning: `Connectivity restored. Flushed ${flushedSyncs} queued external syncs and sent ${queuedAlerts.length} deferred cloud alert(s).`,
+    toolCalled: "scenario",
+    params: { online: true },
+    result: `flushed ${flushedSyncs} syncs + ${queuedAlerts.length} alerts`,
+  });
+  return { online: true, flushedSyncs, flushedAlerts: queuedAlerts.length, queue };
+}
+
 /** RESET — back to a healthy normal state; restore every shed load. */
 export function resetScenario() {
   const twin = getTwin();
   twin.sim.scenario = "normal";
   twin.sim.cloudCover = 0.2;
+  twin.online = true;
+  twin.syncQueue = [];
   twin.resources.energy.batterySoC = 68;
   for (const a of twin.assets) a.state = "on";
   recomputeLoad(twin);
