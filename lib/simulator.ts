@@ -56,6 +56,10 @@ const METRIC_MODELS: Record<string, MetricModel> = {
   o2: { base: 18, jitter: 0.5, min: 0, max: 21, decimals: 1 },
   tank_level: { base: 55, jitter: 1, min: 5, max: 100, decimals: 0 },
   bee_activity: { base: 45, jitter: 6, min: 0, max: 200, decimals: 0 },
+  // livestock expansion
+  milk_yield: { base: 210, jitter: 6, min: 0, max: 400, decimals: 0 },
+  rumination: { base: 480, jitter: 8, min: 300, max: 620, decimals: 0 },
+  activity: { base: 65, jitter: 4, min: 0, max: 100, decimals: 0 },
 };
 
 function localHour(twin: Twin): number {
@@ -183,6 +187,46 @@ function updateVerticals(twin: Twin) {
         const status =
           chamber === undefined ? "ok" : chamber > -10 ? "warning" : "ok";
         set(v, "Line throughput", cph, " cans/hr", status);
+        break;
+      }
+      case "dairy_cattle": {
+        const milk = val("cattle-barn:milk_yield");
+        const rum = val("cattle-barn:rumination");
+        const status = rum === undefined ? "ok" : rum < 380 ? "warning" : "ok";
+        set(v, "Milk yield", milk, " L/day", status);
+        break;
+      }
+      case "dairy_goats": {
+        const milk = val("goat-barn:milk_yield");
+        set(v, "Milk yield", milk, " L/day", "ok");
+        break;
+      }
+      case "sheep": {
+        const act = val("pasture-a:activity");
+        set(v, "Flock activity", act, " idx", "ok");
+        break;
+      }
+      case "ducks": {
+        const eggs = val("duck-house:eggs_today");
+        set(v, "Eggs today", eggs, "", "ok");
+        break;
+      }
+      case "rabbits": {
+        const t = val("rabbitry:temperature");
+        const status = t === undefined ? "ok" : t > 30 ? "warning" : "ok";
+        set(v, "Rabbitry temp", t, "°C", status);
+        break;
+      }
+      case "horses": {
+        const t = val("stables:temperature");
+        set(v, "Stable temp", t, "°C", "ok");
+        break;
+      }
+      case "aquaculture": {
+        const doVal = val("pond-1:dissolved_oxygen");
+        const status =
+          doVal === undefined ? "ok" : doVal < 4 ? "critical" : doVal < 5 ? "warning" : "ok";
+        set(v, "Pond O₂", doVal, " mg/L", status);
         break;
       }
       case "recycling": {

@@ -381,6 +381,132 @@ verticals:
           - { metric: humidity,    unit: "%", product: "Ecowitt WN31", protocol: Zigbee, ha_entity: sensor.processing_room_humidity }
           - { metric: power_kw,    unit: kW, product: "Shelly 3EM sub-meter", protocol: WiFi, ha_entity: sensor.processing_power }
 
+  - id: dairy_cattle
+    name: "Dairy Cattle"
+    zones:
+      - id: cattle-barn
+        assets:
+          - { id: milking_robot,  type: milking_robot, criticality: important,
+              hardware: "Robotic milking system (Lely/DeLaval-class)", protocol: WiFi, ha_entity: switch.milking_robot }
+          - { id: cattle_feeder,  type: feeder,      criticality: life_support,
+              hardware: "Automated TMR feeder + Shelly", protocol: WiFi, ha_entity: switch.cattle_feeder }
+          - { id: cattle_fans,    type: fan,         criticality: life_support,
+              hardware: "Barn cooling fans + misters + Shelly Pro", protocol: WiFi, ha_entity: fan.cattle_barn }
+          - { id: cattle_water,   type: water_valve, criticality: life_support,
+              hardware: "Auto trough + Shelly", protocol: WiFi, ha_entity: switch.cattle_water }
+        sensors:
+          - { metric: milk_yield,  unit: "L/day", product: "In-line milk meter", protocol: Modbus, ha_entity: sensor.cattle_milk_yield }
+          - { metric: temperature, unit: C, product: "Barn Zigbee sensor", protocol: Zigbee, ha_entity: sensor.cattle_barn_temp }
+          - { metric: rumination,  unit: "min/day", product: "SCR/Allflex health collar", protocol: WiFi, ha_entity: sensor.cattle_rumination }
+
+  - id: dairy_goats
+    name: "Dairy Goats"
+    zones:
+      - id: goat-barn
+        assets:
+          - { id: goat_milker, type: milking_robot, criticality: important,
+              hardware: "Compact goat milking parlour + Shelly", protocol: WiFi, ha_entity: switch.goat_milker }
+          - { id: goat_feeder, type: feeder,      criticality: life_support,
+              hardware: "Auto feeder + Shelly", protocol: WiFi, ha_entity: switch.goat_feeder }
+          - { id: goat_water,  type: water_valve, criticality: life_support,
+              hardware: "Auto trough + Shelly", protocol: WiFi, ha_entity: switch.goat_water }
+          - { id: goat_fans,   type: fan,         criticality: important,
+              hardware: "Barn fans + Shelly", protocol: WiFi, ha_entity: fan.goat_barn }
+        sensors:
+          - { metric: milk_yield,  unit: "L/day", product: "Milk meter", protocol: Modbus, ha_entity: sensor.goat_milk_yield }
+          - { metric: temperature, unit: C, product: "Barn Zigbee sensor", protocol: Zigbee, ha_entity: sensor.goat_barn_temp }
+          - { metric: activity,    unit: "idx", product: "Activity collar", protocol: WiFi, ha_entity: sensor.goat_activity }
+
+  - id: sheep
+    name: "Sheep"
+    zones:
+      - id: pasture-a
+        assets:
+          - { id: sheep_water,   type: water_valve,   criticality: life_support,
+              hardware: "Solar auto trough + Shelly", protocol: WiFi, ha_entity: switch.sheep_water }
+          - { id: sheep_mineral, type: feeder,        criticality: important,
+              hardware: "Mineral/supplement feeder", protocol: WiFi, ha_entity: switch.sheep_mineral }
+          - { id: virtual_fence, type: virtual_fence, criticality: important,
+              hardware: "Nofence/Halter GPS grazing collars", protocol: LoRaWAN, ha_entity: switch.virtual_fence }
+        sensors:
+          - { metric: activity,      unit: "idx", product: "GPS collar", protocol: LoRaWAN, ha_entity: sensor.sheep_activity }
+          - { metric: soil_moisture, unit: "%", product: "Pasture soil probe", protocol: LoRaWAN, ha_entity: sensor.pasture_a_soil }
+          - { metric: temperature,   unit: C, product: "Field sensor", protocol: LoRaWAN, ha_entity: sensor.pasture_a_temp }
+
+  - id: ducks
+    name: "Ducks"
+    zones:
+      - id: duck-house
+        assets:
+          - { id: duck_feeder,  type: feeder,      criticality: life_support,
+              hardware: "Auto feeder + Shelly", protocol: WiFi, ha_entity: switch.duck_feeder }
+          - { id: duck_water,   type: water_valve, criticality: life_support,
+              hardware: "Auto waterer + Shelly", protocol: WiFi, ha_entity: switch.duck_water }
+          - { id: duck_aerator, type: aerator,     criticality: important,
+              hardware: "Duck-pond aerator + Shelly", protocol: WiFi, ha_entity: switch.duck_aerator }
+        sensors:
+          - { metric: eggs_today,  unit: count, product: "Vision egg counter", ha_entity: sensor.duck_eggs }
+          - { metric: water_temp,  unit: C, product: "Pond DS18B20", protocol: I2C-ESP32, ha_entity: sensor.duck_pond_temp }
+          - { metric: temperature, unit: C, product: "House Zigbee sensor", protocol: Zigbee, ha_entity: sensor.duck_house_temp }
+
+  - id: rabbits
+    name: "Rabbits"
+    zones:
+      - id: rabbitry
+        assets:
+          - { id: rabbit_feeder, type: feeder,      criticality: life_support,
+              hardware: "Auto feeder + Shelly", protocol: WiFi, ha_entity: switch.rabbit_feeder }
+          - { id: rabbit_water,  type: water_valve, criticality: life_support,
+              hardware: "Auto nipple waterer + Shelly", protocol: WiFi, ha_entity: switch.rabbit_water }
+          - { id: rabbit_fans,   type: fan,         criticality: important,
+              hardware: "Ventilation fans + Shelly", protocol: WiFi, ha_entity: fan.rabbitry }
+        sensors:
+          - { metric: temperature, unit: C, product: "Zigbee sensor", protocol: Zigbee, ha_entity: sensor.rabbitry_temp }
+          - { metric: humidity,    unit: "%", product: "Zigbee sensor", protocol: Zigbee, ha_entity: sensor.rabbitry_humidity }
+          - { metric: activity,    unit: "idx", product: "Cage IR activity", protocol: I2C-ESP32, ha_entity: sensor.rabbitry_activity }
+
+  - id: horses
+    name: "Horses (Stables)"
+    zones:
+      - id: stables
+        assets:
+          - { id: horse_feeder, type: feeder,      criticality: life_support,
+              hardware: "Auto feeder + Shelly", protocol: WiFi, ha_entity: switch.horse_feeder }
+          - { id: horse_water,  type: water_valve, criticality: life_support,
+              hardware: "Auto trough + Shelly", protocol: WiFi, ha_entity: switch.horse_water }
+          - { id: stable_fans,  type: fan,         criticality: important,
+              hardware: "Stable fans + Shelly", protocol: WiFi, ha_entity: fan.stables }
+          - { id: stable_cam,   type: camera,      criticality: discretionary,
+              hardware: "Stable CCTV + edge AI", protocol: WiFi, ha_entity: camera.stables }
+        sensors:
+          - { metric: temperature, unit: C, product: "Stable Zigbee sensor", protocol: Zigbee, ha_entity: sensor.stables_temp }
+          - { metric: activity,    unit: "idx", product: "Equine activity monitor", protocol: WiFi, ha_entity: sensor.horse_activity }
+
+  - id: aquaculture
+    name: "Aquaculture (Ponds)"
+    zones:
+      - id: pond-1
+        assets:
+          - { id: pond1_aerator, type: aerator,     criticality: life_support,
+              hardware: "Paddlewheel aerator + Shelly", protocol: WiFi, ha_entity: switch.pond1_aerator }
+          - { id: pond1_feeder,  type: fish_feeder, criticality: important,
+              hardware: "AI camera auto-feeder", protocol: WiFi, ha_entity: switch.pond1_feeder }
+        sensors:
+          - { metric: dissolved_oxygen, unit: "mg/L", product: "Atlas EZO-DO probe", protocol: I2C-ESP32, ha_entity: sensor.pond1_do }
+          - { metric: ph,          unit: pH, product: "Atlas EZO-pH", protocol: I2C-ESP32, ha_entity: sensor.pond1_ph }
+          - { metric: ammonia,     unit: ppm, product: "ISE probe", ha_entity: sensor.pond1_ammonia }
+          - { metric: water_temp,  unit: C, product: "DS18B20", protocol: I2C-ESP32, ha_entity: sensor.pond1_temp }
+      - id: pond-2-prawn
+        assets:
+          - { id: pond2_aerator, type: aerator,     criticality: life_support,
+              hardware: "Paddlewheel aerator + Shelly", protocol: WiFi, ha_entity: switch.pond2_aerator }
+          - { id: pond2_feeder,  type: fish_feeder, criticality: important,
+              hardware: "Prawn auto-feeder", protocol: WiFi, ha_entity: switch.pond2_feeder }
+        sensors:
+          - { metric: dissolved_oxygen, unit: "mg/L", product: "Atlas EZO-DO probe", protocol: I2C-ESP32, ha_entity: sensor.pond2_do }
+          - { metric: water_temp,  unit: C, product: "DS18B20", protocol: I2C-ESP32, ha_entity: sensor.pond2_temp }
+          - { metric: ammonia,     unit: ppm, product: "ISE probe", ha_entity: sensor.pond2_ammonia }
+
 # ---------------------------------------------------------------------------
 # LOAD-SHEDDING LADDER  — the agent obeys this in an energy crisis.
 #   Shed discretionary -> important (only if severe).  NEVER shed life_support.
@@ -389,14 +515,19 @@ load_shedding:
   shed_first:  [hydro1_lights, hydro1_farmbot, orchard_mower, cabin1_ac, cabin1_water_heater, farmbot,
                 canning_conveyor, canning_labeler, dehydrator_1, vacuum_sealer, pulper_mill, palm_ripeness_cam,
                 coop1_light, growbed_led, hydro2_exhaust, hydro2_co2, orchard_bird_deterrent,
-                cabin2_ac, resto_exhaust_hood, resto_dishwasher, zoo_misting_fan, compost_mixer]
+                cabin2_ac, resto_exhaust_hood, resto_dishwasher, zoo_misting_fan, compost_mixer, stable_cam]
   shed_next:   [orchard_valve_a, blast_chiller, coop1_feeder,
                 retort_1, can_seamer, freeze_dryer_1, fd_vacuum_pump, fd_condenser,
                 palm1_fertigation, palm2_fertigation, palm1_valve, palm2_valve, palm3_valve,
                 growbed_solenoid, hydro2_circpump, orchard_fertigation_b, cabin2_fridge,
-                walk_in_freezer, zoo_feeder, zoo_gate, digester_blower, leachate_pump]
+                walk_in_freezer, zoo_feeder, zoo_gate, digester_blower, leachate_pump,
+                milking_robot, goat_milker, goat_fans, rabbit_fans, stable_fans, sheep_mineral,
+                virtual_fence, duck_aerator, pond1_feeder, pond2_feeder]
   never_shed:  [coop1_fans, incubator_1, aqua1_aerator, aqua1_circpump, cold_room_1, well_pump,
-                brooder_heater, growbed_pump]
+                brooder_heater, growbed_pump,
+                cattle_feeder, cattle_fans, cattle_water, goat_feeder, goat_water,
+                sheep_water, duck_feeder, duck_water, rabbit_feeder, rabbit_water,
+                horse_feeder, horse_water, pond1_aerator, pond2_aerator]
 
 # ---------------------------------------------------------------------------
 # ALERT ROUTING  (Malaysia = WhatsApp first)

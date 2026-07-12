@@ -54,6 +54,9 @@ const POWER_DRAW: Record<string, number> = {
   smart_lock: 4,
   dishwasher: 1800,
   gate: 40,
+  // livestock expansion
+  milking_robot: 1200,
+  virtual_fence: 5,
 };
 
 function drawFor(type: string): number {

@@ -102,6 +102,88 @@ function Icon({ id, color, dark }: { id: string; color: string; dark: string }) 
           <rect x="33" y="50" width="34" height="13" fill={color} opacity="0.55" />
         </g>
       );
+    case "dairy_cattle":
+      return (
+        <g>
+          <rect x="30" y="44" width="40" height="36" rx="14" fill={w} />
+          <ellipse cx="50" cy="40" rx="11" ry="7" fill={color} opacity="0.4" />
+          <ellipse cx="26" cy="46" rx="7" ry="4.5" fill={w} />
+          <ellipse cx="74" cy="46" rx="7" ry="4.5" fill={w} />
+          <circle cx="43" cy="52" r="3" fill={dark} />
+          <circle cx="57" cy="52" r="3" fill={dark} />
+          <ellipse cx="43" cy="70" rx="3.5" ry="5" fill={dark} />
+          <ellipse cx="57" cy="70" rx="3.5" ry="5" fill={dark} />
+        </g>
+      );
+    case "dairy_goats":
+      return (
+        <g>
+          <ellipse cx="50" cy="54" rx="15" ry="18" fill={w} />
+          <path d="M40 40 Q30 26 40 22" stroke={w} strokeWidth="4" fill="none" strokeLinecap="round" />
+          <path d="M60 40 Q70 26 60 22" stroke={w} strokeWidth="4" fill="none" strokeLinecap="round" />
+          <path d="M50 72 v9" stroke={w} strokeWidth="4" strokeLinecap="round" />
+          <circle cx="44" cy="52" r="2.6" fill={dark} />
+          <circle cx="56" cy="52" r="2.6" fill={dark} />
+        </g>
+      );
+    case "sheep":
+      return (
+        <g>
+          <g fill={w}>
+            <circle cx="36" cy="52" r="12" />
+            <circle cx="50" cy="44" r="13" />
+            <circle cx="64" cy="52" r="12" />
+            <circle cx="44" cy="64" r="12" />
+            <circle cx="58" cy="64" r="12" />
+          </g>
+          <ellipse cx="50" cy="60" rx="9" ry="11" fill={dark} />
+          <circle cx="46" cy="58" r="1.8" fill={w} />
+          <circle cx="54" cy="58" r="1.8" fill={w} />
+        </g>
+      );
+    case "ducks":
+      return (
+        <g>
+          <ellipse cx="45" cy="58" rx="24" ry="15" fill={w} />
+          <circle cx="66" cy="44" r="10" fill={w} />
+          <polygon points="74,44 88,42 74,50" fill={color} />
+          <circle cx="66" cy="42" r="2.4" fill={dark} />
+        </g>
+      );
+    case "rabbits":
+      return (
+        <g fill={w}>
+          <ellipse cx="42" cy="32" rx="5.5" ry="17" transform="rotate(-12 42 32)" />
+          <ellipse cx="58" cy="32" rx="5.5" ry="17" transform="rotate(12 58 32)" />
+          <circle cx="50" cy="58" r="18" />
+          <circle cx="44" cy="56" r="2.6" fill={dark} />
+          <circle cx="56" cy="56" r="2.6" fill={dark} />
+          <circle cx="50" cy="63" r="2" fill={color} />
+        </g>
+      );
+    case "horses":
+      return (
+        <g>
+          <path d="M32 26 C 26 80, 74 80, 68 26" fill="none" stroke={w} strokeWidth="8" strokeLinecap="round" />
+          <g fill={w}>
+            <circle cx="31" cy="42" r="2.4" />
+            <circle cx="33" cy="58" r="2.4" />
+            <circle cx="40" cy="70" r="2.4" />
+            <circle cx="69" cy="42" r="2.4" />
+            <circle cx="67" cy="58" r="2.4" />
+            <circle cx="60" cy="70" r="2.4" />
+          </g>
+        </g>
+      );
+    case "aquaculture":
+      return (
+        <g>
+          <ellipse cx="44" cy="44" rx="20" ry="12" fill={w} />
+          <polygon points="62,44 78,36 78,52" fill={w} />
+          <circle cx="34" cy="41" r="2.6" fill={dark} />
+          <path d="M20 68 q8 -6 16 0 t16 0 t16 0" fill="none" stroke={w} strokeWidth="4" strokeLinecap="round" />
+        </g>
+      );
     default:
       return <circle cx="50" cy="50" r="24" fill={w} />;
   }

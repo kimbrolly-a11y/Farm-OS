@@ -21,6 +21,13 @@ export const VERTICAL_VISUALS: Record<string, VerticalVisual> = {
   recycling: { color: "#7bd44a", gradient: ["#213a12", "#0b0f0a"], tagline: "Biogas, compost & circularity" },
   beekeeping: { color: "#ffcb2e", gradient: ["#4a3a0e", "#0f0d0a"], tagline: "Apiaries & hive monitoring" },
   food_processing: { color: "#3a9bd8", gradient: ["#123245", "#0a0d0f"], tagline: "Canning, freeze-drying & processing" },
+  dairy_cattle: { color: "#d9b38c", gradient: ["#3a2c1c", "#0f0c0a"], tagline: "Milking herd & dairy" },
+  dairy_goats: { color: "#c9a24a", gradient: ["#3a2f14", "#0f0d0a"], tagline: "Goat milk & cheese" },
+  sheep: { color: "#cfd3d6", gradient: ["#2a2f33", "#0c0e0f"], tagline: "Silvopasture flock" },
+  ducks: { color: "#5bb98c", gradient: ["#123a2c", "#0a0f0c"], tagline: "Ducks, eggs & ponds" },
+  rabbits: { color: "#d98fb0", gradient: ["#3a1f2c", "#0f0a0c"], tagline: "Rabbitry" },
+  horses: { color: "#b0764f", gradient: ["#3a2416", "#0f0b0a"], tagline: "Stables & riding" },
+  aquaculture: { color: "#3aa0c8", gradient: ["#123845", "#0a0d0f"], tagline: "Fish & prawn ponds" },
 };
 
 export function visualFor(id: string): VerticalVisual {
