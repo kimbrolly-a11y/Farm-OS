@@ -144,3 +144,17 @@ cabin_exterior   cabin_interior    cabin_cluster      (farm cabins / bungalows)
 Suggested use: a "Where to stay" gallery on `/guest` or the `lodging` detail — three
 cards (Hotel / Glamping / Cabins) each leading with its exterior shot, interior on
 hover or in a lightbox. Same offline-safe `<img src="/img/stays/<name>.jpg">` pattern.
+
+---
+
+## FARM MAP ✅ (2026-07-12) — `public/img/map/<name>.jpg` (4 styles)
+
+- `map_iso_hud`    — isometric digital-twin map, glowing cyan data streams (dark). ⭐ hero / `/twin`
+- `map_isometric`  — clean tilt-shift 3D island on white (light theme).
+- `map_illustrated`— playful storybook resort map (guest-facing `/guest` / `/attractions`).
+- `map_aerial`     — photoreal golden-hour drone establishing shot.
+
+Suggested use: a **Farm Map** section (new `/map` route or on `/twin` / Welcome) leading
+with `map_iso_hud`, with clickable zone hotspots → each vertical detail. Overlay real
+zone **labels in HTML/SVG** on top (the AI image has no readable text by design), e.g. a
+`position:absolute` legend + numbered markers linking to `/vertical/<id>`.

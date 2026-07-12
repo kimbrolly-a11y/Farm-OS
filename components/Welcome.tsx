@@ -146,6 +146,12 @@ export function Welcome() {
             Open command center
           </Link>
           <Link
+            href="/map"
+            className="rounded-xl border border-[--border] px-5 py-3 font-medium text-[--muted] transition-colors hover:border-[--muted] hover:text-[--text]"
+          >
+            🗺️ Farm map
+          </Link>
+          <Link
             href="/guest"
             className="rounded-xl border border-[--border] px-5 py-3 font-medium text-[--muted] transition-colors hover:border-[--muted] hover:text-[--text]"
           >
