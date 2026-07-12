@@ -42,28 +42,54 @@ and the **crisis + resilience scenarios must stay green at every commit**.
 - If `.env.local` has no `ANTHROPIC_API_KEY`, the agent falls back to the rule
   engine — that's fine, proceed; the owner can add the key later.
 
-**Priority order (each numbered item is a commit boundary — stop wherever the
-clock runs out; the app is always demoable between items):**
-1. Switch agent to **Fable 5** + verify (`POST /api/agent/run`). (~5 min)
-2. **Phase-1 livestock** in `farm.config.yaml`: dairy cattle, dairy goats, sheep,
-   **ducks**, rabbits, horses, aquaculture ponds (tilapia/catfish/prawn) — with
-   zones/assets/sensors + criticality (animal vitals + potable = `life_support` →
-   `never_shed`). For each: add metric models (`simulator.ts`), power draws
-   (`config.ts` `POWER_DRAW`), KPIs (`updateVerticals`), AI insights
-   (`insights.ts`), automations (`automations.ts`). **Commit per vertical.**
-3. **Energy sources:** add **biogas** + genset (+ optional wind) to `resources` +
-   simulator + predictive. Commit.
-4. **Water:** rainwater/well/greywater sources + **natural treatment** + the
-   shortage-priority ladder as a module + agent tool. Commit.
-5. **Circular-loops module** (spec §7) + a `/loops` page showing flows +
-   waste-derived products. Commit.
-6. **Dairy/milking + silvopasture** automation; **processing** (charcoal/biochar/
-   compost/soap) into Inventory + P&L. Commit.
-7. **If time remains:** Sustainability/ESG, Bookings/POS, a guest-app stub,
-   attractions module — as much as fits, each demoable + committed.
-8. **Final:** `npm run build` green; update HANDOFF §4 "what's built"; final commit.
+**PRESENTATION-FIRST — the most important rule.** The owner must be able to demo
+the CONCEPT at the hackathon at ANY point. So: (a) keep the app running and **the
+demo script below working at every commit**; (b) prioritize **breadth + story over
+depth** — a visible, believable slice of each idea beats one perfect module;
+(c) never break the welcome→gallery→dashboard flow, the Autopilot+Crisis demo, or
+the Manage/Loops pages. If unsure whether a change risks the demo, commit the safe
+version.
 
-Full farm definition + all phases beyond the 2-hour window: `FARMOS-MASTER-SPEC.md`.
+**THE DEMO THAT MUST ALWAYS WORK (protect it — this IS the pitch):**
+1. `/` Welcome → *Explore the farm* → `/verticals` (18 verticals with art).
+2. `/dashboard` → toggle **🛰 Autopilot ON** → `/controls` → **⚡ Crisis** → *do
+   nothing* → `/activity` shows the AI shedding discretionary loads while
+   protecting animals + life-support, on its own. Then **🌩 Outage** → offline
+   resilience. Then **Reset**.
+3. `/manage` (live P&L, all verticals) · `/loops` (circular zero-waste map, 92%) ·
+   any `/vertical/*` (live sensors + AI insights + automations).
+The story: **an autonomous AI running a self-sufficient, circular, off-grid
+eco-tourism farm with the least possible manpower.**
+
+**Already done (do NOT redo)** — everything in §4, **including** the 7 livestock
+verticals and the circular-loops `/loops` page. Build is GREEN. Start below.
+
+**Priority order from here (each = a commit; stop anywhere, demo still works):**
+1. Switch agent to **Fable 5** (`lib/agent.ts` `MODEL`) + verify
+   (`POST /api/agent/run` → `mode:"claude"`). (~5 min)
+2. **Energy sources** — add **biogas** + genset (+ optional wind) to `resources` +
+   simulator + the energy/predictive panel; surface "% renewable · off-grid
+   capable". Commit.
+3. **Water** — sources (well/rain/greywater) + **natural treatment** (biosand →
+   farm-made activated carbon → solar UV) + the shortage ladder, as a module + a
+   `/water` panel; add potable to the protected set. Commit.
+4. **Sustainability / ESG dashboard** (`/sustainability`) — self-sufficiency %,
+   water reuse, circularity (from `/loops`), carbon avoided, ESG score. Ties the
+   whole green story into one screen — high pitch value. Commit.
+5. **Hospitality + attractions (breadth for the story, not depth)** — lodging
+   scale (hotel + bungalows + glamping) + the "Verdant World" attractions
+   (`FARMOS-MASTER-SPEC.md` §8) as modules + an `/attractions` page + a bookings
+   stub. Demoable, shallow is fine. Commit each.
+6. **Guest-app stub** (`/guest`) — book, farm map, animal cams, adopt-an-animal —
+   to show the two-sided concept. Commit.
+7. **Presentation polish** — group the (now long) dashboard nav, add a one-screen
+   "concept" summary to the welcome page, keep every page fast. Commit.
+8. **If genuinely finishing:** continue down `FARMOS-MASTER-SPEC.md` P2–P5.
+   Otherwise stop — the demo above already tells the whole story.
+
+Final: `npm run build` green; update §4 "what's built"; final commit.
+
+Full farm definition + all phases: `FARMOS-MASTER-SPEC.md`.
 
 ---
 
@@ -119,7 +145,11 @@ Twin Core (11 verticals, 24 zones, 59 assets, 61 sensors) · Manage·P&L ·
 Predictive intelligence · AI insights + Automations/equipment · Inventory &
 farm-to-table traceability (HACCP) · Workforce/Tasks · **Autopilot** (autonomous
 mode; predictive, idempotent rule engine) · Welcome screen + visual vertical
-gallery + per-vertical SVG art. Clean tree on `master` (PR default: `main`).
+gallery + per-vertical SVG art · **Livestock expansion** (7 verticals: dairy
+cattle/goats, sheep, ducks, rabbits, horses, aquaculture — animal vitals
+`never_shed`) · **Circular resource-loops** (`/loops`, zero-waste map). **Now: 18
+verticals, 32 zones, 84 assets, 85 sensors, 22 protected loads.** Clean tree on
+`master` (PR default: `main`).
 
 ## 5. File map
 
