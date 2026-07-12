@@ -20,6 +20,53 @@
 
 ---
 
+## 0. AUTONOMOUS 2-HOUR RUN — READ FIRST
+
+You are running **unattended for ~2 hours**. The owner is NOT available — **do
+NOT ask questions**; make sensible defaults from `FARMOS-MASTER-SPEC.md` and keep
+going. Optimize for **maximum committed, demoable progress**. The app must run
+and the **crisis + resilience scenarios must stay green at every commit**.
+
+**Operating rules**
+- Set `MODEL = "claude-fable-5"` in `lib/agent.ts`; run at **high/xhigh effort**.
+- Work in small increments. Run `npm run build` (typecheck) **then commit every
+  increment (~10–20 min)**. Never leave the tree broken.
+- **Restart `npm run dev` after any twin-shape change** (`lib/types.ts` /
+  `lib/config.ts` seed) — it re-seeds; stale-shape twins throw.
+- Do NOT rebuild existing modules. **Extend** `farm.config.yaml` + `lib/` per the
+  module pattern (§5). Follow existing code style.
+- Keep the **life-support guard**; add the new animals' vital loads + **potable
+  water** to `never_shed` (animals + drinking water are life-support now).
+- If a task is too big to finish in the remaining time, **don't start it** — pick
+  the next smaller one that leaves the app demoable + committed.
+- If `.env.local` has no `ANTHROPIC_API_KEY`, the agent falls back to the rule
+  engine — that's fine, proceed; the owner can add the key later.
+
+**Priority order (each numbered item is a commit boundary — stop wherever the
+clock runs out; the app is always demoable between items):**
+1. Switch agent to **Fable 5** + verify (`POST /api/agent/run`). (~5 min)
+2. **Phase-1 livestock** in `farm.config.yaml`: dairy cattle, dairy goats, sheep,
+   **ducks**, rabbits, horses, aquaculture ponds (tilapia/catfish/prawn) — with
+   zones/assets/sensors + criticality (animal vitals + potable = `life_support` →
+   `never_shed`). For each: add metric models (`simulator.ts`), power draws
+   (`config.ts` `POWER_DRAW`), KPIs (`updateVerticals`), AI insights
+   (`insights.ts`), automations (`automations.ts`). **Commit per vertical.**
+3. **Energy sources:** add **biogas** + genset (+ optional wind) to `resources` +
+   simulator + predictive. Commit.
+4. **Water:** rainwater/well/greywater sources + **natural treatment** + the
+   shortage-priority ladder as a module + agent tool. Commit.
+5. **Circular-loops module** (spec §7) + a `/loops` page showing flows +
+   waste-derived products. Commit.
+6. **Dairy/milking + silvopasture** automation; **processing** (charcoal/biochar/
+   compost/soap) into Inventory + P&L. Commit.
+7. **If time remains:** Sustainability/ESG, Bookings/POS, a guest-app stub,
+   attractions module — as much as fits, each demoable + committed.
+8. **Final:** `npm run build` green; update HANDOFF §4 "what's built"; final commit.
+
+Full farm definition + all phases beyond the 2-hour window: `FARMOS-MASTER-SPEC.md`.
+
+---
+
 ## 1. What FarmOS is + the positioning
 
 The operating system for a **one-person farm company**: a 100-acre off-grid
