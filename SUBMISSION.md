@@ -122,11 +122,14 @@ detection; carbon-credit / ESG reporting; multi-farm replication.
    One line: *"An AI that runs a whole self-sufficient farm company — and keeps it
    alive through a blackout."*
 
-## Links & logistics — [TODO before submitting]
-- **Repository:** [TODO: public GitHub URL] (push the repo; branch `master`)
-- **Live demo URL:** [TODO: deploy to Vercel — `npm i -g vercel && vercel`, set
-  `ANTHROPIC_API_KEY` via `vercel env`; or run locally at http://localhost:3000]
-- **Demo video (2–3 min):** [TODO: screen-record the demo script above]
+## Links & logistics — [one TODO left before submitting]
+- **Repository:** https://github.com/kimbrolly-a11y/farmos (branch `master`;
+  currently PRIVATE — flip to public in GitHub → Settings → General → Danger Zone
+  before submitting)
+- **Live demo URL:** https://farmos-ochre.vercel.app (auto-deploys on every push;
+  browse everything — run the interactive crisis/outage demo locally, see README)
+- **Demo video (2–3 min):** [TODO: screen-record the demo script above — see
+  VIDEO-SCRIPT.md]
 - **Team / builder:** FarmOS Labs
 - **Category / theme:** One Person Company through Agentic Services
 - **Sponsors used:** Claude (agent brain), AWS (production architecture)
