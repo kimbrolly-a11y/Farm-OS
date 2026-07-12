@@ -67,6 +67,45 @@ export function VerticalDetail({ verticalId }: { verticalId: string }) {
         )}
       </header>
 
+      {vertical.insights && vertical.insights.length > 0 && (
+        <section className="mb-6">
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-[--muted]">
+            AI insights
+          </h2>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {vertical.insights.map((ins) => {
+              const c =
+                ins.level === "good"
+                  ? "var(--accent)"
+                  : ins.level === "watch"
+                  ? "var(--warn)"
+                  : "var(--danger)";
+              return (
+                <div
+                  key={ins.key}
+                  className="rounded-xl border bg-[--panel] p-4"
+                  style={{ borderColor: `color-mix(in srgb, ${c} 40%, var(--border))` }}
+                >
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-sm text-[--muted]">{ins.label}</span>
+                    <span className="text-lg font-semibold" style={{ color: c }}>
+                      {ins.value}
+                      <span className="ml-0.5 text-xs">{ins.unit}</span>
+                    </span>
+                  </div>
+                  <div
+                    className="mt-2 inline-block rounded px-1.5 py-0.5 text-[10px] font-bold uppercase"
+                    style={{ color: c, border: `1px solid ${c}` }}
+                  >
+                    {ins.level}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
       <section className="mb-6">
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-[--muted]">
           Sensors

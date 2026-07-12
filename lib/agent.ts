@@ -12,6 +12,7 @@ import { setTrigger } from "./tools/log";
 import { getTwinForecast } from "./tools/getForecast";
 import { getBusiness } from "./economics";
 import { forwardSimulate } from "./predict";
+import { getAutomations, runAutomation } from "./automations";
 import {
   assignTask,
   createAlert,
@@ -144,6 +145,17 @@ function buildTools() {
       },
       run: async (i: { zoneId: string; when: string; volumeL: number; reasoning: string }) =>
         scheduleIrrigation(i.zoneId, i.when, i.volumeL, i.reasoning),
+    }),
+    betaTool({
+      name: "runAutomation",
+      description: "Dispatch an autonomous-equipment automation (fertigation, robotic mower, FarmBot, auto-feeder, nutrient dosing, misting, ripeness vision). Get valid ids from getFarmState's automations, or common ones like auto-orchard-fert, auto-hydro-doser, auto-aqua-feeder.",
+      inputSchema: {
+        type: "object",
+        properties: { automationId: { type: "string" }, reasoning },
+        required: ["automationId", "reasoning"],
+        additionalProperties: false,
+      },
+      run: async (i: { automationId: string; reasoning: string }) => runAutomation(i.automationId, i.reasoning),
     }),
     betaTool({
       name: "createAlert",

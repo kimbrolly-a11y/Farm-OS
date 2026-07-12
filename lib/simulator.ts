@@ -4,6 +4,7 @@
 // flips to false — nothing downstream changes.
 
 import { getTwin, recomputeLoad } from "./store";
+import { deriveInsights } from "./insights";
 import type { SensorReading, Twin, Vertical } from "./types";
 
 const TICK_MS = 3000;
@@ -249,8 +250,9 @@ export function tickOnce(twin: Twin = getTwin()): void {
     tank.levelPct = Math.min(100, Math.max(0, Math.round(level * 10) / 10));
   }
 
-  // 4. derived KPIs + statuses
+  // 4. derived KPIs + statuses + AI insight signals
   updateVerticals(twin);
+  deriveInsights(twin);
 
   twin.sim.tickCount += 1;
   twin.sim.lastTickAt = now;

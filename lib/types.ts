@@ -55,6 +55,14 @@ export interface Headline {
   unit: string;
 }
 
+export interface AiInsight {
+  key: string;
+  label: string;
+  value: number;
+  unit: string;
+  level: "good" | "watch" | "risk";
+}
+
 export interface Vertical {
   id: string;
   name: string;
@@ -63,6 +71,8 @@ export interface Vertical {
   kpis: Record<string, string | number>;
   /** primary metric shown on the Command Center card */
   headline?: Headline;
+  /** AI/CV-derived monitoring signals (disease risk, health score, ripeness…) */
+  insights?: AiInsight[];
 }
 
 export interface WaterTank {

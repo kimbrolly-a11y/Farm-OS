@@ -5,6 +5,7 @@
 import { getTwin, recomputeLoad } from "../store";
 import type { OnOff, Severity, Twin } from "../types";
 import { logAction } from "./log";
+import { getAutomations } from "../automations";
 
 /** Life-support / never_shed assets can never be shed. Returns true if protected. */
 export function isProtected(twin: Twin, assetId: string): boolean {
@@ -35,6 +36,13 @@ export function getFarmState() {
       name: v.name,
       status: v.status,
       headline: v.headline,
+      insights: v.insights,
+    })),
+    automations: getAutomations(t).map((a) => ({
+      id: a.id,
+      name: a.name,
+      autonomy: a.autonomy,
+      state: a.state,
     })),
     openAlerts: t.alerts.filter((a) => !a.acknowledged).length,
   };
