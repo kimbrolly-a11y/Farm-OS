@@ -112,7 +112,7 @@ export function Controls() {
         <button
           onClick={runAgent}
           disabled={running}
-          className="rounded-lg bg-[--accent] px-4 py-2 font-medium text-black transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="rounded-lg bg-[--accent] px-4 py-2 font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {running ? "Running…" : "Run agent now"}
         </button>

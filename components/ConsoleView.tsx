@@ -81,7 +81,7 @@ export function ConsoleView() {
             <div
               className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
                 t.role === "you"
-                  ? "bg-[--accent] text-black"
+                  ? "bg-[--accent] text-white"
                   : "border border-[--border] bg-[--panel-2]"
               }`}
             >
@@ -134,7 +134,7 @@ export function ConsoleView() {
         <button
           type="submit"
           disabled={busy || !input.trim()}
-          className="rounded-xl bg-[--accent] px-5 py-3 text-sm font-medium text-black transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="rounded-xl bg-[--accent] px-5 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           Ask
         </button>

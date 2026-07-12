@@ -5,14 +5,24 @@ import { visualFor } from "@/lib/verticalVisuals";
 // A distinct hand-drawn SVG emblem per vertical on its signature gradient.
 // Pure SVG → offline-safe, crisp at any size, no external images.
 
+function shade(hex: string, f: number): string {
+  const n = hex.replace("#", "");
+  const ch = [0, 2, 4].map((i) =>
+    Math.max(0, Math.min(255, Math.round(parseInt(n.slice(i, i + 2), 16) * f)))
+  );
+  return "#" + ch.map((x) => x.toString(16).padStart(2, "0")).join("");
+}
+
 function Icon({ id, color, dark }: { id: string; color: string; dark: string }) {
-  const w = "#f4f0e8";
+  // daylight theme: main shapes take the signature colour, accents go deeper,
+  // and "dark" is the pastel background tint (reads as negative-space cutouts)
+  const w = color;
   switch (id) {
     case "poultry":
       return (
         <g>
           <ellipse cx="50" cy="54" rx="23" ry="29" fill={w} />
-          <ellipse cx="42" cy="44" rx="6" ry="9" fill={color} opacity="0.45" />
+          <ellipse cx="42" cy="44" rx="6" ry="9" fill={shade(color, 0.6)} opacity="0.45" />
         </g>
       );
     case "aquaponics":
@@ -36,9 +46,9 @@ function Icon({ id, color, dark }: { id: string; color: string; dark: string }) 
         <g>
           <rect x="46" y="56" width="8" height="26" rx="2" fill={w} />
           <circle cx="50" cy="42" r="23" fill={w} />
-          <circle cx="42" cy="40" r="4" fill={color} />
-          <circle cx="58" cy="38" r="4" fill={color} />
-          <circle cx="52" cy="50" r="4" fill={color} />
+          <circle cx="42" cy="40" r="4" fill={shade(color, 0.6)} />
+          <circle cx="58" cy="38" r="4" fill={shade(color, 0.6)} />
+          <circle cx="52" cy="50" r="4" fill={shade(color, 0.6)} />
         </g>
       );
     case "lodging":
@@ -90,7 +100,7 @@ function Icon({ id, color, dark }: { id: string; color: string; dark: string }) 
       return (
         <g>
           <polygon points="50,22 73,36 73,64 50,78 27,64 27,36" fill="none" stroke={w} strokeWidth="5" strokeLinejoin="round" />
-          <ellipse cx="50" cy="50" rx="10" ry="7" fill={color} />
+          <ellipse cx="50" cy="50" rx="10" ry="7" fill={shade(color, 0.6)} />
           <path d="M50 43 V57" stroke={dark} strokeWidth="2.4" />
         </g>
       );
@@ -99,14 +109,14 @@ function Icon({ id, color, dark }: { id: string; color: string; dark: string }) 
         <g>
           <rect x="33" y="34" width="34" height="46" rx="5" fill={w} />
           <rect x="31" y="26" width="38" height="9" rx="3" fill={w} />
-          <rect x="33" y="50" width="34" height="13" fill={color} opacity="0.55" />
+          <rect x="33" y="50" width="34" height="13" fill={shade(color, 0.6)} opacity="0.55" />
         </g>
       );
     case "dairy_cattle":
       return (
         <g>
           <rect x="30" y="44" width="40" height="36" rx="14" fill={w} />
-          <ellipse cx="50" cy="40" rx="11" ry="7" fill={color} opacity="0.4" />
+          <ellipse cx="50" cy="40" rx="11" ry="7" fill={shade(color, 0.6)} opacity="0.4" />
           <ellipse cx="26" cy="46" rx="7" ry="4.5" fill={w} />
           <ellipse cx="74" cy="46" rx="7" ry="4.5" fill={w} />
           <circle cx="43" cy="52" r="3" fill={dark} />
@@ -146,7 +156,7 @@ function Icon({ id, color, dark }: { id: string; color: string; dark: string }) 
         <g>
           <ellipse cx="45" cy="58" rx="24" ry="15" fill={w} />
           <circle cx="66" cy="44" r="10" fill={w} />
-          <polygon points="74,44 88,42 74,50" fill={color} />
+          <polygon points="74,44 88,42 74,50" fill={shade(color, 0.6)} />
           <circle cx="66" cy="42" r="2.4" fill={dark} />
         </g>
       );
@@ -158,7 +168,7 @@ function Icon({ id, color, dark }: { id: string; color: string; dark: string }) 
           <circle cx="50" cy="58" r="18" />
           <circle cx="44" cy="56" r="2.6" fill={dark} />
           <circle cx="56" cy="56" r="2.6" fill={dark} />
-          <circle cx="50" cy="63" r="2" fill={color} />
+          <circle cx="50" cy="63" r="2" fill={shade(color, 0.6)} />
         </g>
       );
     case "horses":
@@ -211,7 +221,7 @@ export function VerticalArt({
         style={{ background: v.color, opacity: 0.22 }}
       />
       <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full p-[18%]">
-        <Icon id={id} color={v.color} dark={v.gradient[1]} />
+        <Icon id={id} color={v.color} dark={v.gradient[0]} />
       </svg>
     </div>
   );

@@ -130,3 +130,17 @@ const CAMS = [
 ```
 Pick any subset per page (e.g. show only the vertical's own cam on its detail view:
 `/img/cameras/<id>.jpg`).
+
+---
+
+## STAYS ✅ (2026-07-12) — `public/img/stays/<name>.jpg` (9)
+
+Hospitality imagery for the Lodging & Resort vertical, guest app, attractions/booking.
+```
+hotel_exterior   hotel_room        hotel_pool         (hotel · 60 rooms)
+glamping_dome    glamping_tent     glamping_interior  (glamping)
+cabin_exterior   cabin_interior    cabin_cluster      (farm cabins / bungalows)
+```
+Suggested use: a "Where to stay" gallery on `/guest` or the `lodging` detail — three
+cards (Hotel / Glamping / Cabins) each leading with its exterior shot, interior on
+hover or in a lightbox. Same offline-safe `<img src="/img/stays/<name>.jpg">` pattern.

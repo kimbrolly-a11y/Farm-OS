@@ -19,6 +19,9 @@ Another session ("Fable") has been building **features** in this same repo. **Do
 NOT run a design pass while Fable is still editing code** — two agents on one
 working tree clobber each other. Before starting:
 - Confirm the tree is **clean**: `git status` shows nothing uncommitted.
+  (Fable finished + committed on 2026-07-12 — the tree was left clean; the repo
+  is on GitHub (kimbrolly-a11y/farmos) and **pushes auto-deploy to Vercel
+  production** at https://farmos-ochre.vercel.app, so only push when green.)
 - If Fable is still active, either **wait** until it finishes and commits, or work
   in an **isolated git worktree**: `git worktree add ../farmos-design -b design`.
 - Run `npm run build` first to confirm GREEN, and `npm run dev` to see the app at
@@ -33,16 +36,27 @@ eco-tourism farm, run by a Claude agent. **Audience:** hackathon judges + eventu
 users. **Feel:** a serious "operating system / mission-control" for a farm —
 dark, precise, alive, credible. Not cute, not generic-SaaS.
 
-## 2. Existing design system (honor it — it's the source of truth)
+## 2. Existing design system (UPDATED 2026-07-12 — owner changed direction)
 
-`app/globals.css` defines the tokens. Keep these; extend, don't replace:
+**THE OWNER WANTS BRIGHT, NOT DARK.** Direction (owner's words): "brighter, no
+dark background, bright greenery feels and white" — a sunlit farm, eco-tourism,
+greens, agriculture, animals. A quick light-theme pass has already been applied
+in `app/globals.css`:
 ```
---bg:#0a0e0d  --panel:#111917  --panel-2:#16211e  --border:#22322e
---text:#e7f0ec  --muted:#8ba79d
---accent:#37d67a (green)  --warn:#f5a623 (amber)  --danger:#ff5c5c (red)
+--bg:#f2f8f3  --panel:#ffffff  --panel-2:#ecf5ee  --border:#d4e6d9
+--text:#132a1c  --muted:#59806a
+--accent:#17a45c (green)  --warn:#d97706 (amber)  --danger:#dc2626 (red)
+--earth:#a07d2c  --water:#2b7fd9  --leaf-dim:#cfe8d6
 ```
-- **Committed dark theme** — this is a deliberate "OS screen" world; single-theme
-  is a valid choice, don't add a light theme unless asked.
+- **YOUR #1 JOB IS THE CONTRAST AUDIT.** The app was designed dark and flipped
+  light quickly — the owner reports poor contrast. Sweep every page: status
+  chips/badges built with `color-mix(... 15%, transparent)` are too faint on
+  white; charts, the /twin SVG flow diagram, gauge rings, sparkline fills, the
+  guest-app overlays, and the dark-gradient `VerticalArt` tiles all need
+  light-theme treatment. Target WCAG AA for text and meaningful UI.
+- Photoreal AI imagery now exists and is wired: welcome hero
+  (`/img/deck/hero.jpg`), per-vertical shots (`/img/verticals/*.jpg`), CCTV
+  cams (`/img/cameras/*.jpg` via `components/LiveCam.tsx`). Lean into them.
 - Semantic colors (accent/warn/danger) encode status (ok/warning/critical) — keep
   them separate from decorative use.
 - Current font: system sans only (`ui-sans-serif, system-ui, …`). **This is the

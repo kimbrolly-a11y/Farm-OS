@@ -29,7 +29,7 @@ export function TasksView() {
         onClick={() => toggle(t.id)}
         className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded border text-xs ${
           t.status === "done"
-            ? "border-[--accent] bg-[--accent] text-black"
+            ? "border-[--accent] bg-[--accent] text-white"
             : "border-[--muted] text-transparent hover:border-[--accent]"
         }`}
         title={t.status === "done" ? "reopen" : "mark done"}

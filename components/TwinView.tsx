@@ -341,7 +341,7 @@ function WhatIf({ baseLoad, baseCloud }: { baseLoad: number; baseCloud: number }
           <button
             onClick={askAgent}
             disabled={agentBusy}
-            className="w-full rounded-xl bg-[--accent] px-4 py-2.5 text-sm font-medium text-black transition-opacity hover:opacity-90 disabled:opacity-50"
+            className="w-full rounded-xl bg-[--accent] px-4 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
           >
             {agentBusy ? "Agent reviewing…" : "🤖 Have the agent plan for this"}
           </button>

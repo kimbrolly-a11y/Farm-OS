@@ -106,8 +106,8 @@ export function AutonomyPanel() {
                     className={`px-3 py-1.5 text-xs font-medium transition-colors disabled:opacity-50 ${
                       active
                         ? l.id === "auto"
-                          ? "bg-[--accent] text-black"
-                          : "bg-[--warn] text-black"
+                          ? "bg-[--accent] text-white"
+                          : "bg-[--warn] text-white"
                         : "text-[--muted] hover:text-[--text]"
                     }`}
                   >
@@ -140,7 +140,7 @@ export function AutonomyPanel() {
                   <button
                     onClick={() => resolve(a.id, "apply")}
                     disabled={busy === a.id}
-                    className="rounded-lg bg-[--accent] px-3 py-1.5 text-xs font-medium text-black hover:opacity-90 disabled:opacity-50"
+                    className="rounded-lg bg-[--accent] px-3 py-1.5 text-xs font-medium text-white hover:opacity-90 disabled:opacity-50"
                   >
                     ✓ Apply
                   </button>

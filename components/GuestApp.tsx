@@ -95,7 +95,7 @@ export function GuestApp() {
                       <button
                         className={`rounded-full px-3 py-1.5 text-xs font-medium ${
                           free > 0
-                            ? "bg-[--accent] text-black"
+                            ? "bg-[--accent] text-white"
                             : "cursor-not-allowed bg-[--panel-2] text-[--muted]"
                         }`}
                       >

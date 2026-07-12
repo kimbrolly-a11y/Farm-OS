@@ -26,13 +26,13 @@ export function Welcome() {
         className="pointer-events-none absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/img/deck/hero.jpg')" }}
       />
-      {/* forest wash so the text stays readable and the world stays green */}
+      {/* sunlit wash so the text stays readable and the world stays bright */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "linear-gradient(105deg, rgba(10,26,17,0.94) 0%, rgba(10,26,17,0.82) 45%, rgba(10,26,17,0.45) 100%), linear-gradient(to top, rgba(10,26,17,0.95) 0%, transparent 45%)",
+            "linear-gradient(105deg, rgba(242,248,243,0.96) 0%, rgba(242,248,243,0.86) 45%, rgba(242,248,243,0.45) 100%), linear-gradient(to top, rgba(242,248,243,0.97) 0%, transparent 45%)",
         }}
       />
       {/* ambient glow */}
@@ -128,7 +128,7 @@ export function Welcome() {
         <div className="mt-12 flex flex-wrap gap-3">
           <Link
             href="/verticals"
-            className="rounded-xl bg-[--accent] px-5 py-3 font-medium text-black transition-opacity hover:opacity-90"
+            className="rounded-xl bg-[--accent] px-5 py-3 font-medium text-white transition-opacity hover:opacity-90"
           >
             Explore the farm →
           </Link>
