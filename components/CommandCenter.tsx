@@ -9,6 +9,7 @@ import { PredictivePanel } from "./PredictivePanel";
 import { VerticalCard } from "./VerticalCard";
 import { AlertsStrip } from "./AlertsStrip";
 import { FidelityChip } from "./FidelityChip";
+import { ApprovalsChip } from "./ApprovalsChip";
 
 const NAV_GROUPS: Array<{ label: string; links: Array<[string, string]> }> = [
   {
@@ -156,6 +157,7 @@ export function CommandCenter() {
             {twin.online ? "online" : "offline"}
           </span>
           <FidelityChip />
+          <ApprovalsChip />
         </div>
       </header>
 

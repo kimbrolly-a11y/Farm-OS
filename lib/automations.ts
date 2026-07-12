@@ -5,6 +5,7 @@
 import { getTwin } from "./store";
 import type { Twin } from "./types";
 import { logAction } from "./tools/log";
+import { gate } from "./autonomy";
 
 export type Autonomy = "autonomous" | "assisted" | "manual";
 export type AutomationKind =
@@ -58,12 +59,20 @@ export function getAutomations(twin: Twin = getTwin()): AutomationView[] {
   });
 }
 
-export function runAutomation(id: string, reasoning = "Operator dispatched automation"): string {
+export function runAutomation(
+  id: string,
+  reasoning = "Operator dispatched automation",
+  force = false
+): string {
   const twin = getTwin();
   const a = AUTOMATIONS.find((x) => x.id === id);
   if (!a) return `error: no automation "${id}"`;
   const asset = twin.assets.find((x) => x.id === a.assetId);
   if (!asset) return `error: no asset for "${id}"`;
+
+  const held = gate("equipment", "runAutomation", { automationId: id }, reasoning, `dispatch ${a.name}`, force);
+  if (held) return held;
+
   asset.state = "on";
   const result = `dispatched ${a.name} (${a.autonomy}) → ${a.assetId} running`;
   logAction(twin, {

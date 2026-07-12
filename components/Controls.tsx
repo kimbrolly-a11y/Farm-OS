@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useTwin } from "./useTwin";
+import { AutonomyPanel } from "./AutonomyPanel";
 
 interface RunResult {
   mode: string;
@@ -138,6 +139,8 @@ export function Controls() {
           </div>
         )}
       </section>
+
+      <AutonomyPanel />
 
       <section className="mt-6 rounded-xl border border-[--border] bg-[--panel] p-5">
         <h2 className="mb-1 font-medium">Demo scenarios</h2>

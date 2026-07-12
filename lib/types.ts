@@ -151,6 +151,21 @@ export interface LoadShedding {
   neverShed: string[];
 }
 
+export type AutonomyLevel = "advise" | "approve" | "auto";
+export type AutonomyDomain = "energy" | "climate" | "irrigation" | "equipment";
+
+/** An agent action held back by the trust dial, awaiting the owner's click. */
+export interface PendingApproval {
+  id: string;
+  timestamp: string;
+  domain: AutonomyDomain;
+  toolCalled: string;
+  params: Record<string, unknown>;
+  summary: string;
+  reasoning: string;
+  status: "pending" | "applied" | "dismissed";
+}
+
 export interface Farm {
   name: string;
   areaAcres: number;
@@ -171,6 +186,10 @@ export interface Twin {
   alerts: Alert[];
   tasks: Task[];
   loadShedding: LoadShedding;
+  /** trust dial: per-domain autonomy level (advise | approve | auto) */
+  autonomy: Record<AutonomyDomain, AutonomyLevel>;
+  /** actions held back by the trust dial, awaiting owner approval */
+  approvals: PendingApproval[];
   /** external cloud syncs deferred while offline; flushed on reconnect */
   syncQueue: Array<{ id: string; type: string; label: string; queuedAt: string }>;
   /** live simulator / weather state */

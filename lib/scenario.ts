@@ -1,6 +1,7 @@
 // lib/scenario.ts — the two demo scenarios (CLAUDE.md §7).
 import { getTwin, recomputeLoad } from "./store";
 import { runAgent } from "./agent";
+import { defaultAutonomy } from "./autonomy";
 import { logAction, setTrigger } from "./tools/log";
 
 /** CRISIS — "cloudy day, battery low": SoC 22%, heavy cloud, then run the agent. */
@@ -93,6 +94,9 @@ export function resetScenario() {
   twin.syncQueue = [];
   twin.resources.energy.batterySoC = 68;
   for (const a of twin.assets) a.state = "on";
+  // trust dial back to full auto; clear anything still awaiting approval
+  twin.autonomy = defaultAutonomy();
+  twin.approvals = (twin.approvals ?? []).filter((a) => a.status !== "pending");
   recomputeLoad(twin);
 
   setTrigger("scenario reset");

@@ -6,6 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 import YAML from "yaml";
 import { defaultEnergySources } from "./energy";
+import { defaultAutonomy } from "./autonomy";
 import type {
   Asset,
   Criticality,
@@ -266,6 +267,8 @@ export function seedTwin(file = configPath()): Twin {
       { id: "task-3", timestamp: now, assignee: "Founder", description: "Harvest ripe FFB flagged by vision AI — Block 3", verticalId: "palm_oil", status: "open" },
     ],
     loadShedding,
+    autonomy: defaultAutonomy(),
+    approvals: [],
     syncQueue: [],
     sim: { tickCount: 0, cloudCover: 0.2, scenario: "normal", autopilot: false, lastTickAt: null },
     lastSeededAt: now,

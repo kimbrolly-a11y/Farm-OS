@@ -6,6 +6,7 @@ import { getTwin, recomputeLoad } from "../store";
 import type { OnOff, Severity, Twin } from "../types";
 import { logAction } from "./log";
 import { getAutomations } from "../automations";
+import { gate } from "../autonomy";
 
 /** Life-support / never_shed assets can never be shed. Returns true if protected. */
 export function isProtected(twin: Twin, assetId: string): boolean {
@@ -48,7 +49,7 @@ export function getFarmState() {
   };
 }
 
-export function shedLoad(assetId: string, reasoning: string): string {
+export function shedLoad(assetId: string, reasoning: string, force = false): string {
   const twin = getTwin();
   const asset = twin.assets.find((a) => a.id === assetId);
   if (!asset) return `error: no asset "${assetId}"`;
@@ -66,6 +67,10 @@ export function shedLoad(assetId: string, reasoning: string): string {
   }
 
   if (asset.state === "off") return `${assetId} already shed`;
+
+  const held = gate("energy", "shedLoad", { assetId }, reasoning, `shed ${assetId} (−${asset.powerDraw} W)`, force);
+  if (held) return held;
+
   asset.state = "off";
   const loadKw = recomputeLoad(twin);
   const result = `shed ${assetId} (−${asset.powerDraw} W) · load now ${loadKw} kW`;
@@ -79,11 +84,15 @@ export function shedLoad(assetId: string, reasoning: string): string {
   return result;
 }
 
-export function restoreLoad(assetId: string, reasoning: string): string {
+export function restoreLoad(assetId: string, reasoning: string, force = false): string {
   const twin = getTwin();
   const asset = twin.assets.find((a) => a.id === assetId);
   if (!asset) return `error: no asset "${assetId}"`;
   if (asset.state === "on") return `${assetId} already on`;
+
+  const held = gate("energy", "restoreLoad", { assetId }, reasoning, `restore ${assetId} (+${asset.powerDraw} W)`, force);
+  if (held) return held;
+
   asset.state = "on";
   const loadKw = recomputeLoad(twin);
   const result = `restored ${assetId} (+${asset.powerDraw} W) · load now ${loadKw} kW`;
@@ -97,7 +106,7 @@ export function restoreLoad(assetId: string, reasoning: string): string {
   return result;
 }
 
-export function setActuator(assetId: string, state: OnOff, reasoning: string): string {
+export function setActuator(assetId: string, state: OnOff, reasoning: string, force = false): string {
   const twin = getTwin();
   const asset = twin.assets.find((a) => a.id === assetId);
   if (!asset) return `error: no asset "${assetId}"`;
@@ -112,6 +121,10 @@ export function setActuator(assetId: string, state: OnOff, reasoning: string): s
     });
     return result;
   }
+
+  const held = gate("climate", "setActuator", { assetId, state }, reasoning, `set ${assetId} → ${state}`, force);
+  if (held) return held;
+
   asset.state = state;
   const loadKw = recomputeLoad(twin);
   const result = `${assetId} → ${state} · load now ${loadKw} kW`;
@@ -129,11 +142,16 @@ export function scheduleIrrigation(
   zoneId: string,
   when: string,
   volumeL: number,
-  reasoning: string
+  reasoning: string,
+  force = false
 ): string {
   const twin = getTwin();
   const zone = twin.zones.find((z) => z.id === zoneId);
   if (!zone) return `error: no zone "${zoneId}"`;
+
+  const held = gate("irrigation", "scheduleIrrigation", { zoneId, when, volumeL }, reasoning, `irrigate ${zoneId}: ${volumeL} L @ ${when}`, force);
+  if (held) return held;
+
   const result = `irrigation scheduled for ${zoneId}: ${volumeL} L @ ${when}`;
   logAction(twin, {
     decision: `Scheduled irrigation for ${zoneId}`,
