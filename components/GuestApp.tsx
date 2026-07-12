@@ -126,25 +126,24 @@ export function GuestApp() {
             {/* Farm map */}
             <section>
               <SectionTitle>Farm map</SectionTitle>
-              <div className="rounded-xl border border-[--border] bg-[--panel] p-3">
-                <svg viewBox="0 0 320 150" className="w-full">
-                  <rect x="2" y="2" width="316" height="146" rx="10" fill="none" stroke="var(--border)" />
-                  <MapBlock x={10} y={10} w={90} h={60} label="🌴 Palm" color="#3a7d44" />
-                  <MapBlock x={105} y={10} w={80} h={60} label="🍈 Orchard" color="#6aa84f" />
-                  <MapBlock x={190} y={10} w={60} h={60} label="🐟 Lake" color="#3aa7ff" />
-                  <MapBlock x={255} y={10} w={55} h={60} label="🏹 Trails" color="#b98cff" />
-                  <MapBlock x={10} y={75} w={65} h={65} label="🐄 Barns" color="#a8763f" />
-                  <MapBlock x={80} y={75} w={70} h={65} label="🥬 Greenhouses" color="#45c16b" />
-                  <MapBlock x={155} y={75} w={80} h={65} label="🏨 Resort" color="#e0a84a" />
-                  <MapBlock x={240} y={75} w={70} h={65} label="🎡 Funworld" color="#ff7a90" />
-                  <circle cx="196" cy="108" r="4" fill="var(--accent)">
-                    <animate attributeName="opacity" values="1;0.2;1" dur="1.6s" repeatCount="indefinite" />
-                  </circle>
-                </svg>
-                <div className="mt-1 text-center text-[10px] text-[--muted]">
-                  ● you are here — tap a zone for the AR tour (stub)
-                </div>
-              </div>
+              <Link
+                href="/map"
+                className="block overflow-hidden rounded-xl border border-[--border] bg-[--panel] transition-colors hover:border-[--accent]"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/img/map/map_illustrated.jpg"
+                  alt="Verdant Acres farm map"
+                  loading="lazy"
+                  className="h-40 w-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
+                <span className="block px-3 py-2 text-center text-[10px] text-[--muted]">
+                  ● you are here — tap to explore the full farm map →
+                </span>
+              </Link>
             </section>
 
             {/* Animal cams */}
@@ -233,35 +232,4 @@ function stayImage(id: string, name: string): string {
   if (/bungalow|villa|garden/.test(k)) return "/img/stays/cabin_cluster.jpg";
   if (/cabin|chalet|airbnb/.test(k)) return "/img/stays/cabin_exterior.jpg";
   return "/img/stays/hotel_exterior.jpg";
-}
-
-function MapBlock({
-  x,
-  y,
-  w,
-  h,
-  label,
-  color,
-}: {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-  label: string;
-  color: string;
-}) {
-  return (
-    <g>
-      <rect x={x} y={y} width={w} height={h} rx="6" fill={color} opacity="0.18" stroke={color} strokeOpacity="0.5" />
-      <text
-        x={x + w / 2}
-        y={y + h / 2 + 4}
-        textAnchor="middle"
-        fontSize="11"
-        fill="var(--text)"
-      >
-        {label}
-      </text>
-    </g>
-  );
 }
