@@ -170,6 +170,12 @@ export function CommandCenter() {
             ESG
           </Link>
           <Link
+            href="/attractions"
+            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
+          >
+            Resort
+          </Link>
+          <Link
             href="/automations"
             className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
           >

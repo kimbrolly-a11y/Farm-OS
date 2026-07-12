@@ -83,10 +83,12 @@ function latest(twin: Twin, sensorId: string): number {
 }
 
 function occupiedCabins(twin: Twin): number {
-  return ["cabin-1:occupancy", "cabin-2:occupancy"].reduce(
+  const cabins = ["cabin-1:occupancy", "cabin-2:occupancy"].reduce(
     (n, id) => n + (latest(twin, id) ? 1 : 0),
     0
   );
+  // resort scale: hotel rooms + glamping tents count as unit-nights too
+  return cabins + latest(twin, "hotel-block-a:occupancy_count") + latest(twin, "glamping-grove:occupancy_count");
 }
 
 /** live energy cost/day for a vertical's currently-powered assets */

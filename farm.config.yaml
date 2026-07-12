@@ -204,8 +204,23 @@ verticals:
           - { metric: leaf_wetness,  unit: "%", product: "Leaf wetness sensor", protocol: LoRaWAN, ha_entity: sensor.orchard_b_leaf }
 
   - id: lodging
-    name: "Airbnb Lodging"
+    name: "Lodging & Resort"
     zones:
+      # Phase-3 resort scale (spec §8): 60-room hotel (block A open), bungalows, glamping
+      - id: hotel-block-a
+        assets:
+          - { id: hotel_hvac_common, type: hvac,       criticality: important,
+              hardware: "VRF common-area AC + Modbus sub-meter", protocol: Modbus, ha_entity: climate.hotel_common }
+          - { id: hotel_locks,       type: smart_lock, criticality: important,
+              hardware: "Hotel smart locks — QR self-check-in", protocol: Zigbee, ha_entity: lock.hotel_a }
+        sensors:
+          - { metric: occupancy_count, unit: rooms, product: "Booking sync (Beds24-class)", ha_entity: sensor.hotel_a_occupied }
+      - id: glamping-grove
+        assets:
+          - { id: glamp_lights, type: light, criticality: discretionary,
+              hardware: "Solar path + tent lighting", protocol: Zigbee, ha_entity: light.glamping }
+        sensors:
+          - { metric: occupancy_count, unit: tents, product: "Booking sync (Beds24-class)", ha_entity: sensor.glamping_occupied }
       - id: cabin-1
         assets:
           - { id: cabin1_ac,      type: hvac,       criticality: discretionary,
@@ -540,11 +555,11 @@ verticals:
 #   Shed discretionary -> important (only if severe).  NEVER shed life_support.
 # ---------------------------------------------------------------------------
 load_shedding:
-  shed_first:  [hydro1_lights, hydro1_farmbot, orchard_mower, cabin1_ac, cabin1_water_heater, farmbot,
+  shed_first:  [hydro1_lights, hydro1_farmbot, orchard_mower, cabin1_ac, cabin1_water_heater, farmbot, glamp_lights,
                 canning_conveyor, canning_labeler, dehydrator_1, vacuum_sealer, pulper_mill, palm_ripeness_cam,
                 coop1_light, growbed_led, hydro2_exhaust, hydro2_co2, orchard_bird_deterrent,
                 cabin2_ac, resto_exhaust_hood, resto_dishwasher, zoo_misting_fan, compost_mixer, stable_cam]
-  shed_next:   [orchard_valve_a, blast_chiller, coop1_feeder,
+  shed_next:   [orchard_valve_a, blast_chiller, coop1_feeder, hotel_hvac_common,
                 retort_1, can_seamer, freeze_dryer_1, fd_vacuum_pump, fd_condenser,
                 palm1_fertigation, palm2_fertigation, palm1_valve, palm2_valve, palm3_valve,
                 growbed_solenoid, hydro2_circpump, orchard_fertigation_b, cabin2_fridge,

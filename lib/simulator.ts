@@ -114,6 +114,15 @@ function nextReading(twin: Twin, sensorId: string, metric: string): number | nul
     if (Math.random() < 0.03) return prev === 1 ? 0 : 1; // rare check-in/out
     return prev;
   }
+  if (metric === "occupancy_count") {
+    // hotel rooms / glamping tents occupied — slow check-in/check-out walk
+    const max = sensorId.startsWith("glamping") ? 8 : 20;
+    const prev = latestValue(twin, sensorId, Math.round(max * 0.65));
+    if (Math.random() < 0.04) {
+      return Math.min(max, Math.max(0, prev + (Math.random() < 0.5 ? -1 : 1)));
+    }
+    return prev;
+  }
   const model = METRIC_MODELS[metric];
   if (!model) return null;
   const prev = latestValue(twin, sensorId, model.base);
@@ -245,8 +254,10 @@ function updateVerticals(twin: Twin) {
         break;
       }
       case "lodging": {
-        const occ = val("cabin-1:occupancy");
-        set(v, "Cabin 1", occ === undefined ? undefined : occ ? "Occupied" : "Vacant", "", "ok");
+        const hotel = val("hotel-block-a:occupancy_count") ?? 0;
+        const glamp = val("glamping-grove:occupancy_count") ?? 0;
+        const cabins = (val("cabin-1:occupancy") ? 1 : 0) + (val("cabin-2:occupancy") ? 1 : 0);
+        set(v, "Units occupied", hotel + glamp + cabins, ` / 30`, "ok");
         break;
       }
       default:
