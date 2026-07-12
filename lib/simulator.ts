@@ -33,6 +33,18 @@ const METRIC_MODELS: Record<string, MetricModel> = {
   hive_weight: { base: 42, jitter: 0.08, min: 30, max: 60, decimals: 2 },
   hive_temp: { base: 34.8, jitter: 0.15, min: 30, max: 38, decimals: 1 },
   rainfall: { base: 0, jitter: 0.4, min: 0, max: 30, decimals: 1 },
+  // palm plantation
+  groundwater: { base: 8.2, jitter: 0.05, min: 2, max: 12, decimals: 2 },
+  canopy_temp: { base: 31, jitter: 0.3, min: 24, max: 40, decimals: 1 },
+  ffb_yield: { base: 2.6, jitter: 0.08, min: 0, max: 6, decimals: 2 },
+  // food processing
+  retort_temp: { base: 121, jitter: 0.8, min: 20, max: 130, decimals: 1 },
+  retort_pressure: { base: 205, jitter: 2, min: 100, max: 260, decimals: 0 },
+  throughput: { base: 1200, jitter: 25, min: 0, max: 1800, decimals: 0 },
+  chamber_temp: { base: -34, jitter: 0.6, min: -50, max: 20, decimals: 1 },
+  vacuum_pressure: { base: 60, jitter: 6, min: 8, max: 1000, decimals: 0 },
+  batch_moisture: { base: 7.5, jitter: 0.4, min: 2, max: 25, decimals: 1 },
+  power_kw: { base: 4.5, jitter: 0.3, min: 0.5, max: 12, decimals: 1 },
 };
 
 function localHour(twin: Twin): number {
@@ -147,8 +159,19 @@ function updateVerticals(twin: Twin) {
         break;
       }
       case "palm_oil": {
-        const r = val("plantation-block-1:rainfall");
-        set(v, "Rainfall", r, "mm", "ok");
+        const ffb = val("plantation-block-3:ffb_yield");
+        const soil = val("plantation-block-1:soil_moisture");
+        const status = soil === undefined ? "ok" : soil < 25 ? "warning" : "ok";
+        set(v, "FFB yield", ffb, " t/day", status);
+        break;
+      }
+      case "food_processing": {
+        const cph = val("canning-line:throughput");
+        const chamber = val("freeze-dryer:chamber_temp");
+        // freeze-dryer chamber warming above -10°C puts the batch at risk
+        const status =
+          chamber === undefined ? "ok" : chamber > -10 ? "warning" : "ok";
+        set(v, "Line throughput", cph, " cans/hr", status);
         break;
       }
       case "recycling": {

@@ -37,6 +37,16 @@ const POWER_DRAW: Record<string, number> = {
   weather_station: 5,
   digester: 50,
   bioconversion: 10,
+  // palm plantation
+  fertigation_pump: 200,
+  camera: 8,
+  // food processing
+  retort: 3000,
+  freeze_dryer: 1500,
+  chiller: 1200,
+  dehydrator: 800,
+  machine: 500,
+  conveyor: 300,
 };
 
 function drawFor(type: string): number {

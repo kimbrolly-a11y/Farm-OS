@@ -189,10 +189,35 @@ verticals:
     zones:
       - id: plantation-block-1
         assets:
+          - { id: palm1_fertigation, type: fertigation_pump, criticality: important,
+              hardware: "Kamoer dosing pump + Shelly relay", protocol: WiFi, ha_entity: switch.palm1_fertigation }
+          - { id: palm1_valve, type: irrigation_valve, criticality: important,
+              hardware: "OpenSprinkler + Netafim drip zone", protocol: WiFi, ha_entity: switch.palm1_valve }
+        sensors:
+          - { metric: soil_moisture, unit: "%", product: "Dragino SE01-LB (LoRaWAN soil moisture+EC)", protocol: LoRaWAN, ha_entity: sensor.palm1_soil }
+          - { metric: soil_ec,       unit: "mS/cm", product: "Dragino SE01-LB", protocol: LoRaWAN, ha_entity: sensor.palm1_ec }
+          - { metric: groundwater,   unit: m, product: "Dragino LWL02 well-level sensor", protocol: LoRaWAN, ha_entity: sensor.palm1_groundwater }
+      - id: plantation-block-2
+        assets:
+          - { id: palm2_fertigation, type: fertigation_pump, criticality: important,
+              hardware: "Kamoer dosing pump + Shelly relay", protocol: WiFi, ha_entity: switch.palm2_fertigation }
+          - { id: palm2_valve, type: irrigation_valve, criticality: important,
+              hardware: "OpenSprinkler + Netafim drip zone", protocol: WiFi, ha_entity: switch.palm2_valve }
+        sensors:
+          - { metric: soil_moisture, unit: "%", product: "Dragino SE01-LB", protocol: LoRaWAN, ha_entity: sensor.palm2_soil }
+          - { metric: canopy_temp,   unit: C, product: "IR canopy temperature sensor", protocol: LoRaWAN, ha_entity: sensor.palm2_canopy }
+      - id: plantation-block-3
+        assets:
+          - { id: palm3_valve, type: irrigation_valve, criticality: important,
+              hardware: "OpenSprinkler + Netafim drip zone", protocol: WiFi, ha_entity: switch.palm3_valve }
+          - { id: palm_ripeness_cam, type: camera, criticality: discretionary,
+              hardware: "FFB ripeness vision camera (edge AI)", protocol: WiFi, ha_entity: camera.palm_ripeness }
           - { id: palm_weather, type: weather_station, criticality: discretionary,
               hardware: "Ecowitt Wittboy WS90 / Davis Vantage Pro2 (rain, wind, solar, UV)", protocol: WiFi, ha_entity: weather.farm_station }
         sensors:
-          - { metric: rainfall, unit: mm, product: "Ecowitt WS90", protocol: WiFi, ha_entity: sensor.farm_rainfall }
+          - { metric: soil_moisture, unit: "%", product: "Dragino SE01-LB", protocol: LoRaWAN, ha_entity: sensor.palm3_soil }
+          - { metric: rainfall,      unit: mm, product: "Ecowitt WS90", protocol: WiFi, ha_entity: sensor.farm_rainfall }
+          - { metric: ffb_yield,     unit: "t/day", product: "Weighbridge + harvest tally", ha_entity: sensor.palm_ffb_yield }
 
   - id: recycling
     name: "Recycling & Resource Recovery"
@@ -215,13 +240,60 @@ verticals:
           - { metric: hive_weight, unit: kg, product: "BroodMinder hive scale + temp/humidity", protocol: BLE-LoRaWAN, ha_entity: sensor.hive1_weight }
           - { metric: hive_temp,   unit: C,  product: "BroodMinder-TH", protocol: BLE, ha_entity: sensor.hive1_temp }
 
+  - id: food_processing
+    name: "Canning & Food Processing"
+    zones:
+      - id: canning-line
+        assets:
+          - { id: retort_1,        type: retort,    criticality: important,
+              hardware: "Steam retort / pressure canner + Shelly EM", protocol: WiFi, ha_entity: switch.retort_1 }
+          - { id: can_seamer,      type: machine,   criticality: important,
+              hardware: "Automatic can seamer + Shelly relay", protocol: WiFi, ha_entity: switch.can_seamer }
+          - { id: canning_conveyor, type: conveyor, criticality: discretionary,
+              hardware: "Belt conveyor + VFD", protocol: Modbus, ha_entity: switch.canning_conveyor }
+          - { id: canning_labeler,  type: machine,  criticality: discretionary,
+              hardware: "Label applicator + Shelly relay", protocol: WiFi, ha_entity: switch.canning_labeler }
+        sensors:
+          - { metric: retort_temp,     unit: C,   product: "PT100 probe (Modbus)", protocol: Modbus, ha_entity: sensor.retort_1_temp }
+          - { metric: retort_pressure, unit: kPa, product: "Pressure transducer", protocol: Modbus, ha_entity: sensor.retort_1_pressure }
+          - { metric: throughput,      unit: "cans/hr", product: "Line counter", ha_entity: sensor.canning_throughput }
+      - id: freeze-dryer
+        assets:
+          - { id: freeze_dryer_1, type: freeze_dryer, criticality: important,
+              hardware: "Harvest Right / commercial lyophilizer + Shelly EM", protocol: WiFi, ha_entity: switch.freeze_dryer_1 }
+          - { id: fd_vacuum_pump, type: pump,         criticality: important,
+              hardware: "Vacuum pump + Shelly relay", protocol: WiFi, ha_entity: switch.fd_vacuum_pump }
+          - { id: fd_condenser,   type: chiller,      criticality: important,
+              hardware: "Refrigerated condenser + Shelly EM", protocol: WiFi, ha_entity: switch.fd_condenser }
+        sensors:
+          - { metric: chamber_temp,    unit: C,  product: "RTD probe (ESP32/ESPHome)", protocol: I2C-ESP32, ha_entity: sensor.fd_chamber_temp }
+          - { metric: vacuum_pressure, unit: Pa, product: "Pirani vacuum gauge", protocol: I2C-ESP32, ha_entity: sensor.fd_vacuum }
+          - { metric: batch_moisture,  unit: "%", product: "In-line moisture probe", ha_entity: sensor.fd_moisture }
+      - id: processing-kitchen
+        assets:
+          - { id: dehydrator_1,   type: dehydrator, criticality: discretionary,
+              hardware: "Commercial tray dehydrator + Shelly relay", protocol: WiFi, ha_entity: switch.dehydrator_1 }
+          - { id: vacuum_sealer,  type: machine,    criticality: discretionary,
+              hardware: "Chamber vacuum sealer", protocol: WiFi, ha_entity: switch.vacuum_sealer }
+          - { id: pulper_mill,    type: machine,    criticality: discretionary,
+              hardware: "Fruit pulper / mill + VFD", protocol: WiFi, ha_entity: switch.pulper_mill }
+          - { id: finished_goods_freezer, type: cold_storage, criticality: important,
+              hardware: "Chest freezer + Shelly EM (temp+power)", protocol: WiFi, ha_entity: sensor.fg_freezer_temp }
+        sensors:
+          - { metric: temperature, unit: C,  product: "Ecowitt WN31", protocol: Zigbee, ha_entity: sensor.processing_room_temp }
+          - { metric: humidity,    unit: "%", product: "Ecowitt WN31", protocol: Zigbee, ha_entity: sensor.processing_room_humidity }
+          - { metric: power_kw,    unit: kW, product: "Shelly 3EM sub-meter", protocol: WiFi, ha_entity: sensor.processing_power }
+
 # ---------------------------------------------------------------------------
 # LOAD-SHEDDING LADDER  — the agent obeys this in an energy crisis.
 #   Shed discretionary -> important (only if severe).  NEVER shed life_support.
 # ---------------------------------------------------------------------------
 load_shedding:
-  shed_first:  [hydro1_lights, hydro1_farmbot, orchard_mower, cabin1_ac, cabin1_water_heater, farmbot]
-  shed_next:   [orchard_valve_a, blast_chiller, coop1_feeder]
+  shed_first:  [hydro1_lights, hydro1_farmbot, orchard_mower, cabin1_ac, cabin1_water_heater, farmbot,
+                canning_conveyor, canning_labeler, dehydrator_1, vacuum_sealer, pulper_mill, palm_ripeness_cam]
+  shed_next:   [orchard_valve_a, blast_chiller, coop1_feeder,
+                retort_1, can_seamer, freeze_dryer_1, fd_vacuum_pump, fd_condenser,
+                palm1_fertigation, palm2_fertigation, palm1_valve, palm2_valve, palm3_valve]
   never_shed:  [coop1_fans, incubator_1, aqua1_aerator, aqua1_pump, cold_room_1, well_pump]
 
 # ---------------------------------------------------------------------------
