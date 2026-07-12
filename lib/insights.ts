@@ -112,6 +112,44 @@ export function deriveInsights(twin: Twin): void {
         out.push(mk("guest_comfort", "Guest comfort index", clamp(100 - Math.abs(t - 24) * 8), "/100", 80, 60));
         break;
       }
+      case "dairy_cattle": {
+        const rum = val("cattle-barn:rumination") ?? 480;
+        const t = val("cattle-barn:temperature") ?? 29;
+        out.push(mk("herd_health", "Herd health (collar+CV)", clamp((rum - 300) / 3 - Math.max(0, (t - 30) * 6)), "/100", 80, 60));
+        break;
+      }
+      case "dairy_goats": {
+        const a = val("goat-barn:activity") ?? 65;
+        out.push(mk("herd_health", "Herd health", clamp(40 + a * 0.8), "/100", 80, 60));
+        break;
+      }
+      case "sheep": {
+        const a = val("pasture-a:activity") ?? 65;
+        out.push(mk("flock_wellbeing", "Flock wellbeing", clamp(40 + a * 0.8), "/100", 80, 60));
+        break;
+      }
+      case "ducks": {
+        const t = val("duck-house:temperature") ?? 29;
+        out.push(mk("flock_health", "Flock health", clamp(100 - Math.max(0, (t - 32) * 9)), "/100", 80, 60));
+        break;
+      }
+      case "rabbits": {
+        const t = val("rabbitry:temperature") ?? 28;
+        const h = val("rabbitry:humidity") ?? 70;
+        out.push(mk("comfort", "Rabbitry comfort", clamp(100 - Math.max(0, (t - 29) * 10) - Math.max(0, (h - 75) * 1.5)), "/100", 80, 60));
+        break;
+      }
+      case "horses": {
+        const t = val("stables:temperature") ?? 29;
+        out.push(mk("welfare", "Equine welfare", clamp(100 - Math.max(0, (t - 32) * 9)), "/100", 80, 60));
+        break;
+      }
+      case "aquaculture": {
+        const dov = val("pond-1:dissolved_oxygen") ?? 6.5;
+        const nh3 = val("pond-1:ammonia") ?? 0.25;
+        out.push(mk("water_quality", "Pond water quality", clamp(100 - Math.max(0, (5.5 - dov) * 18) - Math.max(0, (nh3 - 0.5) * 40)), "/100", 80, 60));
+        break;
+      }
       default:
         break;
     }

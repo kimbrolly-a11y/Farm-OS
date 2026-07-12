@@ -51,6 +51,28 @@ const ECONOMICS: Record<string, VerticalEconomics> = {
     production: { label: "Cans / day", unit: "cans" },
     driver: { sensorId: "canning-line:throughput", rate: 0.42 }, // cans/hr → RM/day
   },
+  dairy_cattle: {
+    baseRevenue: 0,
+    baseCost: 180,
+    production: { label: "Milk", unit: "L/day" },
+    driver: { sensorId: "cattle-barn:milk_yield", rate: 3 }, // RM3/L
+  },
+  dairy_goats: {
+    baseRevenue: 0,
+    baseCost: 95,
+    production: { label: "Goat milk", unit: "L/day" },
+    driver: { sensorId: "goat-barn:milk_yield", rate: 4 }, // goat milk premium
+  },
+  sheep: { baseRevenue: 65, baseCost: 30, production: { label: "Lambs / meat", unit: "head" } },
+  ducks: {
+    baseRevenue: 30,
+    baseCost: 40,
+    production: { label: "Duck eggs", unit: "eggs" },
+    driver: { sensorId: "duck-house:eggs_today", rate: 0.7 },
+  },
+  rabbits: { baseRevenue: 55, baseCost: 25, production: { label: "Rabbit meat", unit: "kg/day" } },
+  horses: { baseRevenue: 120, baseCost: 90, production: { label: "Riding sessions", unit: "/day" } },
+  aquaculture: { baseRevenue: 160, baseCost: 70, production: { label: "Fish + prawn", unit: "kg/day" } },
 };
 
 function latest(twin: Twin, sensorId: string): number {
