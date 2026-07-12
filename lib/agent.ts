@@ -11,6 +11,7 @@ import { getTwin } from "./store";
 import { setTrigger } from "./tools/log";
 import { getTwinForecast } from "./tools/getForecast";
 import { getBusiness } from "./economics";
+import { forwardSimulate } from "./predict";
 import {
   assignTask,
   createAlert,
@@ -64,6 +65,30 @@ function buildTools() {
       description: "Live per-vertical P&L (revenue, cost, margin, energy cost) + production, in RM/day. Use to weigh the financial impact of a decision — e.g. what revenue a load carries before shedding it.",
       inputSchema: { type: "object", properties: {}, additionalProperties: false },
       run: async () => JSON.stringify(getBusiness(getTwin())),
+    }),
+    betaTool({
+      name: "simulateForward",
+      description: "Non-destructively project the battery/energy trajectory forward (default 12h) at the current load. Returns when SoC would hit 20% (critical) or 0% (empty). Use this to act BEFORE a crisis. Optionally pass cloudCover (0..1) to test a weather assumption.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          hours: { type: "number", description: "horizon in hours (default 12)" },
+          cloudCover: { type: "number", description: "0 clear .. 1 overcast" },
+        },
+        additionalProperties: false,
+      },
+      run: async (i: { hours?: number; cloudCover?: number }) => {
+        const p = forwardSimulate(getTwin(), { hours: i.hours, cloudCover: i.cloudCover });
+        // trim the trajectory for the model — the summary + key timings are what matter
+        return JSON.stringify({
+          summary: p.summary,
+          minsToCritical: p.minsToCritical,
+          minsToEmpty: p.minsToEmpty,
+          socFloor: p.socFloor,
+          socAtHorizon: p.socAtHorizon,
+          loadKw: p.loadKw,
+        });
+      },
     }),
     betaTool({
       name: "shedLoad",

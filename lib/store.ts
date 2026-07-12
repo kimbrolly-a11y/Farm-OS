@@ -3,7 +3,7 @@
 // for real MQTT/HA later). Pinned on globalThis so Next's dev hot-reload and all
 // route handlers share one instance.
 
-import { seedTwin } from "./config";
+import { seedTwin, LOAD_DIVERSITY } from "./config";
 import type { Twin } from "./types";
 
 declare global {
@@ -29,6 +29,7 @@ export function recomputeLoad(twin: Twin = getTwin()): number {
   const watts = twin.assets
     .filter((a) => a.state === "on")
     .reduce((sum, a) => sum + a.powerDraw, 0);
-  twin.resources.energy.loadKw = Math.round((watts / 1000) * 100) / 100;
+  twin.resources.energy.loadKw =
+    Math.round((watts / 1000) * LOAD_DIVERSITY * 100) / 100;
   return twin.resources.energy.loadKw;
 }

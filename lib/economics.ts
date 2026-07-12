@@ -5,6 +5,7 @@
 // live energy cost of each vertical's powered assets. All figures are per-day.
 
 import type { Twin } from "./types";
+import { LOAD_DIVERSITY } from "./config";
 
 const CURRENCY = "RM"; // Malaysian ringgit
 const ENERGY_TARIFF = 0.45; // RM / kWh (grid-equivalent value of self-generated solar)
@@ -71,7 +72,7 @@ function energyCost(twin: Twin, verticalId: string): number {
   const watts = twin.assets
     .filter((a) => a.verticalId === verticalId && a.state === "on")
     .reduce((s, a) => s + a.powerDraw, 0);
-  return Math.round(((watts / 1000) * 24 * ENERGY_TARIFF) * 100) / 100;
+  return Math.round(((watts / 1000) * LOAD_DIVERSITY * 24 * ENERGY_TARIFF) * 100) / 100;
 }
 
 export interface VerticalBusiness {

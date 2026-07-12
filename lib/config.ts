@@ -60,6 +60,10 @@ function drawFor(type: string): number {
   return POWER_DRAW[type] ?? 100;
 }
 
+/** Diversity factor: not every connected load draws simultaneously (equipment
+ * duty-cycles). Standard electrical load estimation. Applied to total load. */
+export const LOAD_DIVERSITY = 0.4;
+
 interface RawConfig {
   farm: {
     name: string;
@@ -198,9 +202,11 @@ export function seedTwin(file = configPath()): Twin {
   }));
 
   const loadKw =
-    assets
+    (assets
       .filter((a) => a.state === "on")
-      .reduce((sum, a) => sum + a.powerDraw, 0) / 1000;
+      .reduce((sum, a) => sum + a.powerDraw, 0) /
+      1000) *
+    LOAD_DIVERSITY;
 
   const resources: Resources = {
     energy: {

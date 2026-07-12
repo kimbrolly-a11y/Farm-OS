@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useTwin } from "./useTwin";
 import { EnergyPanel } from "./EnergyPanel";
 import { WaterPanel } from "./WaterPanel";
+import { PredictivePanel } from "./PredictivePanel";
 import { VerticalCard } from "./VerticalCard";
 import { AlertsStrip } from "./AlertsStrip";
 
@@ -102,6 +103,10 @@ export function CommandCenter() {
       <section className="mb-6 grid gap-4 md:grid-cols-2">
         <EnergyPanel energy={twin.resources.energy} history={history} />
         <WaterPanel water={twin.resources.water} />
+      </section>
+
+      <section className="mb-6">
+        <PredictivePanel />
       </section>
 
       <section>
