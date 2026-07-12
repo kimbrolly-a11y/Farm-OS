@@ -73,8 +73,13 @@ verticals and the circular-loops `/loops` page. Build is GREEN. Start below.
 > #2+#3 /twin living map + what-if console** (energy/water flows, sliders over
 > forwardSimulate with loadDeltaKw), **P3 #19 NL console** (/console — Fable 5
 > tool-use, deterministic keyless fallback), **P5 #25 morning brief** (/brief),
-> **P2 #9 CSV export** (P&L + audit trail from /manage). Next: P1 #4 HA adapter
-> interface, P3 #12 yield forecasting, P5 #24 trust dial, P6 deploy.
+> **P2 #9 CSV export** (P&L + audit trail from /manage), **P5 #24 autonomy trust
+> dial** (per-domain advise/approve/auto in /controls + one-click approvals;
+> reset restores full auto — verified: crisis at "approve" queues 23
+> recommendations, zero actions), plus a first design pass (labeled vertical
+> tiles, eco ambience, brand mark). Next: DESIGN-HANDOFF.md deep design pass
+> (dedicated session — tree must be clean), P1 #4 HA adapter interface, P3 #12
+> yield forecasting, P6 deploy.
 1. Switch agent to **Fable 5** (`lib/agent.ts` `MODEL`) + verify
    (`POST /api/agent/run` → `mode:"claude"`). (~5 min)
 2. **Energy sources** — add **biogas** + genset (+ optional wind) to `resources` +
