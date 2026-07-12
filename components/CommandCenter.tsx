@@ -164,6 +164,12 @@ export function CommandCenter() {
             Water
           </Link>
           <Link
+            href="/sustainability"
+            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
+          >
+            ESG
+          </Link>
+          <Link
             href="/automations"
             className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
           >
