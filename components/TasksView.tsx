@@ -55,7 +55,7 @@ export function TasksView() {
 
   return (
     <main className="mx-auto max-w-3xl p-6">
-      <Link href="/" className="text-sm text-[--muted] hover:text-[--text]">
+      <Link href="/dashboard" className="text-sm text-[--muted] hover:text-[--text]">
         ← Command Center
       </Link>
       <header className="mt-4 mb-6">

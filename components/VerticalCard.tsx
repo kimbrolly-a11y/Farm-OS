@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import type { Asset, Vertical } from "@/lib/types";
+import { VerticalArt } from "./VerticalArt";
+import { visualFor } from "@/lib/verticalVisuals";
 
 const STATUS_COLOR: Record<Vertical["status"], string> = {
   ok: "var(--accent)",
@@ -21,13 +23,18 @@ export function VerticalCard({
   const onCount = vAssets.filter((a) => a.state === "on").length;
   const shed = vAssets.filter((a) => a.state === "off").length;
 
+  const vis = visualFor(vertical.id);
   return (
     <Link
       href={`/vertical/${vertical.id}`}
-      className="block rounded-xl border border-[--border] bg-[--panel] p-4 transition-colors hover:border-[--muted]"
+      className="block overflow-hidden rounded-xl border border-[--border] bg-[--panel] p-4 transition-colors hover:border-[--muted]"
+      style={{ borderLeft: `3px solid ${vis.color}` }}
     >
       <div className="mb-2 flex items-center justify-between">
-        <span className="font-medium">{vertical.name}</span>
+        <span className="flex items-center gap-2 font-medium">
+          <VerticalArt id={vertical.id} className="h-8 w-8 shrink-0" rounded="rounded-lg" />
+          {vertical.name}
+        </span>
         <span
           className="h-2.5 w-2.5 rounded-full"
           style={{ background: color, boxShadow: `0 0 8px ${color}` }}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useTwin } from "./useTwin";
+import { VerticalArt } from "./VerticalArt";
 import type { SensorReading } from "@/lib/types";
 
 const STATUS_COLOR = {
@@ -24,7 +25,7 @@ export function VerticalDetail({ verticalId }: { verticalId: string }) {
     return (
       <div className="p-8">
         <p className="text-[--danger]">Unknown vertical: {verticalId}</p>
-        <Link href="/" className="text-[--accent] underline">
+        <Link href="/dashboard" className="text-[--accent] underline">
           ← back
         </Link>
       </div>
@@ -45,12 +46,13 @@ export function VerticalDetail({ verticalId }: { verticalId: string }) {
   return (
     <main className="mx-auto max-w-5xl p-6">
       <div className="mb-4 flex items-center gap-3">
-        <Link href="/" className="text-sm text-[--muted] hover:text-[--text]">
+        <Link href="/dashboard" className="text-sm text-[--muted] hover:text-[--text]">
           ← Command Center
         </Link>
       </div>
 
       <header className="mb-6 flex items-center gap-3">
+        <VerticalArt id={vertical.id} className="h-12 w-12 shrink-0" />
         <span
           className="h-3 w-3 rounded-full"
           style={{ background: color, boxShadow: `0 0 10px ${color}` }}

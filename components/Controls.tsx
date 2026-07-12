@@ -97,7 +97,7 @@ export function Controls() {
 
   return (
     <main className="mx-auto max-w-2xl p-6">
-      <Link href="/" className="text-sm text-[--muted] hover:text-[--text]">
+      <Link href="/dashboard" className="text-sm text-[--muted] hover:text-[--text]">
         ← Command Center
       </Link>
       <h1 className="mt-4 mb-6 text-2xl font-semibold">Controls</h1>

@@ -77,7 +77,10 @@ export function CommandCenter() {
       <header className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold">
-            FarmOS · {twin.farm.name}
+            <Link href="/" className="hover:text-[--accent]">
+              Farm<span className="text-[--accent]">OS</span>
+            </Link>{" "}
+            · {twin.farm.name}
           </h1>
           <p className="text-sm text-[--muted]">
             {twin.farm.areaAcres}-acre off-grid eco-farm · {twin.farm.location.country}
@@ -118,6 +121,12 @@ export function CommandCenter() {
             />
             {twin.online ? "online" : "offline"}
           </span>
+          <Link
+            href="/verticals"
+            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
+          >
+            Verticals
+          </Link>
           <Link
             href="/manage"
             className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"

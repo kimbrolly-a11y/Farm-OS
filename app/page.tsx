@@ -1,7 +1,7 @@
-import { CommandCenter } from "@/components/CommandCenter";
+import { Welcome } from "@/components/Welcome";
 
 export const dynamic = "force-dynamic";
 
 export default function Home() {
-  return <CommandCenter />;
+  return <Welcome />;
 }
