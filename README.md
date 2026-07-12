@@ -13,7 +13,7 @@ even through a power or internet outage.
 layer. Humans do what only humans should — animal care, safety-critical guest
 activities, craft.
 
-**Live:** https://farmos-ochre.vercel.app — browse everything (the twin ticks on
+**Live:** https://farmos-ochre.vercel.app · **Repo:** https://github.com/kimbrolly-a11y/farmos (auto-deploys on push) — browse everything (the twin ticks on
 demand). For the interactive **crisis/outage demo**, run locally: the twin is
 in-memory, and serverless instances don't share state between scenario clicks
 (timeseries persistence is the planned P4 fix).
