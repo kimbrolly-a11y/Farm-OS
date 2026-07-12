@@ -27,9 +27,20 @@ export function VerticalCard({
   return (
     <Link
       href={`/vertical/${vertical.id}`}
-      className="block overflow-hidden rounded-xl border border-[--border] bg-[--panel] p-4 transition-colors hover:border-[--muted]"
+      className="block overflow-hidden rounded-xl border border-[--border] bg-[--panel] transition-colors hover:border-[--muted]"
       style={{ borderLeft: `3px solid ${vis.color}` }}
     >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`/img/verticals/${vertical.id}.jpg`}
+        alt=""
+        loading="lazy"
+        className="h-20 w-full object-cover"
+        onError={(e) => {
+          e.currentTarget.style.display = "none";
+        }}
+      />
+      <div className="p-4 pt-3">
       <div className="mb-2 flex items-center justify-between">
         <span className="flex items-center gap-2 font-medium">
           <VerticalArt id={vertical.id} className="h-8 w-8 shrink-0" rounded="rounded-lg" />
@@ -61,6 +72,7 @@ export function VerticalCard({
         {shed > 0 && (
           <span className="text-[--warn]">· {shed} shed</span>
         )}
+      </div>
       </div>
     </Link>
   );

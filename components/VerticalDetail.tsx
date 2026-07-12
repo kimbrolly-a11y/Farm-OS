@@ -5,6 +5,7 @@ import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "rec
 import { useTwin } from "./useTwin";
 import { VerticalArt } from "./VerticalArt";
 import { LiveCam } from "./LiveCam";
+import { StaysGallery } from "./StaysGallery";
 import type { SensorReading } from "@/lib/types";
 
 const STATUS_COLOR = {
@@ -77,6 +78,15 @@ export function VerticalDetail({ verticalId }: { verticalId: string }) {
           className="h-56 w-full sm:h-72"
         />
       </section>
+
+      {vertical.id === "lodging" && (
+        <section className="mb-6">
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-[--muted]">
+            Where to stay
+          </h2>
+          <StaysGallery />
+        </section>
+      )}
 
       {vertical.insights && vertical.insights.length > 0 && (
         <section className="mb-6">

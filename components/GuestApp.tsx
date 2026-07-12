@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import type { HospitalityReport } from "@/lib/hospitality";
 import type { AttractionsReport } from "@/lib/attractions";
 import { LiveCam } from "./LiveCam";
+import { StaysGallery } from "./StaysGallery";
 
 interface Data {
   hospitality: HospitalityReport;
@@ -105,6 +106,12 @@ export function GuestApp() {
                   );
                 })}
               </div>
+            </section>
+
+            {/* Where to stay */}
+            <section>
+              <SectionTitle>Where to stay</SectionTitle>
+              <StaysGallery compact />
             </section>
 
             {/* Farm map */}

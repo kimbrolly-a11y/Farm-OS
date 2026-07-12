@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useTwin } from "./useTwin";
-import { VerticalArt } from "./VerticalArt";
 import { VERTICAL_VISUALS } from "@/lib/verticalVisuals";
 
 export function Welcome() {
@@ -108,10 +107,18 @@ export function Welcome() {
                   title={vis?.tagline}
                   className="group rounded-xl border border-[--border] bg-[--panel] p-1.5 pb-2 transition-colors hover:border-[--muted]"
                 >
-                  <VerticalArt
-                    id={id}
-                    className="aspect-square w-full transition-transform group-hover:scale-105"
-                  />
+                  <span className="block aspect-square w-full overflow-hidden rounded-lg">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`/img/verticals/${id}.jpg`}
+                      alt=""
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
+                    />
+                  </span>
                   <div
                     className="mt-1.5 truncate text-center text-[11px] font-medium leading-tight"
                     style={{ color: vis?.color }}
