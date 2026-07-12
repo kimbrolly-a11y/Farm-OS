@@ -158,3 +158,17 @@ Suggested use: a **Farm Map** section (new `/map` route or on `/twin` / Welcome)
 with `map_iso_hud`, with clickable zone hotspots → each vertical detail. Overlay real
 zone **labels in HTML/SVG** on top (the AI image has no readable text by design), e.g. a
 `position:absolute` legend + numbered markers linking to `/vertical/<id>`.
+> ✅ Built: `/map` route (`components/FarmMap.tsx`) — 4 switchable styles + live zone legend.
+
+---
+
+## ATTRACTIONS ✅ (2026-07-12) — `public/img/attractions/<name>.jpg` (14)
+
+Eco-tourism experiences for the `/attractions` page, guest app, and the deck.
+```
+wedding_lawn  wedding_barn  pool  waterpark  lazy_river  horse_riding
+fishing  atv  archery  kayaking  forest_adventure  kids_camp  bbq  farm_tour
+```
+Suggested use: a gallery on `/attractions` (cards leading with each shot + a title/blurb).
+`wedding_lawn` + `map_iso_hud` are also copied into `public/img/deck/` and used on the
+pitch deck (experience + gap slides).

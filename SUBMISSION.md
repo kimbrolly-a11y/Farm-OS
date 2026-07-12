@@ -119,6 +119,10 @@ detection; carbon-credit / ESG reporting; multi-farm replication.
    offline resilience → **Reset**.
 3. **Loops** → the zero-waste circular map (92% circularity, products sold from
    waste). → **Manage** → live P&L across every vertical.
+4. **Farm Map** → the whole of Verdant Acres on one page (AI-rendered, 4 styles)
+   with every zone tappable → live detail. → the **eco-tourism experience**
+   (weddings, glamping, pool & lazy river, horse riding, ATV, fishing, kayaking,
+   farm-to-table) — the revenue engine on top of the working farm.
    One line: *"An AI that runs a whole self-sufficient farm company — and keeps it
    alive through a blackout."*
 
@@ -128,6 +132,9 @@ detection; carbon-credit / ESG reporting; multi-farm replication.
   before submitting)
 - **Live demo URL:** https://farmos-ochre.vercel.app (auto-deploys on every push;
   browse everything — run the interactive crisis/outage demo locally, see README)
+- **Pitch deck (9 slides, photo-backed):**
+  https://claude.ai/code/artifact/5954e1de-b9aa-4905-8c91-2e80304343ca
+  (share it from the artifact page, or Print → Save as PDF to attach)
 - **Demo video (2–3 min):** [TODO: screen-record the demo script above — see
   VIDEO-SCRIPT.md]
 - **Team / builder:** FarmOS Labs
