@@ -127,7 +127,7 @@ detection; carbon-credit / ESG reporting; multi-farm replication.
 - **Live demo URL:** [TODO: deploy to Vercel — `npm i -g vercel && vercel`, set
   `ANTHROPIC_API_KEY` via `vercel env`; or run locally at http://localhost:3000]
 - **Demo video (2–3 min):** [TODO: screen-record the demo script above]
-- **Team / builder:** [TODO: name(s)]
+- **Team / builder:** Company of One
 - **Category / theme:** One Person Company through Agentic Services
 - **Sponsors used:** Claude (agent brain), AWS (production architecture)
 

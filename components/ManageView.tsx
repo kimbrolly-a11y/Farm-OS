@@ -59,11 +59,27 @@ export function ManageView() {
       <Link href="/dashboard" className="text-sm text-[--muted] hover:text-[--text]">
         ← Command Center
       </Link>
-      <header className="mt-4 mb-6">
-        <h1 className="text-2xl font-semibold">Manage · P&amp;L</h1>
-        <p className="text-[--muted]">
-          Live financials across all verticals — revenue, cost, and margin per day.
-        </p>
+      <header className="mt-4 mb-6 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-semibold">Manage · P&amp;L</h1>
+          <p className="text-[--muted]">
+            Live financials across all verticals — revenue, cost, and margin per day.
+          </p>
+        </div>
+        <div className="flex gap-2 text-xs">
+          <a
+            href="/api/export?type=pnl"
+            className="rounded-full border border-[--border] px-3 py-1.5 text-[--muted] transition-colors hover:border-[--accent] hover:text-[--accent]"
+          >
+            ⬇ P&amp;L CSV
+          </a>
+          <a
+            href="/api/export?type=actions"
+            className="rounded-full border border-[--border] px-3 py-1.5 text-[--muted] transition-colors hover:border-[--accent] hover:text-[--accent]"
+          >
+            ⬇ Audit trail CSV
+          </a>
+        </div>
       </header>
 
       {/* Farm rollup */}
