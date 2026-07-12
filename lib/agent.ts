@@ -1,9 +1,10 @@
 // lib/agent.ts — the FarmOS supervisor agent.
-// Primary path: Claude (claude-opus-4-8) with real tool-use via the SDK tool
-// runner; every action tool takes a `reasoning` argument that is written to the
-// Activity Log. Fallback path: the deterministic rule engine, used when the farm
-// is offline, when no ANTHROPIC_API_KEY is set, or if the API call fails — so the
-// crisis and resilience demos are always bulletproof.
+// Primary path: Claude Fable 5 with real tool-use via the SDK tool runner
+// (server-side refusal fallback to claude-opus-4-8); every action tool takes a
+// `reasoning` argument that is written to the Activity Log. Fallback path: the
+// deterministic rule engine, used when the farm is offline, when no
+// ANTHROPIC_API_KEY is set, or if the API call fails — so the crisis and
+// resilience demos are always bulletproof.
 
 import Anthropic from "@anthropic-ai/sdk";
 import { betaTool } from "@anthropic-ai/sdk/helpers/beta/json-schema";
@@ -25,7 +26,11 @@ import {
 } from "./tools/actions";
 import { runRuleEngine } from "./ruleEngine";
 
-const MODEL = "claude-opus-4-8";
+const MODEL = "claude-fable-5";
+// Fable 5: thinking is always on (adaptive) — never send {type:"disabled"};
+// no temperature/top_p/top_k; safety classifiers can return stop_reason
+// "refusal", so we opt into the server-side fallback chain to Opus 4.8.
+const FALLBACK_MODEL = "claude-opus-4-8";
 
 const SYSTEM_PROMPT = `You are the operations team for a one-person, off-grid eco-farm in Malaysia (Verdant Acres). \
 Your priorities, in order: (1) protect life-support loads and animals, (2) preserve water and battery through monsoon/cloud spells, \
@@ -223,9 +228,11 @@ export async function runAgent(trigger = "manual run"): Promise<AgentResult> {
     const client = new Anthropic();
     const finalMessage = await client.beta.messages.toolRunner({
       model: MODEL,
-      max_tokens: 8000,
+      max_tokens: 16000,
       thinking: { type: "adaptive" },
-      output_config: { effort: "medium" },
+      output_config: { effort: "high" },
+      betas: ["server-side-fallback-2026-06-01"],
+      fallbacks: [{ model: FALLBACK_MODEL }],
       system: SYSTEM_PROMPT,
       tools: buildTools(),
       max_iterations: 12,
