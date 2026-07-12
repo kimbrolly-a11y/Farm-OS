@@ -10,6 +10,7 @@ import { betaTool } from "@anthropic-ai/sdk/helpers/beta/json-schema";
 import { getTwin } from "./store";
 import { setTrigger } from "./tools/log";
 import { getTwinForecast } from "./tools/getForecast";
+import { getBusiness } from "./economics";
 import {
   assignTask,
   createAlert,
@@ -57,6 +58,12 @@ function buildTools() {
       description: "Weather forecast (Open-Meteo). cloud_cover + shortwave_radiation drive solar/battery decisions; precipitation drives irrigation. Uses cached data when offline.",
       inputSchema: { type: "object", properties: {}, additionalProperties: false },
       run: async () => JSON.stringify(await getTwinForecast(getTwin())),
+    }),
+    betaTool({
+      name: "getBusinessState",
+      description: "Live per-vertical P&L (revenue, cost, margin, energy cost) + production, in RM/day. Use to weigh the financial impact of a decision — e.g. what revenue a load carries before shedding it.",
+      inputSchema: { type: "object", properties: {}, additionalProperties: false },
+      run: async () => JSON.stringify(getBusiness(getTwin())),
     }),
     betaTool({
       name: "shedLoad",
