@@ -47,6 +47,13 @@ const POWER_DRAW: Record<string, number> = {
   dehydrator: 800,
   machine: 500,
   conveyor: 300,
+  // added in twin-core part 2
+  heat_lamp: 250,
+  light: 60,
+  deterrent: 20,
+  smart_lock: 4,
+  dishwasher: 1800,
+  gate: 40,
 };
 
 function drawFor(type: string): number {

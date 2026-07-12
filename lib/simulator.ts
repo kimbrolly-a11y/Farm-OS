@@ -45,6 +45,16 @@ const METRIC_MODELS: Record<string, MetricModel> = {
   vacuum_pressure: { base: 60, jitter: 6, min: 8, max: 1000, decimals: 0 },
   batch_moisture: { base: 7.5, jitter: 0.4, min: 2, max: 25, decimals: 1 },
   power_kw: { base: 4.5, jitter: 0.3, min: 0.5, max: 12, decimals: 1 },
+  // twin-core part 2
+  co2: { base: 800, jitter: 40, min: 400, max: 2000, decimals: 0 },
+  water_level: { base: 65, jitter: 1, min: 5, max: 100, decimals: 0 },
+  nitrate: { base: 40, jitter: 3, min: 5, max: 120, decimals: 0 },
+  leaf_wetness: { base: 30, jitter: 3, min: 0, max: 100, decimals: 0 },
+  freezer_temp: { base: -19, jitter: 0.4, min: -25, max: 5, decimals: 1 },
+  compost_temp: { base: 58, jitter: 1, min: 20, max: 75, decimals: 0 },
+  o2: { base: 18, jitter: 0.5, min: 0, max: 21, decimals: 1 },
+  tank_level: { base: 55, jitter: 1, min: 5, max: 100, decimals: 0 },
+  bee_activity: { base: 45, jitter: 6, min: 0, max: 200, decimals: 0 },
 };
 
 function localHour(twin: Twin): number {

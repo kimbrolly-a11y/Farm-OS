@@ -103,6 +103,16 @@ verticals:
           - { metric: temperature, unit: C,   product: "Ecowitt WN31 / Aqara Zigbee", protocol: Zigbee, ha_entity: sensor.coop1_temp }
           - { metric: humidity,    unit: "%", product: "Ecowitt WN31", protocol: Zigbee, ha_entity: sensor.coop1_humidity }
           - { metric: eggs_today,  unit: count, product: "Manual / vision counter", ha_entity: sensor.coop1_eggs }
+      - id: brooder-1
+        assets:
+          - { id: brooder_heater, type: heat_lamp, criticality: life_support,
+              hardware: "Brooder heat plate + Shelly relay", protocol: WiFi, ha_entity: switch.brooder_heater }
+          - { id: coop1_light,    type: light,     criticality: discretionary,
+              hardware: "Coop LED + Shelly dimmer", protocol: WiFi, ha_entity: light.coop1 }
+        sensors:
+          - { metric: temperature, unit: C,   product: "Aqara Zigbee", protocol: Zigbee, ha_entity: sensor.brooder1_temp }
+          - { metric: ammonia,     unit: ppm, product: "MQ-137 (ESP32)", protocol: I2C-ESP32, ha_entity: sensor.coop1_ammonia }
+          - { metric: co2,         unit: ppm, product: "Sensirion SCD41", protocol: I2C-ESP32, ha_entity: sensor.coop1_co2 }
 
   - id: aquaponics
     name: "Aquaponics"
@@ -120,6 +130,18 @@ verticals:
           - { metric: ph,          unit: pH,   product: "Atlas Scientific EZO-pH probe", protocol: I2C-ESP32, ha_entity: sensor.aqua1_ph }
           - { metric: water_temp,  unit: C,    product: "DS18B20 probe", protocol: I2C-ESP32, ha_entity: sensor.aqua1_watertemp }
           - { metric: ammonia,     unit: ppm,  product: "Test-kit / ISE probe", ha_entity: sensor.aqua1_ammonia }
+      - id: growbed-1
+        assets:
+          - { id: growbed_pump,     type: pump,       criticality: life_support,
+              hardware: "Flood/drain pump + Shelly relay", protocol: WiFi, ha_entity: switch.growbed_pump }
+          - { id: growbed_solenoid, type: water_valve, criticality: important,
+              hardware: "Bell-siphon solenoid + Shelly", protocol: WiFi, ha_entity: switch.growbed_solenoid }
+          - { id: growbed_led,      type: grow_light, criticality: discretionary,
+              hardware: "LED grow bar + Shelly", protocol: WiFi, ha_entity: light.growbed1 }
+        sensors:
+          - { metric: water_level, unit: "%",   product: "eTape / ultrasonic level", protocol: I2C-ESP32, ha_entity: sensor.growbed1_level }
+          - { metric: nitrate,     unit: ppm,   product: "Nitrate ISE probe", protocol: I2C-ESP32, ha_entity: sensor.growbed1_nitrate }
+          - { metric: ec,          unit: "mS/cm", product: "Atlas EZO-EC", protocol: I2C-ESP32, ha_entity: sensor.growbed1_ec }
 
   - id: hydroponics
     name: "Hydroponics"
@@ -136,6 +158,18 @@ verticals:
           - { metric: ph,   unit: pH,     product: "Atlas Scientific EZO-pH / DFRobot Gravity pH", protocol: I2C-ESP32, ha_entity: sensor.hydro1_ph }
           - { metric: ec,   unit: "mS/cm", product: "Atlas Scientific EZO-EC / Bluelab", protocol: I2C-ESP32, ha_entity: sensor.hydro1_ec }
           - { metric: water_temp, unit: C, product: "DS18B20", protocol: I2C-ESP32, ha_entity: sensor.hydro1_watertemp }
+      - id: greenhouse-2
+        assets:
+          - { id: hydro2_circpump, type: pump,        criticality: important,
+              hardware: "NFT circulation pump + Shelly relay", protocol: WiFi, ha_entity: switch.hydro2_circpump }
+          - { id: hydro2_exhaust,  type: fan,         criticality: discretionary,
+              hardware: "Exhaust fan + Shelly", protocol: WiFi, ha_entity: fan.hydro2 }
+          - { id: hydro2_co2,      type: dosing_pump, criticality: discretionary,
+              hardware: "CO2 regulator solenoid + Shelly", protocol: WiFi, ha_entity: switch.hydro2_co2 }
+        sensors:
+          - { metric: humidity,   unit: "%", product: "SHT31", protocol: I2C-ESP32, ha_entity: sensor.hydro2_humidity }
+          - { metric: co2,        unit: ppm, product: "Sensirion SCD41", protocol: I2C-ESP32, ha_entity: sensor.hydro2_co2 }
+          - { metric: water_temp, unit: C,   product: "DS18B20", protocol: I2C-ESP32, ha_entity: sensor.hydro2_watertemp }
 
   - id: fruit_orchard
     name: "Fruit Orchard"
@@ -149,6 +183,16 @@ verticals:
         sensors:
           - { metric: soil_moisture, unit: "%",  product: "SenseCAP S2105 / Dragino SE01-LB (LoRaWAN soil moisture+EC)", protocol: LoRaWAN, ha_entity: sensor.orchard_a_soil }
           - { metric: soil_ec,       unit: "mS/cm", product: "SenseCAP S2105", protocol: LoRaWAN, ha_entity: sensor.orchard_a_ec }
+      - id: orchard-block-b
+        assets:
+          - { id: orchard_fertigation_b, type: fertigation_pump, criticality: important,
+              hardware: "Kamoer dosing pump + Shelly relay", protocol: WiFi, ha_entity: switch.orchard_fertigation_b }
+          - { id: orchard_bird_deterrent, type: deterrent, criticality: discretionary,
+              hardware: "Solar bird scarer + Shelly", protocol: WiFi, ha_entity: switch.orchard_bird }
+        sensors:
+          - { metric: soil_moisture, unit: "%", product: "Dragino SE01-LB", protocol: LoRaWAN, ha_entity: sensor.orchard_b_soil }
+          - { metric: canopy_temp,   unit: C, product: "IR canopy sensor", protocol: LoRaWAN, ha_entity: sensor.orchard_b_canopy }
+          - { metric: leaf_wetness,  unit: "%", product: "Leaf wetness sensor", protocol: LoRaWAN, ha_entity: sensor.orchard_b_leaf }
 
   - id: lodging
     name: "Airbnb Lodging"
@@ -161,6 +205,18 @@ verticals:
               hardware: "Solar water heater + Shelly relay backup", protocol: WiFi, ha_entity: switch.cabin1_heater }
         sensors:
           - { metric: occupancy, unit: bool, product: "Booking sync (Beds24)", ha_entity: binary_sensor.cabin1_occupied }
+      - id: cabin-2
+        assets:
+          - { id: cabin2_ac,          type: hvac,         criticality: discretionary,
+              hardware: "Split AC + Sensibo", protocol: WiFi, ha_entity: climate.cabin2 }
+          - { id: cabin2_fridge,      type: cold_storage, criticality: important,
+              hardware: "Guest minibar fridge + Shelly", protocol: WiFi, ha_entity: switch.cabin2_fridge }
+          - { id: cabin2_lock,        type: smart_lock,   criticality: important,
+              hardware: "Smart lock (Beds24 check-in)", protocol: Zigbee, ha_entity: lock.cabin2 }
+        sensors:
+          - { metric: temperature, unit: C,   product: "Aqara Zigbee", protocol: Zigbee, ha_entity: sensor.cabin2_temp }
+          - { metric: humidity,    unit: "%", product: "Aqara Zigbee", protocol: Zigbee, ha_entity: sensor.cabin2_humidity }
+          - { metric: occupancy,   unit: bool, product: "Booking sync (Beds24)", ha_entity: binary_sensor.cabin2_occupied }
 
   - id: restaurant
     name: "Restaurant"
@@ -173,6 +229,17 @@ verticals:
               hardware: "Blast chiller + Shelly relay", protocol: WiFi, ha_entity: switch.blast_chiller }
         sensors:
           - { metric: cold_room_temp, unit: C, product: "Ecowitt WN30 probe / Zigbee", protocol: Zigbee, ha_entity: sensor.cold_room_1_temp }
+      - id: prep-line
+        assets:
+          - { id: walk_in_freezer, type: cold_storage, criticality: important,
+              hardware: "Walk-in freezer + Shelly EM (temp+power)", protocol: WiFi, ha_entity: sensor.walk_in_freezer_temp }
+          - { id: resto_exhaust_hood, type: fan,    criticality: discretionary,
+              hardware: "Kitchen exhaust hood + Shelly", protocol: WiFi, ha_entity: fan.resto_hood }
+          - { id: resto_dishwasher,   type: dishwasher, criticality: discretionary,
+              hardware: "Commercial dishwasher + Shelly", protocol: WiFi, ha_entity: switch.resto_dishwasher }
+        sensors:
+          - { metric: freezer_temp, unit: C,  product: "Ecowitt WN30 probe", protocol: Zigbee, ha_entity: sensor.walk_in_freezer_temp }
+          - { metric: power_kw,     unit: kW, product: "Shelly 3EM sub-meter", protocol: WiFi, ha_entity: sensor.kitchen_power }
 
   - id: petting_zoo
     name: "Petting Zoo"
@@ -183,6 +250,18 @@ verticals:
               hardware: "Auto waterer + Shelly relay", protocol: WiFi, ha_entity: switch.barn1_water }
         sensors:
           - { metric: temperature, unit: C, product: "Ecowitt WN31", protocol: Zigbee, ha_entity: sensor.barn1_temp }
+      - id: paddock-1
+        assets:
+          - { id: zoo_feeder,      type: feeder, criticality: important,
+              hardware: "Auto feeder + Shelly relay", protocol: WiFi, ha_entity: switch.zoo_feeder }
+          - { id: zoo_misting_fan, type: fan,    criticality: discretionary,
+              hardware: "Misting cooling fan + Shelly", protocol: WiFi, ha_entity: fan.zoo_misting }
+          - { id: zoo_gate,        type: gate,   criticality: important,
+              hardware: "Motorised paddock gate", protocol: WiFi, ha_entity: cover.zoo_gate }
+        sensors:
+          - { metric: temperature, unit: C,  product: "Ecowitt WN31", protocol: Zigbee, ha_entity: sensor.paddock1_temp }
+          - { metric: humidity,    unit: "%", product: "Ecowitt WN31", protocol: Zigbee, ha_entity: sensor.paddock1_humidity }
+          - { metric: water_level, unit: "%", product: "Ultrasonic trough level", protocol: LoRaWAN, ha_entity: sensor.paddock1_water }
 
   - id: palm_oil
     name: "Palm Oil"
@@ -230,6 +309,18 @@ verticals:
               hardware: "Black-soldier-fly bins (manual + temp probe)", protocol: Zigbee, ha_entity: sensor.bsf_temp }
         sensors:
           - { metric: methane, unit: "%", product: "Modbus CH4 sensor", protocol: Modbus, ha_entity: sensor.digester_ch4 }
+      - id: compost-yard
+        assets:
+          - { id: compost_mixer,   type: machine, criticality: discretionary,
+              hardware: "Compost turner/mixer + VFD", protocol: WiFi, ha_entity: switch.compost_mixer }
+          - { id: digester_blower, type: fan,     criticality: important,
+              hardware: "Digester aeration blower + Shelly", protocol: WiFi, ha_entity: switch.digester_blower }
+          - { id: leachate_pump,   type: pump,    criticality: important,
+              hardware: "Leachate transfer pump + Shelly", protocol: WiFi, ha_entity: switch.leachate_pump }
+        sensors:
+          - { metric: compost_temp, unit: C,  product: "PT100 compost probe", protocol: I2C-ESP32, ha_entity: sensor.compost_temp }
+          - { metric: o2,           unit: "%", product: "O2 sensor (digester)", protocol: Modbus, ha_entity: sensor.digester_o2 }
+          - { metric: tank_level,   unit: "%", product: "Ultrasonic leachate level", protocol: LoRaWAN, ha_entity: sensor.leachate_level }
 
   - id: beekeeping
     name: "Beekeeping"
@@ -239,6 +330,12 @@ verticals:
         sensors:
           - { metric: hive_weight, unit: kg, product: "BroodMinder hive scale + temp/humidity", protocol: BLE-LoRaWAN, ha_entity: sensor.hive1_weight }
           - { metric: hive_temp,   unit: C,  product: "BroodMinder-TH", protocol: BLE, ha_entity: sensor.hive1_temp }
+      - id: apiary-2
+        assets: []
+        sensors:
+          - { metric: hive_weight,  unit: kg,     product: "BroodMinder hive scale", protocol: BLE-LoRaWAN, ha_entity: sensor.hive2_weight }
+          - { metric: humidity,     unit: "%",    product: "BroodMinder-TH", protocol: BLE, ha_entity: sensor.hive2_humidity }
+          - { metric: bee_activity, unit: "/min", product: "Hive entrance bee counter", protocol: BLE-LoRaWAN, ha_entity: sensor.hive2_activity }
 
   - id: food_processing
     name: "Canning & Food Processing"
@@ -290,11 +387,16 @@ verticals:
 # ---------------------------------------------------------------------------
 load_shedding:
   shed_first:  [hydro1_lights, hydro1_farmbot, orchard_mower, cabin1_ac, cabin1_water_heater, farmbot,
-                canning_conveyor, canning_labeler, dehydrator_1, vacuum_sealer, pulper_mill, palm_ripeness_cam]
+                canning_conveyor, canning_labeler, dehydrator_1, vacuum_sealer, pulper_mill, palm_ripeness_cam,
+                coop1_light, growbed_led, hydro2_exhaust, hydro2_co2, orchard_bird_deterrent,
+                cabin2_ac, resto_exhaust_hood, resto_dishwasher, zoo_misting_fan, compost_mixer]
   shed_next:   [orchard_valve_a, blast_chiller, coop1_feeder,
                 retort_1, can_seamer, freeze_dryer_1, fd_vacuum_pump, fd_condenser,
-                palm1_fertigation, palm2_fertigation, palm1_valve, palm2_valve, palm3_valve]
-  never_shed:  [coop1_fans, incubator_1, aqua1_aerator, aqua1_pump, cold_room_1, well_pump]
+                palm1_fertigation, palm2_fertigation, palm1_valve, palm2_valve, palm3_valve,
+                growbed_solenoid, hydro2_circpump, orchard_fertigation_b, cabin2_fridge,
+                walk_in_freezer, zoo_feeder, zoo_gate, digester_blower, leachate_pump]
+  never_shed:  [coop1_fans, incubator_1, aqua1_aerator, aqua1_pump, cold_room_1, well_pump,
+                brooder_heater, growbed_pump]
 
 # ---------------------------------------------------------------------------
 # ALERT ROUTING  (Malaysia = WhatsApp first)
