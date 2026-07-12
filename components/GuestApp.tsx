@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import type { HospitalityReport } from "@/lib/hospitality";
 import type { AttractionsReport } from "@/lib/attractions";
 import { LiveCam } from "./LiveCam";
-import { StaysGallery } from "./StaysGallery";
 
 interface Data {
   hospitality: HospitalityReport;
@@ -75,43 +74,53 @@ export function GuestApp() {
           </div>
 
           <div className="space-y-6 p-5">
-            {/* Book a stay */}
+            {/* Book a stay — photo + booking together, one card per tier */}
             <section>
               <SectionTitle>Book your stay</SectionTitle>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {openStays.map((t) => {
                   const free = t.unitsOpen - t.occupied;
                   return (
                     <div
                       key={t.id}
-                      className="flex items-center justify-between rounded-xl border border-[--border] bg-[--panel] px-4 py-3"
+                      className="overflow-hidden rounded-xl border border-[--border] bg-[--panel]"
                     >
-                      <div>
-                        <div className="text-sm font-medium">{t.name}</div>
-                        <div className="text-xs text-[--muted]">
-                          {free > 0 ? `${free} available tonight` : "fully booked tonight"} · RM{" "}
-                          {t.ratePerNight}/night
-                        </div>
+                      <div className="relative h-28 w-full overflow-hidden">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={stayImage(t.id, t.name)}
+                          alt={t.name}
+                          loading="lazy"
+                          className="h-full w-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.style.display = "none";
+                          }}
+                        />
+                        <span className="absolute right-2 top-2 rounded-full bg-black/55 px-2 py-0.5 text-[10px] font-medium text-white">
+                          RM {t.ratePerNight}/night
+                        </span>
                       </div>
-                      <button
-                        className={`rounded-full px-3 py-1.5 text-xs font-medium ${
-                          free > 0
-                            ? "bg-[--accent] text-white"
-                            : "cursor-not-allowed bg-[--panel-2] text-[--muted]"
-                        }`}
-                      >
-                        {free > 0 ? "Book" : "Waitlist"}
-                      </button>
+                      <div className="flex items-center justify-between px-4 py-3">
+                        <div>
+                          <div className="text-sm font-medium">{t.name}</div>
+                          <div className="text-xs text-[--muted]">
+                            {free > 0 ? `${free} available tonight` : "fully booked tonight"}
+                          </div>
+                        </div>
+                        <button
+                          className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-medium ${
+                            free > 0
+                              ? "bg-[--accent] text-white"
+                              : "cursor-not-allowed bg-[--panel-2] text-[--muted]"
+                          }`}
+                        >
+                          {free > 0 ? "Book" : "Waitlist"}
+                        </button>
+                      </div>
                     </div>
                   );
                 })}
               </div>
-            </section>
-
-            {/* Where to stay */}
-            <section>
-              <SectionTitle>Where to stay</SectionTitle>
-              <StaysGallery compact />
             </section>
 
             {/* Farm map */}
@@ -215,6 +224,15 @@ function Chip({ children }: { children: React.ReactNode }) {
   return (
     <span className="rounded-full bg-[--panel-2] px-2 py-1 text-[10px] font-medium">{children}</span>
   );
+}
+
+// map a lodging tier to its lead photo in /public/img/stays
+function stayImage(id: string, name: string): string {
+  const k = `${id} ${name}`.toLowerCase();
+  if (/glamp|dome|tent|grove/.test(k)) return "/img/stays/glamping_dome.jpg";
+  if (/bungalow|villa|garden/.test(k)) return "/img/stays/cabin_cluster.jpg";
+  if (/cabin|chalet|airbnb/.test(k)) return "/img/stays/cabin_exterior.jpg";
+  return "/img/stays/hotel_exterior.jpg";
 }
 
 function MapBlock({
