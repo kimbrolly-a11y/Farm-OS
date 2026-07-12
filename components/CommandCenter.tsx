@@ -88,6 +88,12 @@ export function CommandCenter() {
             Activity log
           </Link>
           <Link
+            href="/inventory"
+            className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
+          >
+            Inventory
+          </Link>
+          <Link
             href="/automations"
             className="rounded-full border border-[--border] px-3 py-1 hover:border-[--muted]"
           >

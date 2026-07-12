@@ -13,6 +13,7 @@ import { getTwinForecast } from "./tools/getForecast";
 import { getBusiness } from "./economics";
 import { forwardSimulate } from "./predict";
 import { getAutomations, runAutomation } from "./automations";
+import { getInventory } from "./inventory";
 import {
   assignTask,
   createAlert,
@@ -66,6 +67,12 @@ function buildTools() {
       description: "Live per-vertical P&L (revenue, cost, margin, energy cost) + production, in RM/day. Use to weigh the financial impact of a decision — e.g. what revenue a load carries before shedding it.",
       inputSchema: { type: "object", properties: {}, additionalProperties: false },
       run: async () => JSON.stringify(getBusiness(getTwin())),
+    }),
+    betaTool({
+      name: "getInventory",
+      description: "Current stock levels (fresh/processed/inputs, with low-stock flags) and production batches with food-safety (HACCP) status. Use to factor stock into decisions (e.g. cold storage full → prioritise processing; input low → assign a restock task).",
+      inputSchema: { type: "object", properties: {}, additionalProperties: false },
+      run: async () => JSON.stringify(getInventory(getTwin())),
     }),
     betaTool({
       name: "simulateForward",
