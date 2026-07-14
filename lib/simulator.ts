@@ -6,6 +6,7 @@
 import { getTwin, recomputeLoad } from "./store";
 import { deriveInsights } from "./insights";
 import { updateEnergySources } from "./energy";
+import { readLiveValue } from "./integration";
 import type { SensorReading, Twin, Vertical } from "./types";
 
 const TICK_MS = 3000;
@@ -270,9 +271,12 @@ function updateVerticals(twin: Twin) {
 export function tickOnce(twin: Twin = getTwin()): void {
   const now = new Date().toISOString();
 
-  // 1. sensor readings
+  // 1. sensor readings — prefer a real hardware feed (Home Assistant/MQTT) when a
+  //    fresh live value exists; otherwise the simulator generates one. Same twin,
+  //    same downstream logic, so the agent runs identically on real or sim data.
   for (const s of twin.sensors) {
-    const value = nextReading(twin, s.id, s.metric);
+    const live = readLiveValue(twin, s);
+    const value = live !== null ? live : nextReading(twin, s.id, s.metric);
     if (value === null) continue;
     const r: SensorReading = {
       id: `${s.id}@${twin.sim.tickCount}`,
@@ -283,6 +287,7 @@ export function tickOnce(twin: Twin = getTwin()): void {
       value,
       unit: s.unit,
       timestamp: now,
+      source: live !== null ? "live" : "sim",
     };
     twin.readings.push(r);
   }

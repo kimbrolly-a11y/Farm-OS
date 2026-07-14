@@ -39,6 +39,8 @@ export interface SensorReading {
   value: number;
   unit: string;
   timestamp: string;
+  /** where this reading came from — real hardware feed or the simulator */
+  source?: "live" | "sim";
 }
 
 export interface Zone {

@@ -9,6 +9,10 @@ export async function register() {
       startSimulator();
       const { startAutopilot } = await import("./lib/autopilot");
       startAutopilot();
+      // Real-sensor integration — no-op (pure sim) unless INTEGRATION_MODE=live.
+      const { startIntegration } = await import("./lib/integration");
+      const { getTwin } = await import("./lib/store");
+      startIntegration(getTwin());
     } catch (e) {
       console.error("[instrumentation] boot failed — continuing without background sim:", e);
     }
