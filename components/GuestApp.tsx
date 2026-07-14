@@ -126,9 +126,9 @@ export function GuestApp() {
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-lg font-semibold">
-                  Verdant <span className="text-[--accent]">World</span>
+                  Crown <span className="text-[--accent]">Eagles</span>
                 </div>
-                <div className="text-xs text-[--muted]">Verdant Acres eco-farm resort · Malaysia</div>
+                <div className="text-xs text-[--muted]">Crown Eagles Eco Farm eco-farm resort · Malaysia</div>
               </div>
               <div className="flex gap-1.5">
                 <Chip>📱 QR check-in</Chip>
@@ -277,7 +277,7 @@ export function GuestApp() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/img/map/map_illustrated.jpg"
-                  alt="Verdant Acres farm map"
+                  alt="Crown Eagles Eco Farm farm map"
                   loading="lazy"
                   className="h-40 w-full object-cover"
                   onError={(e) => {

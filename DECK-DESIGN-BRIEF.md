@@ -19,7 +19,7 @@ link never changes.
 - **Content stays truthful:** don't invent numbers. The two demo scenarios — crisis
   (sheds discretionary loads, protects every life-support load) and offline resilience
   — are the heart of the pitch; keep them accurate.
-- **Brand:** product = **FarmOS**; farm = **Verdant Acres**; team = **FarmOS Labs**;
+- **Brand:** product = **FarmOS**; farm = **Crown Eagles Eco Farm**; team = **FarmOS Labs**;
   live demo = **farmos-ochre.vercel.app**. (Do NOT rename to anything else.)
 
 ## Current design system — keep it BRIGHT (matches the live app)

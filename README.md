@@ -2,7 +2,7 @@
 
 > **BUIDL_OPC_Hackathon_SG** · theme: *"One Person Company through Agentic Services"* · sponsors: **Claude + AWS** · team: **FarmOS Labs**
 
-One founder runs **Verdant Acres**: a 100-acre, off-grid, self-sufficient eco-tourism
+One founder runs **Crown Eagles Eco Farm**: a 100-acre, off-grid, self-sufficient eco-tourism
 farm in Malaysia — 18 operating verticals from dairy cattle and aquaculture to palm
 oil, a farm-to-table restaurant, a hotel, and a funworld. The entire operations
 team is **one Claude agent**. It senses through a live digital twin, predicts hours

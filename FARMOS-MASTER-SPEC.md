@@ -1,4 +1,4 @@
-# FarmOS · Verdant Acres — Comprehensive Master Spec & Build Prompt
+# FarmOS · Crown Eagles Eco Farm — Comprehensive Master Spec & Build Prompt
 
 > **Purpose.** This is the complete, self-contained specification for FarmOS: a
 > 100-acre, off-grid, fully-circular, low-manpower eco-tourism farm resort in
@@ -146,7 +146,7 @@ charcoal, compost + vermicompost, liquid organic/fish fertilizer, BSF protein
 meal, bamboo crafts/furniture, mushrooms, handmade soap/candles, biogas/bottled
 cooking gas, **carbon credits** (biochar + solar + biogas, MSPO/ESG-certified).
 
-## 8. Eco-tourism "Verdant World" (attractions + guest app)
+## 8. Eco-tourism "Crown Eagles" (attractions + guest app)
 
 Owner's list **+ researched additions** to make it a standout funworld:
 
@@ -165,7 +165,7 @@ center** (walk the circular loops — educational + ESG marketing); paintball /
 laser tag; obstacle/mud run; outdoor cinema + bonfire; **wellness/spa** (goat-
 milk products, yoga deck); **natural swimming pond**; seasonal events (harvest
 festival, durian season, corporate retreats, **church camps**). Theme it as one
-connected "Verdant World."
+connected "Crown Eagles."
 
 **Guest app (PWA):** booking (rooms / 40–60 bungalows / glamping / events),
 **QR self-check-in**, activity scheduling + ticketing + **e-waivers** (rides/

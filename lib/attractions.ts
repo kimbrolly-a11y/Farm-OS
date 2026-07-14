@@ -1,4 +1,4 @@
-// lib/attractions.ts — the "Verdant World" attraction layer (spec §8).
+// lib/attractions.ts — the "Crown Eagles" attraction layer (spec §8).
 // Breadth over depth: the full funworld roster with live-ish ticketing derived
 // from guests on site. Safety-critical activities are explicitly human-staffed
 // (spec §9 — the AI runs the farm; lifeguards and range marshals are people).

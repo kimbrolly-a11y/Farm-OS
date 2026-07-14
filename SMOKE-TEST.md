@@ -13,7 +13,7 @@ Mark ✅/❌. Anything ❌ blocks submission until fixed. Dev: `npm run dev` →
 
 ## 1. Welcome / home  `/`
 - [ ] Hero renders with a **farm photo background** (`/img/deck/hero.jpg`) + legible text over a scrim.
-- [ ] Brand reads **FarmOS · Verdant Acres**; primary CTA → `/dashboard`, secondary → `/verticals`.
+- [ ] Brand reads **FarmOS · Crown Eagles Eco Farm**; primary CTA → `/dashboard`, secondary → `/verticals`.
 - [ ] Vertical teaser shows photos (not blank/emblem-only).
 
 ## 2. The farm gallery  `/verticals`

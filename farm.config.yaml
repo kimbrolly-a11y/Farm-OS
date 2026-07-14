@@ -17,7 +17,7 @@
 # =============================================================================
 
 farm:
-  name: "Verdant Acres"            # rename to your brand
+  name: "Crown Eagles Eco Farm"            # rename to your brand
   area_acres: 100
   location:
     country: Malaysia

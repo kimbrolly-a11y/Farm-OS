@@ -119,7 +119,7 @@ detection; carbon-credit / ESG reporting; multi-farm replication.
    offline resilience → **Reset**.
 3. **Loops** → the zero-waste circular map (92% circularity, products sold from
    waste). → **Manage** → live P&L across every vertical.
-4. **Farm Map** → the whole of Verdant Acres on one page (AI-rendered, 4 styles)
+4. **Farm Map** → the whole of Crown Eagles Eco Farm on one page (AI-rendered, 4 styles)
    with every zone tappable → live detail. → the **eco-tourism experience**
    (weddings, glamping, pool & lazy river, horse riding, ATV, fishing, kayaking,
    farm-to-table) — the revenue engine on top of the working farm.

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "FarmOS — Verdant Acres",
+  title: "FarmOS — Crown Eagles Eco Farm",
   description:
     "The autonomous operating system for a one-person, off-grid eco-farm in Malaysia.",
   icons: { icon: "/farmos-mark.svg" },

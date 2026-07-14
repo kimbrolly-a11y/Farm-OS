@@ -41,7 +41,7 @@ export function ResortView() {
     return () => clearInterval(id);
   }, []);
 
-  if (!d) return <div className="p-8 text-[--muted]">Loading Verdant World…</div>;
+  if (!d) return <div className="p-8 text-[--muted]">Loading Crown Eagles…</div>;
 
   const h = d.hospitality;
   const a = d.attractions;
@@ -53,7 +53,7 @@ export function ResortView() {
       </Link>
       <header className="mt-4 mb-6 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold">Verdant World — Resort & Attractions</h1>
+          <h1 className="text-2xl font-semibold">Crown Eagles — Resort & Attractions</h1>
           <p className="text-[--muted]">
             Hospitality at 150–300-guest scale, run lean: the AI handles ops; people handle safety
             & craft.

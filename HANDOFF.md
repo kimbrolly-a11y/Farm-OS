@@ -2,7 +2,7 @@
 
 > **See also `FARMOS-MASTER-SPEC.md`** — the full 100-acre eco-tourism resort
 > spec (all livestock, dairy, aquaculture, circular zero-waste loops, hybrid
-> off-grid energy/water, natural water treatment, the "Verdant World" attraction
+> off-grid energy/water, natural water treatment, the "Crown Eagles" attraction
 > layer + guest app, manpower & autonomy map, and per-vertical automation
 > stacks). This handoff is the *engineering* brief; that spec is the *farm
 > definition* you build toward. Build order is in that spec's §13.
@@ -92,7 +92,7 @@ verticals and the circular-loops `/loops` page. Build is GREEN. Start below.
    water reuse, circularity (from `/loops`), carbon avoided, ESG score. Ties the
    whole green story into one screen — high pitch value. Commit.
 5. **Hospitality + attractions (breadth for the story, not depth)** — lodging
-   scale (hotel + bungalows + glamping) + the "Verdant World" attractions
+   scale (hotel + bungalows + glamping) + the "Crown Eagles" attractions
    (`FARMOS-MASTER-SPEC.md` §8) as modules + an `/attractions` page + a bookings
    stub. Demoable, shallow is fine. Commit each.
 6. **Guest-app stub** (`/guest`) — book, farm map, animal cams, adopt-an-animal —
@@ -111,7 +111,7 @@ Full farm definition + all phases: `FARMOS-MASTER-SPEC.md`.
 ## 1. What FarmOS is + the positioning
 
 The operating system for a **one-person farm company**: a 100-acre off-grid
-eco-tourism farm in Malaysia ("Verdant Acres") with 11 verticals (Airbnb
+eco-tourism farm in Malaysia ("Crown Eagles Eco Farm") with 11 verticals (Airbnb
 lodging, restaurant, hydroponics, aquaponics, fruit orchard, poultry, petting
 zoo, palm oil, recycling, beekeeping, canning & food processing). A **Claude
 supervisor agent** is the whole operations team — it senses, predicts, decides,
@@ -171,7 +171,7 @@ optional wind; "% renewable · off-grid" badge; firm generation feeds predict) �
 farm-made activated carbon → solar UV-C treatment train, 6-rung shortage ladder;
 treatment assets `never_shed`) · **Sustainability/ESG** (`/sustainability`: live
 self-sufficiency, circularity, water reuse, carbon avoided, ESG score, cert
-pipeline) · **Hospitality + Verdant World** (`/attractions`: hotel/bungalow/
+pipeline) · **Hospitality + Crown Eagles** (`/attractions`: hotel/bungalow/
 glamping tiers with live occupancy, bookings stub, 19-attraction roster) ·
 **Guest-app stub** (`/guest`: book, farm map, animal cams, adopt-an-animal) ·
 grouped dashboard nav + welcome concept strip. **Now: 18 verticals, 34 zones,

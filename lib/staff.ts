@@ -1,4 +1,4 @@
-// lib/staff.ts — the lean human crew of Verdant Acres, and the alert→action
+// lib/staff.ts — the lean human crew of Crown Eagles Eco Farm, and the alert→action
 // dispatcher. The AI runs the farm; these are the few humans for safety-critical
 // and hands-on work. Each unacknowledged alert maps to a recommended staff
 // action; dispatching turns it into an assigned Task and acknowledges the alert.

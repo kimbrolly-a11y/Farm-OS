@@ -20,7 +20,7 @@ farm-level brand layer on top.
 **Favicon / tab icon** — in `app/layout.tsx` metadata:
 ```ts
 export const metadata: Metadata = {
-  title: "FarmOS — Verdant Acres",
+  title: "FarmOS — Crown Eagles Eco Farm",
   description: "The autonomous OS for a one-person farm company.",
   icons: { icon: "/farmos-mark.svg" },
   openGraph: { images: ["/og-image.svg"] },

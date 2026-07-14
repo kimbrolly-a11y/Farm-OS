@@ -1,7 +1,7 @@
 # FarmOS — Phase 2: Real-World Systems & Sensor Specification
 
 **From demo to a working farm.** This document specifies, per system and per vertical, the
-**real sensors, actuators, and AI integrations** needed to run Verdant Acres for real —
+**real sensors, actuators, and AI integrations** needed to run Crown Eagles Eco Farm for real —
 grounded in products shipping in the market today (2025–2026). It also grades each capability
 by maturity (**Now / Near / Research**) so we build what's real first.
 
@@ -256,7 +256,7 @@ each with real market analogues we integrate rather than reinvent:
 | Autonomous medical treatment / culling / spend | 🔴 Human | approval-gated forever |
 | Fully autonomous field robots (harvest/weeding) | 🔴 Research | pilot only |
 
-**Honest summary:** ~70% of Verdant Acres can run on **off-the-shelf 🟢 hardware today**; the AI
+**Honest summary:** ~70% of Crown Eagles Eco Farm can run on **off-the-shelf 🟢 hardware today**; the AI
 *inputs* (vision/feeding/ripeness) are 🟡 integrations of existing vendors; the genuinely new,
 defensible thing is FarmOS itself — **one unified twin + a safety-constrained Claude agent that
 reasons and acts across all 18 verticals and directs the humans.** Nobody ships that.

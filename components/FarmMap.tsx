@@ -1,6 +1,6 @@
 "use client";
 
-// FarmMap — the whole of Verdant Acres on one page. An AI-rendered map sets the
+// FarmMap — the whole of Crown Eagles Eco Farm on one page. An AI-rendered map sets the
 // scene (four styles to switch between); the interactive legend below is the real
 // map key — every zone is a live, tappable link into its digital-twin detail.
 
@@ -47,7 +47,7 @@ export function FarmMap() {
             ← Welcome
           </Link>
           <h1 className="mt-2 text-2xl font-semibold">
-            Farm map · {twin?.farm.name ?? "Verdant Acres"}
+            Farm map · {twin?.farm.name ?? "Crown Eagles Eco Farm"}
           </h1>
           <p className="text-[--muted]">
             {twin?.farm.areaAcres ?? 100} acres · {zoneIds.length} verticals + attractions.
@@ -87,7 +87,7 @@ export function FarmMap() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={`/img/map/${style}.jpg`}
-            alt={`Verdant Acres — ${style.replace("map_", "").replace("_", " ")} map`}
+            alt={`Crown Eagles Eco Farm — ${style.replace("map_", "").replace("_", " ")} map`}
             className="h-full w-full object-contain"
           />
         </div>
@@ -96,7 +96,7 @@ export function FarmMap() {
             Illustrative map — AI-rendered
           </span>
           <span className="rounded bg-black/40 px-2 py-1">
-            Verdant Acres · Malaysia
+            Crown Eagles Eco Farm · Malaysia
           </span>
         </figcaption>
       </figure>
