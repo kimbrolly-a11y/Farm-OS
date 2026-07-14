@@ -563,15 +563,19 @@ load_shedding:
                 retort_1, can_seamer, freeze_dryer_1, fd_vacuum_pump, fd_condenser,
                 palm1_fertigation, palm2_fertigation, palm1_valve, palm2_valve, palm3_valve,
                 growbed_solenoid, hydro2_circpump, orchard_fertigation_b, cabin2_fridge,
-                walk_in_freezer, zoo_feeder, zoo_gate, digester_blower, leachate_pump,
+                zoo_feeder, zoo_gate, digester_blower, leachate_pump,
                 milking_robot, goat_milker, goat_fans, rabbit_fans, stable_fans, sheep_mineral,
                 virtual_fence, duck_aerator, pond1_feeder, pond2_feeder]
-  never_shed:  [coop1_fans, incubator_1, aqua1_aerator, aqua1_circpump, cold_room_1, well_pump,
+  never_shed:  [coop1_fans, incubator_1, aqua1_aerator, aqua1_circpump, cold_room_1, walk_in_freezer, well_pump,
                 brooder_heater, growbed_pump,
                 cattle_feeder, cattle_fans, cattle_water, goat_feeder, goat_water,
                 sheep_water, duck_feeder, duck_water, rabbit_feeder, rabbit_water,
                 horse_feeder, horse_water, pond1_aerator, pond2_aerator,
-                biosand_filter, carbon_filter, uv_sterilizer]   # potable water = life support
+                biosand_filter, carbon_filter, uv_sterilizer]
+                # never_shed rationale (see REAL-WORLD-OPERATIONS.md): aquaculture/aquaponics
+                # aerators + circ pumps, incubator mid-hatch, brooder heat, cold chain
+                # (cold_room + walk_in_freezer — food safety & spoilage), animal feed/water/
+                # ventilation, and potable-water treatment (biosand/carbon/UV).
 
 # ---------------------------------------------------------------------------
 # ALERT ROUTING  (Malaysia = WhatsApp first)
